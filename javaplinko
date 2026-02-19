@@ -1,6 +1,0 @@
-function getFinalMultiplier(ballX) {
-    const startX = 190 - (8 * 20); // 190 - 160 = 30
-    const col = Math.floor((ballX - startX) / 40);
-    const clamped = Math.max(0, Math.min(8, col));
-    return multipliers[clamped];
-}
