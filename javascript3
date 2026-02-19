@@ -1,0 +1,17 @@
+const promoCodes = {
+    '2026': 50,
+    'GDB': 100,
+    'DROP': 10,
+    'FREE': 15
+};
+
+function applyPromo(code) {
+    if (data.usedPromos.includes(code)) return false;
+    if (promoCodes[code]) {
+        data.balance += promoCodes[code];
+        data.usedPromos.push(code);
+        saveData();
+        return true;
+    }
+    return false;
+}
