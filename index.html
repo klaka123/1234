@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>✦ PREMIUM CASINO ✦</title>
+    <!-- Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== МИНИМАЛИЗМ ПРЕМИУМ-КЛАССА ========== */
         * {
             margin: 0;
             padding: 0;
@@ -25,6 +26,7 @@
             --border-light: #2a313e;
             --success: #10b981;
             --danger: #ef4444;
+            --warning: #f59e0b;
         }
 
         body {
@@ -70,6 +72,7 @@
         .balance i {
             color: var(--accent-blue);
             font-size: 20px;
+            filter: drop-shadow(0 0 8px var(--accent-blue));
         }
 
         .balance span {
@@ -103,6 +106,7 @@
         .icon-btn:hover {
             border-color: var(--accent-blue);
             color: var(--accent-blue);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         /* ========== ВЫПАДАЮЩИЙ СПИСОК ========== */
@@ -194,6 +198,7 @@
             font-size: 32px;
             font-weight: 800;
             z-index: 10;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         /* ========== ОБЩИЕ КОМПОНЕНТЫ ========== */
@@ -216,6 +221,7 @@
             font-size: 13px;
             margin-bottom: 6px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .info-value {
@@ -283,6 +289,12 @@
         .action-btn.primary {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+
+        .action-btn.primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--accent-glow);
         }
 
         .action-btn.success {
@@ -320,6 +332,7 @@
             font-size: 28px;
             color: var(--accent-blue);
             border: 2px solid var(--border-light);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
 
         /* ========== SLOTS ========== */
@@ -347,6 +360,7 @@
             justify-content: center;
             font-size: 60px;
             border: 3px solid var(--accent-blue);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .slots-multiplier {
@@ -426,18 +440,25 @@
             font-size: 28px;
             cursor: pointer;
             transition: 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .mines-cell:hover {
+            border-color: var(--accent-blue);
         }
 
         .mines-cell.revealed-star {
             background: #1e3a8a;
             border-color: var(--success);
             color: var(--success);
+            box-shadow: 0 0 15px var(--success);
         }
 
         .mines-cell.revealed-mine {
             background: #7f1d1d;
             border-color: var(--danger);
             color: var(--danger);
+            box-shadow: 0 0 15px var(--danger);
         }
 
         .mines-info {
@@ -515,8 +536,16 @@
             max-width: 360px;
             width: 90%;
             border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 40px var(--accent-glow);
             max-height: 80vh;
             overflow-y: auto;
+        }
+
+        .menu-content h3 {
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
         }
 
         .menu-section {
@@ -554,6 +583,7 @@
 
         .promo-item:hover {
             border-color: var(--accent-blue);
+            transform: translateX(5px);
         }
 
         .promo-code {
@@ -594,6 +624,12 @@
             color: white;
             font-weight: 700;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-menu:hover {
+            background: #2563eb;
+            transform: scale(1.02);
         }
     </style>
 </head>
@@ -618,7 +654,7 @@
         <!-- МЕНЮ (РЕФЕРАЛЫ + ПРОМОКОДЫ) -->
         <div class="menu-overlay" id="menuOverlay">
             <div class="menu-content">
-                <h3 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;">МЕНЮ</h3>
+                <h3><i class="fas fa-star"></i> МЕНЮ</h3>
                 
                 <div class="menu-section">
                     <h4>🤝 Реферальная программа</h4>
@@ -763,16 +799,21 @@
 
     <script>
         (function() {
+            // ==================== ИНИЦИАЛИЗАЦИЯ TELEGRAM ====================
             const tg = window.Telegram.WebApp;
             tg.expand();
+            tg.ready();
 
-            const userId = tg.initDataUnsafe?.user?.id?.toString() || 'guest';
-            const storageKey = `casino_${userId}`;
+            // Уникальный ID пользователя
+            const userId = tg.initDataUnsafe?.user?.id?.toString() || 'guest_' + Math.random().toString(36).substring(2);
+            const storageKey = `casino_ultimate_${userId}`;
 
+            // ==================== ЗАГРУЗКА ДАННЫХ ====================
             let data = JSON.parse(localStorage.getItem(storageKey)) || {
                 balance: 10000,
                 referrals: [],
-                usedPromos: []
+                usedPromos: [],
+                referralBonusPaid: 0
             };
 
             function saveData() {
@@ -799,32 +840,62 @@
                 return false;
             }
 
-            // ========== РЕФЕРАЛЫ ==========
+            // ==================== ИСТОРИЯ ====================
+            const historyList = document.getElementById('historyList');
+
+            function addHistory(game, text, type) {
+                if (historyList.children.length >= 5) {
+                    historyList.removeChild(historyList.lastElementChild);
+                }
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `<span>${game}</span><span class="history-${type}">${text}</span>`;
+                historyList.prepend(item);
+            }
+
+            // ==================== РЕФЕРАЛЬНАЯ СИСТЕМА ====================
             const startParam = tg.initDataUnsafe?.start_param;
             if (startParam && startParam.startsWith('ref_')) {
                 const referrerId = startParam.replace('ref_', '');
                 if (!localStorage.getItem(`referred_${userId}`) && referrerId !== userId) {
-                    let refData = JSON.parse(localStorage.getItem(`ref_${referrerId}`) || '{"count":0}');
-                    refData.count++;
-                    localStorage.setItem(`ref_${referrerId}`, JSON.stringify(refData));
+                    let referrerData = JSON.parse(localStorage.getItem(`casino_ultimate_${referrerId}`) || '{"referrals":[]}');
+                    if (!referrerData.referrals) referrerData.referrals = [];
+                    if (!referrerData.referrals.includes(userId)) {
+                        referrerData.referrals.push(userId);
+                        localStorage.setItem(`casino_ultimate_${referrerId}`, JSON.stringify(referrerData));
+                    }
                     localStorage.setItem(`referred_${userId}`, 'true');
                 }
             }
 
-            function getReferralCount() {
-                const refData = JSON.parse(localStorage.getItem(`ref_${userId}`) || '{"count":0}');
-                return refData.count;
+            function getReferrals() {
+                return data.referrals || [];
             }
 
             function updateReferralDisplay() {
-                const botName = tg.initDataUnsafe?.user?.username || 'your_bot';
-                document.getElementById('refLink').textContent = `t.me/${botName}?start=ref_${userId}`;
-                const count = getReferralCount();
-                document.getElementById('refCount').textContent = count;
-                document.getElementById('refBonus').textContent = count * 10;
+                const botUsername = tg.initDataUnsafe?.user?.username || 'your_bot';
+                document.getElementById('refLink').textContent = `t.me/${botUsername}?start=ref_${userId}`;
+
+                const referrals = getReferrals();
+                document.getElementById('refCount').textContent = referrals.length;
+                const bonus = referrals.length * 10;
+                document.getElementById('refBonus').textContent = bonus;
             }
 
-            // ========== ПРОМОКОДЫ ==========
+            function applyReferralBonus() {
+                const referrals = getReferrals();
+                const expectedBonus = referrals.length * 10;
+                const currentBonus = data.referralBonusPaid || 0;
+                if (expectedBonus > currentBonus) {
+                    const add = expectedBonus - currentBonus;
+                    data.balance += add;
+                    data.referralBonusPaid = expectedBonus;
+                    saveData();
+                    updateBalance();
+                }
+            }
+
+            // ==================== ПРОМОКОДЫ ====================
             const promoCodes = {
                 '2026': 50,
                 'GDB': 100,
@@ -851,7 +922,7 @@
                 }
             }
 
-            // ========== ПЕРЕКЛЮЧЕНИЕ ИГР ==========
+            // ==================== ПЕРЕКЛЮЧЕНИЕ ИГР ====================
             const gameSelect = document.getElementById('gameSelect');
             const gameContainers = {
                 rocket: document.getElementById('rocketGame'),
@@ -862,27 +933,19 @@
             };
 
             function switchGame(gameId) {
-                Object.values(gameContainers).forEach(c => c.classList.remove('active'));
-                if (gameContainers[gameId]) gameContainers[gameId].classList.add('active');
-            }
-
-            gameSelect.addEventListener('change', (e) => switchGame(e.target.value));
-            switchGame('rocket');
-
-            // ========== ИСТОРИЯ ==========
-            const historyList = document.getElementById('historyList');
-
-            function addHistory(game, text, type) {
-                if (historyList.children.length >= 5) {
-                    historyList.removeChild(historyList.lastElementChild);
+                Object.values(gameContainers).forEach(container => {
+                    container.classList.remove('active');
+                });
+                if (gameContainers[gameId]) {
+                    gameContainers[gameId].classList.add('active');
                 }
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML = `<span>${game}</span><span class="history-${type}">${text}</span>`;
-                historyList.prepend(item);
             }
 
-            // ========== ROCKET ==========
+            gameSelect.addEventListener('change', (e) => {
+                switchGame(e.target.value);
+            });
+
+            // ==================== ROCKET ====================
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -912,8 +975,9 @@
                     for (let i = 0; i < count; i++) {
                         const star = document.createElement('div');
                         star.className = 'star';
-                        star.style.width = Math.random() * 3 + 1 + 'px';
-                        star.style.height = star.style.width;
+                        const size = Math.random() * 3 + 1;
+                        star.style.width = size + 'px';
+                        star.style.height = size + 'px';
                         star.style.left = Math.random() * 100 + '%';
                         star.style.top = Math.random() * 100 + '%';
                         starsLayer.appendChild(star);
@@ -935,6 +999,8 @@
 
                 function drawRocket(mult) {
                     ctx.clearRect(0, 0, 380, 280);
+                    
+                    // Рисуем эмодзи 🚀 носом вверх
                     ctx.save();
                     ctx.translate(190, 210 - (mult - 1) * 20);
                     ctx.rotate(-Math.PI / 2);
@@ -951,7 +1017,10 @@
                 startBtn.addEventListener('click', () => {
                     if (gameActive || countdownActive) return;
                     rocketBet = parseInt(rocketBetInput.value);
-                    if (rocketBet < 1 || rocketBet > data.balance) return alert('Неверная ставка');
+                    if (rocketBet < 1 || rocketBet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(rocketBet)) return;
 
                     const r = Math.random();
@@ -1029,7 +1098,7 @@
                 drawRocket(1);
             })();
 
-            // ========== PLINKO ==========
+            // ==================== PLINKO ====================
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1045,20 +1114,28 @@
 
                 function drawBoard() {
                     ctx.clearRect(0, 0, 380, 500);
+                    
+                    // Колышки
                     for (let r = 0; r < rows; r++) {
                         for (let c = 0; c <= r; c++) {
                             let x = startX - (r * 20) + c * 40;
                             let y = startY + r * stepY;
                             ctx.fillStyle = '#3b82f6';
+                            ctx.shadowColor = '#3b82f6';
+                            ctx.shadowBlur = 8;
                             ctx.beginPath();
                             ctx.arc(x, y, 5, 0, 2*Math.PI);
                             ctx.fill();
                         }
                     }
+
+                    // Ячейки
                     const cellY = startY + rows * stepY + 30;
+                    ctx.shadowBlur = 0;
                     for (let i = 0; i < 9; i++) {
                         let x = startX - (rows * 20) + i * 40;
                         ctx.strokeStyle = '#2a313e';
+                        ctx.lineWidth = 2;
                         ctx.strokeRect(x-16, cellY-10, 32, 28);
                         ctx.fillStyle = '#a0aec0';
                         ctx.font = 'bold 12px Inter';
@@ -1098,6 +1175,7 @@
 
                         drawBoard();
 
+                        // Шар
                         ctx.shadowColor = '#3b82f6';
                         ctx.shadowBlur = 20;
                         ctx.beginPath();
@@ -1123,7 +1201,10 @@
 
                 dropBtn.addEventListener('click', () => {
                     let bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
                     dropBall(bet);
                 });
@@ -1131,7 +1212,7 @@
                 drawBoard();
             })();
 
-            // ========== SLOTS ==========
+            // ==================== SLOTS ====================
             (function slots() {
                 const slot1 = document.getElementById('slot1');
                 const slot2 = document.getElementById('slot2');
@@ -1154,45 +1235,64 @@
                     return i;
                 }
 
+                function spinReels(callback) {
+                    let spins = 12;
+                    let interval = setInterval(() => {
+                        slot1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        slot2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        slot3.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        spins--;
+                        if (spins === 0) {
+                            clearInterval(interval);
+                            callback();
+                        }
+                    }, 90);
+                }
+
                 spinBtn.addEventListener('click', () => {
                     let bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
 
                     const r1 = weightedRandom();
                     const r2 = weightedRandom();
                     const r3 = weightedRandom();
 
-                    slot1.textContent = symbols[r1];
-                    slot2.textContent = symbols[r2];
-                    slot3.textContent = symbols[r3];
+                    spinReels(() => {
+                        slot1.textContent = symbols[r1];
+                        slot2.textContent = symbols[r2];
+                        slot3.textContent = symbols[r3];
 
-                    let mult = 0;
-                    if (r1 === r2 && r2 === r3) {
-                        if (r1 === 4) mult = 15;
-                        else if (r1 === 5) mult = 20;
-                        else if (r1 === 3) mult = 8;
-                        else if (r1 === 2) mult = 5;
-                        else mult = 3;
-                    } else if (r1 === r2 || r2 === r3 || r1 === r3) {
-                        mult = 2;
-                    }
+                        let mult = 0;
+                        if (r1 === r2 && r2 === r3) {
+                            if (r1 === 4) mult = 15; // 💎
+                            else if (r1 === 5) mult = 20; // ⭐
+                            else if (r1 === 3) mult = 8;  // 🔔
+                            else if (r1 === 2) mult = 5;  // 🍇
+                            else mult = 3; // 🍒🍋
+                        } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+                            mult = 2;
+                        }
 
-                    if (mult === 0) {
-                        multiplierSpan.textContent = 'x0';
-                        addHistory('SLOTS', `LOSE -${bet} ⭐`, 'lose');
-                    } else {
-                        const win = bet * mult;
-                        data.balance += win;
-                        saveData();
-                        updateBalance();
-                        multiplierSpan.textContent = `x${mult}`;
-                        addHistory('SLOTS', `x${mult} +${win} ⭐`, 'win');
-                    }
+                        if (mult === 0) {
+                            multiplierSpan.textContent = 'x0';
+                            addHistory('SLOTS', `LOSE -${bet} ⭐`, 'lose');
+                        } else {
+                            const win = bet * mult;
+                            data.balance += win;
+                            saveData();
+                            updateBalance();
+                            multiplierSpan.textContent = `x${mult}`;
+                            addHistory('SLOTS', `x${mult} +${win} ⭐`, 'win');
+                        }
+                    });
                 });
             })();
 
-            // ========== WHEEL ==========
+            // ==================== WHEEL ====================
             (function wheel() {
                 const canvas = document.getElementById('wheelCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1218,7 +1318,6 @@
                         const angle = (sectors[i].weight / totalWeight) * 2 * Math.PI;
                         const end = start + angle;
                         
-                        // Сектор
                         ctx.beginPath();
                         ctx.moveTo(cx, cy);
                         ctx.arc(cx, cy, r, start, end);
@@ -1248,7 +1347,10 @@
                 spinBtn.addEventListener('click', () => {
                     if (spinning) return;
                     let bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
 
                     spinning = true;
@@ -1283,7 +1385,7 @@
                 drawWheel();
             })();
 
-            // ========== MINES ==========
+            // ==================== MINES ====================
             (function mines() {
                 const gridDiv = document.getElementById('minesGrid');
                 const minesCountSelect = document.getElementById('minesCount');
@@ -1294,7 +1396,12 @@
                 const multiplierSpan = document.getElementById('minesMultiplier');
                 const winSpan = document.getElementById('minesWin');
 
-                let board = [], revealed = [], gameActive = false, currentBet = 0, minesCount = 3, starsRevealed = 0;
+                let board = [];
+                let revealed = [];
+                let gameActive = false;
+                let currentBet = 0;
+                let minesCount = 3;
+                let starsRevealed = 0;
 
                 const multTable = {
                     3: [1.15, 1.35, 1.7, 2.2, 3.0, 6.5, 20, 50, 100],
@@ -1317,8 +1424,10 @@
                         if (revealed[i]) {
                             cell.classList.add(board[i] ? 'revealed-mine' : 'revealed-star');
                             cell.textContent = board[i] ? '💣' : '⭐';
-                        } else cell.textContent = '?';
-                        cell.onclick = cellClick;
+                        } else {
+                            cell.textContent = '?';
+                        }
+                        cell.addEventListener('click', cellClick);
                         gridDiv.appendChild(cell);
                     }
                 }
@@ -1347,18 +1456,23 @@
                 function newGame() {
                     gameActive = false;
                     cashoutBtn.disabled = true;
-                    board = []; revealed = []; starsRevealed = 0;
+                    board = [];
+                    revealed = [];
+                    starsRevealed = 0;
                     multiplierSpan.textContent = '1.00x';
                     winSpan.textContent = '0';
                     renderGrid();
                 }
 
-                newGameBtn.onclick = newGame;
+                newGameBtn.addEventListener('click', newGame);
 
-                startBtn.onclick = () => {
+                startBtn.addEventListener('click', () => {
                     if (gameActive) return;
                     const bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
                     currentBet = bet;
                     minesCount = parseInt(minesCountSelect.value);
@@ -1375,9 +1489,9 @@
                     gameActive = true;
                     cashoutBtn.disabled = false;
                     renderGrid();
-                };
+                });
 
-                cashoutBtn.onclick = () => {
+                cashoutBtn.addEventListener('click', () => {
                     if (!gameActive) return;
                     const mult = getMult(minesCount, starsRevealed);
                     const win = Math.floor(currentBet * mult);
@@ -1388,18 +1502,18 @@
                     gameActive = false;
                     cashoutBtn.disabled = true;
                     renderGrid();
-                };
+                });
 
                 newGame();
             })();
 
-            // ========== БОНУС ==========
+            // ==================== БОНУС ====================
             document.getElementById('dailyBonus').addEventListener('click', () => {
                 addStars(1000);
                 addHistory('BONUS', '+1000 ⭐', 'win');
             });
 
-            // ========== МЕНЮ ==========
+            // ==================== МЕНЮ ====================
             const menuBtn = document.getElementById('menuBtn');
             const menuOverlay = document.getElementById('menuOverlay');
             const closeMenu = document.getElementById('closeMenu');
@@ -1407,6 +1521,7 @@
             const promoInput = document.getElementById('promoInput');
 
             menuBtn.addEventListener('click', () => {
+                applyReferralBonus();
                 updateReferralDisplay();
                 menuOverlay.classList.add('active');
             });
@@ -1419,7 +1534,6 @@
                 if (e.target === menuOverlay) menuOverlay.classList.remove('active');
             });
 
-            // Клик по промокоду
             document.querySelectorAll('.promo-item').forEach(item => {
                 item.addEventListener('click', () => {
                     promoInput.value = item.dataset.code;
@@ -1432,6 +1546,7 @@
                 promoInput.value = '';
             });
 
+            // ==================== СТАРТ ====================
             updateBalance();
             updateReferralDisplay();
         })();
