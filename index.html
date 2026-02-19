@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MINIMAL ROCKET</title>
+    <title>🚀 ROCKET PLINKO • MINIMAL</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== ГЛОБАЛЬНЫЙ МИНИМАЛИЗМ ========== */
         * {
             margin: 0;
             padding: 0;
@@ -15,18 +14,16 @@
         }
 
         :root {
-            --bg: #0b0d12;
-            --surface: #14171c;
-            --surface-light: #1e2128;
+            --bg: #0b0e14;
+            --surface: #1a1e2a;
+            --surface-light: #252b39;
             --text: #ffffff;
-            --text-secondary: #8e98a3;
+            --text-secondary: #9aa5b8;
             --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.2);
-            --border: #2a2f38;
-            --white: #ffffff;
-            --red: #ef4444;
-            --blue: #3b82f6;
-            --yellow: #eab308;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --border: #2e3748;
+            --red: #f05252;
+            --yellow: #fbbf24;
         }
 
         body {
@@ -37,53 +34,52 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
+            padding: 12px;
         }
 
         .app {
-            max-width: 420px;
+            max-width: 440px;
             width: 100%;
             background: var(--surface);
-            border-radius: 32px;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 36px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
             border: 1px solid var(--border);
         }
 
-        /* ========== ШАПКА ========== */
+        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .balance {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             background: var(--surface-light);
-            padding: 10px 16px;
+            padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--border);
         }
 
         .balance i {
-            color: var(--accent);
-            font-size: 16px;
+            color: var(--yellow);
         }
 
         .balance span {
-            font-weight: 600;
-            font-size: 18px;
+            font-weight: 700;
+            font-size: 20px;
         }
 
         .daily-btn {
             background: var(--surface-light);
             border: 1px solid var(--border);
             color: var(--text-secondary);
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -97,12 +93,40 @@
             color: var(--accent);
         }
 
-        /* ========== ИГРОВОЙ ЭКРАН ========== */
-        .game-screen {
+        /* Табы */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
             background: var(--surface-light);
-            border-radius: 32px;
+            padding: 4px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 36px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* ========== ROCKET ========== */
+        .rocket-stage {
+            background: var(--surface-light);
+            border-radius: 28px;
             padding: 20px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
@@ -116,27 +140,60 @@
             margin-bottom: 16px;
         }
 
-        /* Множитель внизу */
-        .multiplier-mini {
+        .multiplier-box {
             text-align: center;
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--accent);
             background: var(--surface);
-            padding: 12px;
-            border-radius: 30px;
             border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 12px;
+        }
+
+        .multiplier-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent);
             letter-spacing: 1px;
         }
 
-        /* Инфо-панель */
-        .info-panel {
+        /* Кнопки авто-кэшаута */
+        .auto-buttons {
+            display: flex;
+            gap: 6px;
+            margin: 16px 0;
+        }
+
+        .auto-btn {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 12px 0;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .auto-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .auto-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Инфо панель */
+        .info-row {
             display: flex;
             justify-content: space-between;
-            margin: 16px 0 20px;
-            padding: 12px 16px;
             background: var(--surface);
-            border-radius: 30px;
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin: 16px 0;
             border: 1px solid var(--border);
         }
 
@@ -151,24 +208,15 @@
         }
 
         .info-value {
-            font-weight: 600;
-            color: var(--text);
+            font-weight: 700;
         }
 
-        /* ========== ПАНЕЛЬ СТАВОК ========== */
+        /* Панель ставок */
         .bet-panel {
             background: var(--surface-light);
-            border-radius: 28px;
+            border-radius: 24px;
             padding: 20px;
             border: 1px solid var(--border);
-        }
-
-        .bet-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 16px;
-            color: var(--text-secondary);
-            font-size: 14px;
         }
 
         .bet-row {
@@ -181,11 +229,11 @@
             flex: 2;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: 30px;
             padding: 16px;
-            color: var(--text);
-            font-size: 18px;
-            font-weight: 600;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
             text-align: center;
             outline: none;
         }
@@ -207,14 +255,7 @@
             border-radius: 20px;
             color: var(--text-secondary);
             font-weight: 600;
-            font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .mult-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
         }
 
         .action-btns {
@@ -224,10 +265,10 @@
 
         .action-btn {
             flex: 1;
-            padding: 18px;
+            padding: 16px;
             border: none;
             border-radius: 30px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 18px;
             display: flex;
             align-items: center;
@@ -237,24 +278,19 @@
             transition: 0.2s;
         }
 
-        .action-btn.launch {
-            background: var(--white);
-            color: var(--bg);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+        .action-btn.primary {
+            background: white;
+            color: black;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.15);
         }
 
-        .action-btn.launch:hover {
+        .action-btn.primary:hover {
             background: #f0f0f0;
-            transform: scale(1.02);
         }
 
-        .action-btn.cashout {
+        .action-btn.success {
             background: var(--accent);
             color: white;
-        }
-
-        .action-btn.cashout:hover {
-            background: #2563eb;
         }
 
         .action-btn:disabled {
@@ -262,44 +298,73 @@
             cursor: not-allowed;
         }
 
-        /* ========== ОБРАТНЫЙ ОТСЧЁТ ========== */
-        .countdown-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+        /* ========== PLINKO ========== */
+        #plinkoCanvas {
+            display: block;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            height: auto;
+            background: var(--surface-light);
+            border-radius: 24px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .risk-row {
+            display: flex;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .risk-btn {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .risk-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .plinko-multipliers {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 4px;
+            margin: 16px 0;
+        }
+
+        .plinko-cell {
+            aspect-ratio: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 20;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.2s;
-            border-radius: 32px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
         }
 
-        .countdown-overlay.active {
-            opacity: 1;
-            visibility: visible;
+        .plinko-cell.highlight {
+            border-color: var(--yellow);
+            color: var(--yellow);
         }
 
-        .countdown-number {
-            font-size: 72px;
-            font-weight: 800;
-            color: var(--white);
-            text-shadow: 0 0 20px var(--accent);
-            animation: pulse 0.8s infinite;
+        .plinko-result {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            margin: 16px 0;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        /* ========== ИСТОРИЯ ========== */
+        /* История (только 5) */
         .history-section {
             margin-top: 24px;
             background: var(--surface-light);
@@ -313,14 +378,14 @@
             align-items: center;
             gap: 6px;
             color: var(--text-secondary);
-            font-size: 14px;
             margin-bottom: 12px;
+            font-size: 14px;
         }
 
         .history-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .history-item {
@@ -336,6 +401,40 @@
         .history-lose { color: #ef4444; }
 
         .hidden { display: none; }
+
+        /* Обратный отсчёт */
+        .countdown-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+            border-radius: 28px;
+        }
+
+        .countdown-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .countdown-number {
+            font-size: 72px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 30px var(--accent);
+            animation: pulse 0.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
     </style>
 </head>
 <body>
@@ -346,68 +445,90 @@
                 <i class="fas fa-star"></i>
                 <span id="balance">10 000</span>
             </div>
-            <button class="daily-btn" id="dailyBonus">
-                <i class="fas fa-gift"></i>
-            </button>
+            <button class="daily-btn" id="dailyBonus"><i class="fas fa-gift"></i></button>
         </header>
 
-        <!-- Игровой экран -->
-        <div class="game-screen">
-            <div class="countdown-overlay" id="countdownOverlay">
-                <div class="countdown-number" id="countdownNumber">3</div>
-            </div>
-            <canvas id="rocketCanvas" width="380" height="280"></canvas>
-            <div class="multiplier-mini" id="rocketMultiplier">1.00x</div>
+        <!-- Табы -->
+        <div class="tabs">
+            <button class="tab active" id="tabRocket">🚀 Rocket</button>
+            <button class="tab" id="tabPlinko">🔴 Plinko</button>
         </div>
 
-        <!-- Инфо-панель -->
-        <div class="info-panel">
-            <div class="info-item">
-                <div class="info-label">Last</div>
-                <div class="info-value" id="lastCrash">2.45x</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Max</div>
-                <div class="info-value" id="maxCrash">12.5x</div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Bet</div>
-                <div class="info-value" id="rocketBetAmount">10</div>
-            </div>
-        </div>
-
-        <!-- Панель ставок -->
-        <div class="bet-panel">
-            <div class="bet-header">
-                <span>Сумма</span>
-                <span>Множители</span>
-            </div>
-
-            <div class="bet-row">
-                <input type="number" id="rocketBet" class="bet-input" min="1" value="10">
-                <div class="bet-mults">
-                    <button class="mult-btn" data-mult="2">x2</button>
-                    <button class="mult-btn" data-mult="5">x5</button>
-                    <button class="mult-btn" data-mult="10">x10</button>
+        <!-- ROCKET -->
+        <div id="rocketGame">
+            <div class="rocket-stage">
+                <div class="countdown-overlay" id="countdownOverlay">
+                    <div class="countdown-number" id="countdownNumber">3</div>
+                </div>
+                <canvas id="rocketCanvas" width="380" height="280"></canvas>
+                <div class="multiplier-box">
+                    <div class="multiplier-value" id="rocketMultiplier">1.00x</div>
                 </div>
             </div>
 
-            <div class="action-btns">
-                <button class="action-btn launch" id="rocketStart">
-                    <i class="fas fa-rocket"></i> Запуск
-                </button>
-                <button class="action-btn cashout" id="rocketCashout" disabled>
-                    <i class="fas fa-hand-holding-usd"></i> Забрать
-                </button>
+            <!-- Кнопки авто-кэшаута -->
+            <div class="auto-buttons">
+                <button class="auto-btn" data-auto="1.5">1.5x</button>
+                <button class="auto-btn" data-auto="2">2x</button>
+                <button class="auto-btn" data-auto="5">5x</button>
+                <button class="auto-btn" data-auto="10">10x</button>
+            </div>
+
+            <!-- Информация -->
+            <div class="info-row">
+                <div class="info-item"><span class="info-label">Last</span><span class="info-value" id="lastCrash">2.45x</span></div>
+                <div class="info-item"><span class="info-label">Max</span><span class="info-value" id="maxCrash">12.5x</span></div>
+                <div class="info-item"><span class="info-label">Bet</span><span class="info-value" id="rocketBetAmount">10</span></div>
+            </div>
+
+            <!-- Панель ставок -->
+            <div class="bet-panel">
+                <div class="bet-row">
+                    <input type="number" id="rocketBet" class="bet-input" min="1" value="10">
+                    <div class="bet-mults">
+                        <button class="mult-btn" data-mult="2">2x</button>
+                        <button class="mult-btn" data-mult="5">5x</button>
+                        <button class="mult-btn" data-mult="10">10x</button>
+                    </div>
+                </div>
+                <div class="action-btns">
+                    <button class="action-btn primary" id="rocketStart"><i class="fas fa-rocket"></i> Запуск</button>
+                    <button class="action-btn success" id="rocketCashout" disabled><i class="fas fa-hand-holding-usd"></i> Забрать</button>
+                </div>
             </div>
         </div>
 
-        <!-- История -->
-        <div class="history-section">
-            <div class="history-title">
-                <i class="fas fa-clock"></i>
-                <span>Последние игры</span>
+        <!-- PLINKO (скрыт) -->
+        <div id="plinkoGame" class="hidden">
+            <canvas id="plinkoCanvas" width="380" height="300"></canvas>
+
+            <div class="risk-row">
+                <button class="risk-btn active" data-risk="low">Low</button>
+                <button class="risk-btn" data-risk="medium">Medium</button>
+                <button class="risk-btn" data-risk="high">High</button>
             </div>
+
+            <div class="plinko-multipliers" id="plinkoMultipliers"></div>
+
+            <div class="bet-panel" style="margin-top: 16px;">
+                <div class="bet-row">
+                    <input type="number" id="plinkoBet" class="bet-input" min="1" value="10">
+                    <div class="bet-mults">
+                        <button class="mult-btn" data-mult="2">2x</button>
+                        <button class="mult-btn" data-mult="5">5x</button>
+                        <button class="mult-btn" data-mult="10">10x</button>
+                    </div>
+                </div>
+                <div class="action-btns">
+                    <button class="action-btn primary" id="plinkoDrop"><i class="fas fa-arrow-down"></i> Бросить</button>
+                </div>
+                <div class="plinko-result" id="plinkoResult">⚡ Place bet</div>
+            </div>
+        </div>
+
+        <!-- История (5 записей) -->
+        <div class="history-section">
+            <div class="history-title"><i class="fas fa-clock"></i> Последние игры</div>
             <div class="history-list" id="historyList"></div>
         </div>
     </div>
@@ -417,24 +538,38 @@
             const tg = window.Telegram.WebApp;
             tg.expand();
 
-            // ========== ГЛОБАЛЬНЫЕ ==========
+            // ========== ГЛОБАЛЫ ==========
             let balance = 10000;
             let gameActive = false;
             let countdownActive = false;
             let rocketInterval = null;
-            let starsInterval = null;
             let crashPoint = 2.0;
-            let visualCrashPoint = 2.0;
             let currentMultiplier = 1.0;
             let rocketBet = 10;
             let vibration = 0;
-            let currentNonce = 0;
+            let autoCashoutMultiplier = null; // для авто-кнопок
 
-            let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67];
+            let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67]; // последние 5
             let maxCrash = 12.5;
+
+            // Plinko
+            let plinkoRisk = 'low';
+            const plinkoMultis = {
+                low: [0.7, 0.8, 1.0, 1.2, 1.5, 1.2, 1.0, 0.8, 0.7],
+                medium: [0.5, 0.7, 1.2, 2.0, 3.0, 2.0, 1.2, 0.7, 0.5],
+                high: [0.3, 0.5, 1.5, 3.0, 8.0, 3.0, 1.5, 0.5, 0.3]
+            };
+            let currentPlinkoMultis = plinkoMultis.low;
+            let plinkoAnimation = null;
 
             // ========== DOM ==========
             const balanceSpan = document.getElementById('balance');
+            const tabRocket = document.getElementById('tabRocket');
+            const tabPlinko = document.getElementById('tabPlinko');
+            const rocketGame = document.getElementById('rocketGame');
+            const plinkoGame = document.getElementById('plinkoGame');
+
+            // Rocket
             const rocketCanvas = document.getElementById('rocketCanvas');
             const rocketCtx = rocketCanvas.getContext('2d');
             const rocketMultiplier = document.getElementById('rocketMultiplier');
@@ -446,6 +581,17 @@
             const rocketCashout = document.getElementById('rocketCashout');
             const countdownOverlay = document.getElementById('countdownOverlay');
             const countdownNumber = document.getElementById('countdownNumber');
+            const autoButtons = document.querySelectorAll('.auto-btn');
+
+            // Plinko
+            const plinkoCanvas = document.getElementById('plinkoCanvas');
+            const plinkoCtx = plinkoCanvas.getContext('2d');
+            const plinkoMultipliersDiv = document.getElementById('plinkoMultipliers');
+            const plinkoBetInput = document.getElementById('plinkoBet');
+            const plinkoDrop = document.getElementById('plinkoDrop');
+            const plinkoResult = document.getElementById('plinkoResult');
+            const riskBtns = document.querySelectorAll('.risk-btn');
+
             const historyList = document.getElementById('historyList');
 
             // ========== БАЛАНС ==========
@@ -468,114 +614,102 @@
                 return false;
             }
 
-            // ========== РАКЕТА ПО РЕФЕРЕНСУ ==========
+            // ========== ROCKET С НОВЫМ ДИЗАЙНОМ (ЭМОДЗИ-СТИЛЬ) ==========
             function drawRocket(mult, vib) {
                 rocketCtx.clearRect(0, 0, 380, 280);
 
-                // Звёзды (очень бледные, минимализм)
-                rocketCtx.fillStyle = 'rgba(255,255,255,0.15)';
-                for (let i = 0; i < 30; i++) {
+                // Звёзды (быстрые)
+                rocketCtx.fillStyle = 'rgba(255,255,255,0.2)';
+                for (let i = 0; i < 40; i++) {
                     rocketCtx.beginPath();
-                    rocketCtx.arc(20 + i * 15, 30 + (i % 5) * 25, 1, 0, Math.PI * 2);
+                    rocketCtx.arc(10 + i * 15, 20 + (i % 4) * 25, 1 + Math.random()*2, 0, 2*Math.PI);
                     rocketCtx.fill();
                 }
 
-                // Основная позиция ракеты (поднимается с множителем)
-                const baseY = 180 - (mult - 1) * 20;
-                const x = 140;
-                const y = baseY;
+                // Позиция ракеты (чем выше множитель, тем выше)
+                const baseY = 180 - (mult - 1) * 25;
+                const x = 160;
+                const y = baseY + (vib * 2) * Math.sin(Date.now() * 0.05); // тряска
 
-                // Нос (красный треугольник) — как на референсе
-                rocketCtx.fillStyle = '#ef4444';
-                rocketCtx.shadowColor = '#ef4444';
-                rocketCtx.shadowBlur = 10 + vib * 2;
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(x + 25, y - 20);
-                rocketCtx.lineTo(x + 40, y - 5);
-                rocketCtx.lineTo(x + 25, y + 5);
-                rocketCtx.closePath();
-                rocketCtx.fill();
-
-                // Корпус (синий)
-                rocketCtx.fillStyle = '#3b82f6';
+                // Тень
                 rocketCtx.shadowColor = '#3b82f6';
+                rocketCtx.shadowBlur = 20 + vib * 5;
+
+                // Корпус (серебристый с градиентом)
+                const gradient = rocketCtx.createLinearGradient(x-20, y-25, x+20, y+25);
+                gradient.addColorStop(0, '#c0c0c0');
+                gradient.addColorStop(1, '#e0e0e0');
+                rocketCtx.fillStyle = gradient;
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x - 25, y - 15);
-                rocketCtx.lineTo(x + 25, y - 20);
-                rocketCtx.lineTo(x + 25, y + 15);
-                rocketCtx.lineTo(x - 25, y + 10);
+                rocketCtx.ellipse(x, y, 18, 28, 0, 0, Math.PI*2);
+                rocketCtx.fill();
+
+                // Нос (красный конус)
+                rocketCtx.fillStyle = '#f05252';
+                rocketCtx.beginPath();
+                rocketCtx.moveTo(x+15, y-25);
+                rocketCtx.lineTo(x+35, y-12);
+                rocketCtx.lineTo(x+15, y-12);
                 rocketCtx.closePath();
                 rocketCtx.fill();
 
-                // Иллюминатор (жёлтый круг)
-                rocketCtx.fillStyle = '#eab308';
-                rocketCtx.shadowColor = '#eab308';
+                // Иллюминатор (жёлтый)
+                rocketCtx.fillStyle = '#fbbf24';
                 rocketCtx.beginPath();
-                rocketCtx.arc(x, y, 8, 0, Math.PI * 2);
+                rocketCtx.arc(x-2, y, 8, 0, 2*Math.PI);
                 rocketCtx.fill();
-
-                // Маленький блик на иллюминаторе
                 rocketCtx.fillStyle = 'white';
-                rocketCtx.shadowBlur = 5;
                 rocketCtx.beginPath();
-                rocketCtx.arc(x - 2, y - 2, 2, 0, Math.PI * 2);
+                rocketCtx.arc(x-5, y-2, 2, 0, 2*Math.PI);
                 rocketCtx.fill();
 
-                // Стабилизаторы (как на референсе — снизу)
+                // Крылья (синие)
                 rocketCtx.fillStyle = '#2563eb';
-                rocketCtx.shadowColor = '#2563eb';
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x - 20, y + 15);
-                rocketCtx.lineTo(x - 5, y + 30);
-                rocketCtx.lineTo(x - 5, y + 15);
+                rocketCtx.moveTo(x-25, y+15);
+                rocketCtx.lineTo(x-40, y+35);
+                rocketCtx.lineTo(x-20, y+20);
                 rocketCtx.closePath();
                 rocketCtx.fill();
 
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x + 10, y + 15);
-                rocketCtx.lineTo(x + 25, y + 30);
-                rocketCtx.lineTo(x + 25, y + 15);
+                rocketCtx.moveTo(x+25, y+15);
+                rocketCtx.lineTo(x+40, y+35);
+                rocketCtx.lineTo(x+20, y+20);
                 rocketCtx.closePath();
                 rocketCtx.fill();
 
                 // Пламя (пульсирует)
-                let flameSize = 15 + Math.sin(Date.now() * 0.02) * 5;
+                const flameSize = 20 + Math.sin(Date.now()*0.03)*8 + vib*2;
                 rocketCtx.fillStyle = '#f97316';
                 rocketCtx.shadowColor = '#f97316';
-                rocketCtx.shadowBlur = 20;
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x - 15, y + 18);
-                rocketCtx.lineTo(x, y + 28 + flameSize);
-                rocketCtx.lineTo(x + 15, y + 18);
+                rocketCtx.moveTo(x-12, y+25);
+                rocketCtx.lineTo(x, y+35+flameSize);
+                rocketCtx.lineTo(x+12, y+25);
                 rocketCtx.fill();
 
                 rocketCtx.shadowBlur = 0;
             }
 
-            // ========== ROCKET LOGIC ==========
+            // ========== ROCKET ЛОГИКА ==========
             rocketStart.addEventListener('click', () => {
                 if (gameActive || countdownActive) return;
 
                 rocketBet = parseInt(rocketBetInput.value);
                 if (rocketBet < 1 || rocketBet > balance) {
-                    alert('Неверная ставка');
+                    alert('Некорректная ставка');
                     return;
                 }
 
                 if (!deductStars(rocketBet)) return;
 
-                // Генерация краша (40% шанс на 4-10x)
+                // Генерация краша
                 let r = Math.random();
-                if (r < 0.4) {
-                    crashPoint = 4 + Math.random() * 6;
-                } else {
-                    crashPoint = 1 + Math.random() * 3;
-                }
+                if (r < 0.4) crashPoint = 4 + Math.random() * 6;
+                else crashPoint = 1 + Math.random() * 3;
                 crashPoint = parseFloat(crashPoint.toFixed(2));
-                visualCrashPoint = crashPoint;
-                currentNonce++;
 
-                // Обратный отсчёт
                 countdownActive = true;
                 countdownOverlay.classList.add('active');
                 let count = 3;
@@ -584,7 +718,6 @@
                 let countInterval = setInterval(() => {
                     count--;
                     countdownNumber.textContent = count;
-
                     if (count === 0) {
                         clearInterval(countInterval);
                         countdownOverlay.classList.remove('active');
@@ -602,13 +735,17 @@
 
                         rocketInterval = setInterval(() => {
                             if (!gameActive) return;
-
                             const elapsed = (Date.now() - startTime) / 1000;
                             currentMultiplier = 1 + 0.9 * elapsed;
                             rocketMultiplier.textContent = currentMultiplier.toFixed(2) + 'x';
 
-                            vibration = Math.min(6, elapsed * 3);
+                            vibration = Math.min(8, elapsed * 4); // тряска усиливается
                             drawRocket(currentMultiplier, vibration);
+
+                            // Проверка авто-кэшаута
+                            if (autoCashoutMultiplier && currentMultiplier >= autoCashoutMultiplier) {
+                                manualCashout();
+                            }
 
                             if (currentMultiplier >= crashPoint) {
                                 clearInterval(rocketInterval);
@@ -617,21 +754,22 @@
                                 rocketCashout.disabled = true;
 
                                 crashHistory.unshift(crashPoint);
-                                if (crashHistory.length > 10) crashHistory.pop();
+                                if (crashHistory.length > 5) crashHistory.pop();
                                 if (crashPoint > maxCrash) maxCrash = crashPoint;
 
                                 lastCrashSpan.textContent = crashPoint.toFixed(2) + 'x';
                                 maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
                                 addHistory('Ракета', `crash -${rocketBet} ⭐`, 'lose');
+                                autoCashoutMultiplier = null;
+                                autoButtons.forEach(b => b.classList.remove('active'));
                             }
                         }, 30);
                     }
                 }, 1000);
             });
 
-            rocketCashout.addEventListener('click', () => {
+            function manualCashout() {
                 if (!gameActive) return;
-
                 clearInterval(rocketInterval);
                 gameActive = false;
                 rocketStart.disabled = false;
@@ -641,33 +779,120 @@
                 balance += win;
 
                 crashHistory.unshift(currentMultiplier);
-                if (crashHistory.length > 10) crashHistory.pop();
+                if (crashHistory.length > 5) crashHistory.pop();
                 if (currentMultiplier > maxCrash) maxCrash = currentMultiplier;
 
                 lastCrashSpan.textContent = currentMultiplier.toFixed(2) + 'x';
-                maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
+                maxCrashSpan.textcontent = maxCrash.toFixed(2) + 'x';
                 updateBalance();
                 addHistory('Ракета', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
+                autoCashoutMultiplier = null;
+                autoButtons.forEach(b => b.classList.remove('active'));
+            }
+
+            rocketCashout.addEventListener('click', manualCashout);
+
+            // Авто-кнопки
+            autoButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (gameActive || countdownActive) return;
+                    autoButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const val = parseFloat(btn.dataset.auto);
+                    autoCashoutMultiplier = val;
+                });
             });
 
-            // ========== HISTORY ==========
+            // ========== PLINKO ==========
+            function drawPlinkoBoard() {
+                plinkoCtx.clearRect(0, 0, 380, 300);
+                const rows = 8;
+                const startY = 30;
+                const stepY = 30;
+                const startX = 190;
+
+                plinkoCtx.fillStyle = '#9aa5b8';
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c <= r; c++) {
+                        let x = startX - (r * 12) + c * 24;
+                        let y = startY + r * stepY;
+                        plinkoCtx.beginPath();
+                        plinkoCtx.arc(x, y, 4, 0, 2*Math.PI);
+                        plinkoCtx.fill();
+                    }
+                }
+
+                const cellY = startY + rows * stepY + 20;
+                for (let i = 0; i < 9; i++) {
+                    let x = startX - (rows * 12) + i * 24;
+                    plinkoCtx.strokeStyle = currentPlinkoMultis[i] >= 1 ? '#10b981' : '#ef4444';
+                    plinkoCtx.strokeRect(x-10, cellY-10, 20, 20);
+                    plinkoCtx.fillStyle = currentPlinkoMultis[i] >= 1 ? '#10b981' : '#ef4444';
+                    plinkoCtx.font = 'bold 8px Inter';
+                    plinkoCtx.fillText(currentPlinkoMultis[i].toFixed(1)+'x', x-8, cellY+4);
+                }
+            }
+
+            function updatePlinkoMultipliers() {
+                plinkoMultipliersDiv.innerHTML = '';
+                currentPlinkoMultis.forEach(m => {
+                    let cell = document.createElement('div');
+                    cell.className = 'plinko-cell';
+                    cell.textContent = m.toFixed(1)+'x';
+                    plinkoMultipliersDiv.appendChild(cell);
+                });
+            }
+
+            riskBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    riskBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    plinkoRisk = btn.dataset.risk;
+                    currentPlinkoMultis = plinkoMultis[plinkoRisk];
+                    updatePlinkoMultipliers();
+                    drawPlinkoBoard();
+                });
+            });
+
+            plinkoDrop.addEventListener('click', () => {
+                let bet = parseInt(plinkoBetInput.value);
+                if (bet < 1 || bet > balance) return alert('Неверная ставка');
+                if (!deductStars(bet)) return;
+
+                // Симуляция результата
+                let pos = 4;
+                for (let i=0; i<8; i++) pos += Math.random()<0.5?-1:1;
+                pos = Math.max(0, Math.min(8, pos));
+                let mult = currentPlinkoMultis[pos];
+                let win = Math.floor(bet * mult);
+                balance += win;
+                updateBalance();
+                plinkoResult.textContent = mult >= 1 ? `🎉 +${win} ⭐` : `😔 ${win} ⭐`;
+                addHistory('Plinko', `${mult.toFixed(1)}x ${win>=bet?'+'+ (win-bet):win-bet} ⭐`, mult>=1?'win':'lose');
+            });
+
+            // ========== ИСТОРИЯ (только 5) ==========
             function addHistory(game, text, type) {
+                const items = historyList.children;
+                if (items.length >= 5) {
+                    historyList.removeChild(items[items.length-1]);
+                }
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 item.innerHTML = `<span>${game}</span><span class="history-${type}">${text}</span>`;
                 historyList.prepend(item);
-                if (historyList.children.length > 10) {
-                    historyList.removeChild(historyList.lastElementChild);
-                }
             }
 
-            // ========== UI ==========
+            // ========== UI ОБЩЕЕ ==========
             document.querySelectorAll('.mult-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const mult = parseInt(btn.dataset.mult);
-                    const newVal = parseInt(rocketBetInput.value) * mult;
-                    rocketBetInput.value = Math.min(10000, Math.max(1, newVal));
-                    rocketBetAmount.textContent = rocketBetInput.value;
+                    const input = btn.closest('.bet-row')?.querySelector('.bet-input');
+                    if (input) {
+                        let newVal = parseInt(input.value) * mult;
+                        input.value = Math.min(10000, Math.max(1, newVal));
+                        if (input.id === 'rocketBet') rocketBetAmount.textContent = input.value;
+                    }
                 });
             });
 
@@ -675,8 +900,22 @@
                 rocketBetAmount.textContent = rocketBetInput.value;
             });
 
-            document.getElementById('dailyBonus').addEventListener('click', () => {
-                addStars(1000);
+            document.getElementById('dailyBonus').addEventListener('click', () => addStars(1000));
+
+            // ========== ПЕРЕКЛЮЧЕНИЕ ТАБОВ ==========
+            tabRocket.addEventListener('click', () => {
+                tabRocket.classList.add('active');
+                tabPlinko.classList.remove('active');
+                rocketGame.classList.remove('hidden');
+                plinkoGame.classList.add('hidden');
+            });
+
+            tabPlinko.addEventListener('click', () => {
+                tabPlinko.classList.add('active');
+                tabRocket.classList.remove('active');
+                rocketGame.classList.add('hidden');
+                plinkoGame.classList.remove('hidden');
+                drawPlinkoBoard();
             });
 
             // ========== INIT ==========
@@ -686,8 +925,17 @@
                 lastCrashSpan.textContent = crashHistory[0].toFixed(2) + 'x';
                 maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
                 rocketBetAmount.textContent = rocketBetInput.value;
+
+                // Plinko init
+                updatePlinkoMultipliers();
+                drawPlinkoBoard();
+
+                // Пример истории (5)
                 addHistory('Ракета', 'x4.56 +456 ⭐', 'win');
                 addHistory('Ракета', 'crash -100 ⭐', 'lose');
+                addHistory('Plinko', 'x8.0 +800 ⭐', 'win');
+                addHistory('Plinko', 'x0.3 -7 ⭐', 'lose');
+                addHistory('Ракета', 'x2.45 +245 ⭐', 'win');
             }
 
             init();
