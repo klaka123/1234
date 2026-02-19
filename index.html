@@ -7,6 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ========== МИНИМАЛИЗМ ПРЕМИУМ-КЛАССА ========== */
         * {
             margin: 0;
             padding: 0;
@@ -35,6 +36,7 @@
             justify-content: center;
             align-items: flex-start;
             padding: 16px;
+            margin: 0;
         }
 
         .app {
@@ -47,7 +49,7 @@
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
         }
 
-        /* Шапка */
+        /* ========== ШАПКА ========== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -103,7 +105,7 @@
             color: var(--accent-blue);
         }
 
-        /* ВЫПАДАЮЩЕЕ МЕНЮ ВМЕСТО ВКЛАДОК */
+        /* ========== ВЫПАДАЮЩИЙ СПИСОК ========== */
         .game-selector {
             margin-bottom: 24px;
         }
@@ -131,13 +133,7 @@
             box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .game-select option {
-            background: var(--bg-surface);
-            color: var(--text-primary);
-            padding: 12px;
-        }
-
-        /* Контейнеры игр */
+        /* ========== КОНТЕЙНЕРЫ ИГР ========== */
         .game-container {
             background: var(--bg-elevated);
             border-radius: 36px;
@@ -151,7 +147,7 @@
             display: block;
         }
 
-        /* ROCKET */
+        /* ========== ROCKET ========== */
         .rocket-stage {
             position: relative;
             background: #000;
@@ -200,6 +196,7 @@
             z-index: 10;
         }
 
+        /* ========== ОБЩИЕ КОМПОНЕНТЫ ========== */
         .info-panel {
             display: flex;
             justify-content: space-between;
@@ -298,7 +295,7 @@
             cursor: not-allowed;
         }
 
-        /* PLINKO */
+        /* ========== PLINKO ========== */
         .plinko-stage {
             background: #000;
             border-radius: 28px;
@@ -325,7 +322,7 @@
             border: 2px solid var(--border-light);
         }
 
-        /* SLOTS */
+        /* ========== SLOTS ========== */
         .slots-machine {
             background: #000;
             border-radius: 40px;
@@ -360,7 +357,7 @@
             color: var(--accent-blue);
         }
 
-        /* WHEEL */
+        /* ========== WHEEL ========== */
         .wheel-container {
             position: relative;
             width: 250px;
@@ -381,6 +378,8 @@
             transform: translateX(-50%);
             font-size: 40px;
             color: var(--accent-blue);
+            z-index: 10;
+            filter: drop-shadow(0 0 10px var(--accent-blue));
         }
 
         .wheel-result {
@@ -390,7 +389,7 @@
             font-weight: 800;
         }
 
-        /* MINES */
+        /* ========== MINES ========== */
         .mines-header {
             display: flex;
             gap: 10px;
@@ -453,7 +452,7 @@
             color: var(--accent-blue);
         }
 
-        /* ИСТОРИЯ */
+        /* ========== ИСТОРИЯ ========== */
         .history-section {
             background: var(--bg-elevated);
             border-radius: 32px;
@@ -490,7 +489,7 @@
         .history-win { color: var(--accent-blue); font-weight: 700; }
         .history-lose { color: var(--danger); font-weight: 700; }
 
-        /* МЕНЮ РЕФЕРАЛОВ */
+        /* ========== МЕНЮ (РЕФЕРАЛЫ + ПРОМОКОДЫ) ========== */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -516,6 +515,18 @@
             max-width: 360px;
             width: 90%;
             border: 2px solid var(--accent-blue);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section h4 {
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            font-size: 18px;
         }
 
         .ref-link {
@@ -524,7 +535,54 @@
             border-radius: 30px;
             font-family: monospace;
             word-break: break-all;
-            margin: 10px 0;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-light);
+        }
+
+        .promo-item {
+            background: var(--bg-elevated);
+            padding: 12px 16px;
+            border-radius: 40px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .promo-item:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .promo-code {
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .promo-value {
+            background: var(--accent-blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+
+        .promo-input {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-light);
+            border-radius: 40px;
+            color: white;
+            font-size: 16px;
+            margin: 15px 0;
+            outline: none;
+        }
+
+        .promo-input:focus {
+            border-color: var(--accent-blue);
         }
 
         .close-menu {
@@ -536,7 +594,6 @@
             color: white;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 20px;
         }
     </style>
 </head>
@@ -558,18 +615,44 @@
             </div>
         </header>
 
-        <!-- МЕНЮ РЕФЕРАЛОВ -->
+        <!-- МЕНЮ (РЕФЕРАЛЫ + ПРОМОКОДЫ) -->
         <div class="menu-overlay" id="menuOverlay">
             <div class="menu-content">
-                <h3 style="color: var(--accent-blue); margin-bottom: 20px;">🤝 Партнёрская программа</h3>
-                <p>Ваша ссылка:</p>
-                <div class="ref-link" id="refLink">Загрузка...</div>
-                <p>Приглашено: <span id="refCount">0</span> (бонус: <span id="refBonus">0</span> ⭐)</p>
+                <h3 style="color: var(--accent-blue); text-align: center; margin-bottom: 20px;">МЕНЮ</h3>
+                
+                <div class="menu-section">
+                    <h4>🤝 Реферальная программа</h4>
+                    <div class="ref-link" id="refLink">Загрузка...</div>
+                    <p>Приглашено: <span id="refCount">0</span> (бонус: <span id="refBonus">0</span> ⭐)</p>
+                </div>
+
+                <div class="menu-section">
+                    <h4>🎟️ Промокоды</h4>
+                    <div class="promo-item" data-code="2026">
+                        <span class="promo-code">2026</span>
+                        <span class="promo-value">+50 ⭐</span>
+                    </div>
+                    <div class="promo-item" data-code="GDB">
+                        <span class="promo-code">GDB</span>
+                        <span class="promo-value">+100 ⭐</span>
+                    </div>
+                    <div class="promo-item" data-code="DROP">
+                        <span class="promo-code">DROP</span>
+                        <span class="promo-value">+10 ⭐</span>
+                    </div>
+                    <div class="promo-item" data-code="FREE">
+                        <span class="promo-code">FREE</span>
+                        <span class="promo-value">+15 ⭐</span>
+                    </div>
+                    <input type="text" id="promoInput" class="promo-input" placeholder="Введите промокод">
+                    <button class="close-menu" id="applyPromo">Активировать</button>
+                </div>
+
                 <button class="close-menu" id="closeMenu">Закрыть</button>
             </div>
         </div>
 
-        <!-- ВЫПАДАЮЩИЙ СПИСОК ВМЕСТО ТАБОВ (ТЕПЕРЬ ТОЧНО ВСЕ ВЛЕЗАЕТ) -->
+        <!-- ВЫПАДАЮЩИЙ СПИСОК -->
         <div class="game-selector">
             <select id="gameSelect" class="game-select">
                 <option value="rocket">🚀 ROCKET</option>
@@ -594,7 +677,7 @@
             </div>
             <div class="bet-panel">
                 <div class="bet-header"><span>СТАВКА</span></div>
-                <input type="number" id="rocketBet" class="bet-input" min="1" value="10">
+                <input type="number" id="rocketBet" class="bet-input" min="1" value="10" inputmode="numeric">
                 <div class="action-buttons">
                     <button class="action-btn primary" id="rocketStart"><i class="fas fa-rocket"></i> СТАРТ</button>
                     <button class="action-btn success" id="rocketStop" disabled><i class="fas fa-stop"></i> СТОП</button>
@@ -609,7 +692,7 @@
             </div>
             <div class="bet-panel">
                 <div class="bet-header"><span>СТАВКА</span></div>
-                <input type="number" id="plinkoBet" class="bet-input" min="1" value="10">
+                <input type="number" id="plinkoBet" class="bet-input" min="1" value="10" inputmode="numeric">
                 <button class="action-btn primary" id="plinkoDrop"><i class="fas fa-arrow-down"></i> БРОСИТЬ</button>
                 <div class="plinko-result" id="plinkoResult">—</div>
             </div>
@@ -627,7 +710,7 @@
             </div>
             <div class="bet-panel">
                 <div class="bet-header"><span>СТАВКА</span></div>
-                <input type="number" id="slotsBet" class="bet-input" min="1" value="10">
+                <input type="number" id="slotsBet" class="bet-input" min="1" value="10" inputmode="numeric">
                 <button class="action-btn primary" id="slotsSpin"><i class="fas fa-sync-alt"></i> КРУТИТЬ</button>
             </div>
         </div>
@@ -641,7 +724,7 @@
             <div class="wheel-result" id="wheelResult">—</div>
             <div class="bet-panel">
                 <div class="bet-header"><span>СТАВКА</span></div>
-                <input type="number" id="wheelBet" class="bet-input" min="1" value="10">
+                <input type="number" id="wheelBet" class="bet-input" min="1" value="10" inputmode="numeric">
                 <button class="action-btn primary" id="wheelSpin"><i class="fas fa-play"></i> КРУТИТЬ</button>
             </div>
         </div>
@@ -663,7 +746,7 @@
             </div>
             <div class="bet-panel">
                 <div class="bet-header"><span>СТАВКА</span></div>
-                <input type="number" id="minesBet" class="bet-input" min="1" value="10">
+                <input type="number" id="minesBet" class="bet-input" min="1" value="10" inputmode="numeric">
                 <div class="action-buttons">
                     <button class="action-btn primary" id="minesStart">СТАВКА</button>
                     <button class="action-btn success" id="minesCashout" disabled>ЗАБРАТЬ</button>
@@ -741,7 +824,34 @@
                 document.getElementById('refBonus').textContent = count * 10;
             }
 
-            // ========== ПЕРЕКЛЮЧЕНИЕ ИГР ЧЕРЕЗ SELECT ==========
+            // ========== ПРОМОКОДЫ ==========
+            const promoCodes = {
+                '2026': 50,
+                'GDB': 100,
+                'DROP': 10,
+                'FREE': 15
+            };
+
+            function applyPromo(code) {
+                const upper = code.toUpperCase();
+                if (data.usedPromos.includes(upper)) {
+                    alert('Промокод уже активирован');
+                    return false;
+                }
+                if (promoCodes.hasOwnProperty(upper)) {
+                    data.balance += promoCodes[upper];
+                    data.usedPromos.push(upper);
+                    saveData();
+                    updateBalance();
+                    alert(`Промокод активирован! +${promoCodes[upper]} ⭐`);
+                    return true;
+                } else {
+                    alert('Неверный промокод');
+                    return false;
+                }
+            }
+
+            // ========== ПЕРЕКЛЮЧЕНИЕ ИГР ==========
             const gameSelect = document.getElementById('gameSelect');
             const gameContainers = {
                 rocket: document.getElementById('rocketGame'),
@@ -751,24 +861,12 @@
                 mines: document.getElementById('minesGame')
             };
 
-            // Функция переключения
             function switchGame(gameId) {
-                // Скрыть все
-                Object.values(gameContainers).forEach(container => {
-                    container.classList.remove('active');
-                });
-                // Показать выбранный
-                if (gameContainers[gameId]) {
-                    gameContainers[gameId].classList.add('active');
-                }
+                Object.values(gameContainers).forEach(c => c.classList.remove('active'));
+                if (gameContainers[gameId]) gameContainers[gameId].classList.add('active');
             }
 
-            // Обработчик изменения селекта
-            gameSelect.addEventListener('change', (e) => {
-                switchGame(e.target.value);
-            });
-
-            // Устанавливаем Rocket активной по умолчанию
+            gameSelect.addEventListener('change', (e) => switchGame(e.target.value));
             switchGame('rocket');
 
             // ========== ИСТОРИЯ ==========
@@ -784,7 +882,7 @@
                 historyList.prepend(item);
             }
 
-            // ========== ROCKET (ЭМОДЗИ) ==========
+            // ========== ROCKET ==========
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -837,8 +935,6 @@
 
                 function drawRocket(mult) {
                     ctx.clearRect(0, 0, 380, 280);
-                    
-                    // Рисуем эмодзи 🚀 носом вверх
                     ctx.save();
                     ctx.translate(190, 210 - (mult - 1) * 20);
                     ctx.rotate(-Math.PI / 2);
@@ -1110,7 +1206,7 @@
                     { label: 'x2', mult: 2, color: '#10b981', weight: 12 },
                     { label: 'x5', mult: 5, color: '#f59e0b', weight: 8 },
                     { label: 'x10', mult: 10, color: '#8b5cf6', weight: 5 },
-                    { label: 'x50', mult: 50, color: '#ec4899', weight: 4 }
+                    { label: 'JACKPOT', mult: 50, color: '#ec4899', weight: 4 }
                 ];
                 const totalWeight = sectors.reduce((s, w) => s + w.weight, 0);
 
@@ -1121,6 +1217,8 @@
                     for (let i = 0; i < sectors.length; i++) {
                         const angle = (sectors[i].weight / totalWeight) * 2 * Math.PI;
                         const end = start + angle;
+                        
+                        // Сектор
                         ctx.beginPath();
                         ctx.moveTo(cx, cy);
                         ctx.arc(cx, cy, r, start, end);
@@ -1128,7 +1226,20 @@
                         ctx.fillStyle = sectors[i].color;
                         ctx.fill();
                         ctx.strokeStyle = '#fff';
+                        ctx.lineWidth = 2;
                         ctx.stroke();
+
+                        // Текст
+                        ctx.save();
+                        ctx.translate(cx, cy);
+                        ctx.rotate(start + angle/2);
+                        ctx.fillStyle = '#fff';
+                        ctx.font = 'bold 14px Inter';
+                        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                        ctx.shadowBlur = 4;
+                        ctx.fillText(sectors[i].label, 75, 0);
+                        ctx.restore();
+
                         start = end;
                     }
                 }
@@ -1288,9 +1399,12 @@
                 addHistory('BONUS', '+1000 ⭐', 'win');
             });
 
+            // ========== МЕНЮ ==========
             const menuBtn = document.getElementById('menuBtn');
             const menuOverlay = document.getElementById('menuOverlay');
             const closeMenu = document.getElementById('closeMenu');
+            const applyPromo = document.getElementById('applyPromo');
+            const promoInput = document.getElementById('promoInput');
 
             menuBtn.addEventListener('click', () => {
                 updateReferralDisplay();
@@ -1303,6 +1417,19 @@
 
             menuOverlay.addEventListener('click', (e) => {
                 if (e.target === menuOverlay) menuOverlay.classList.remove('active');
+            });
+
+            // Клик по промокоду
+            document.querySelectorAll('.promo-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    promoInput.value = item.dataset.code;
+                });
+            });
+
+            applyPromo.addEventListener('click', () => {
+                const code = promoInput.value.trim();
+                if (code) applyPromo(code);
+                promoInput.value = '';
             });
 
             updateBalance();
