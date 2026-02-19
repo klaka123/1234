@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>STAR ROCKET • PLINKO</title>
+    <title>ROCKET PLINKO</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== ГЛОБАЛЬНЫЙ СТИЛЬ ========== */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +22,6 @@
             --text-primary: #ffffff;
             --text-secondary: #9aa4b8;
             --border-light: #2a313e;
-            --border-glow: #3b82f6;
         }
 
         body {
@@ -47,7 +45,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
 
-        /* ========== ШАПКА ========== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -96,7 +93,6 @@
             box-shadow: 0 0 15px var(--accent-glow);
         }
 
-        /* ========== ТАБЫ ========== */
         .tabs {
             display: flex;
             gap: 10px;
@@ -126,7 +122,7 @@
             box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        /* ========== ROCKET ========== */
+        /* ROCKET */
         .rocket-container {
             background: var(--bg-elevated);
             border-radius: 32px;
@@ -137,7 +133,7 @@
 
         .stage {
             position: relative;
-            background: #000000; /* Чёрное небо */
+            background: #000000;
             border-radius: 28px;
             overflow: hidden;
             margin-bottom: 20px;
@@ -185,44 +181,17 @@
             font-weight: 800;
             z-index: 10;
             letter-spacing: 1px;
+            min-width: 100px;
+            text-align: center;
         }
 
-        .countdown-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 20;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.2s;
-        }
-
-        .countdown-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
+        /* Таймер теперь находится в том же месте */
         .countdown-number {
-            font-size: 90px;
-            font-weight: 900;
             color: var(--accent-blue);
-            text-shadow: 0 0 40px var(--accent-blue);
-            animation: pulse 1s infinite;
+            font-size: 32px;
+            font-weight: 800;
         }
 
-        @keyframes pulse {
-            0%,100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        /* Инфо-панель */
         .info-panel {
             display: flex;
             justify-content: space-between;
@@ -249,7 +218,6 @@
             font-size: 18px;
         }
 
-        /* Панель ставок */
         .bet-panel {
             background: var(--bg-surface);
             border-radius: 32px;
@@ -329,7 +297,7 @@
             cursor: not-allowed;
         }
 
-        /* ========== PLINKO ========== */
+        /* PLINKO */
         .plinko-container {
             background: var(--bg-elevated);
             border-radius: 32px;
@@ -353,24 +321,7 @@
             background: transparent;
         }
 
-        .multiplier-row {
-            display: flex;
-            justify-content: space-around;
-            margin: 16px 0 20px;
-            gap: 4px;
-        }
-
-        .multiplier-cell {
-            flex: 1;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: var(--bg-surface);
-            padding: 12px 0;
-            border-radius: 20px;
-            border: 1px solid var(--border-light);
-        }
+        /* Убрали .multiplier-row */
 
         .plinko-result {
             margin-top: 20px;
@@ -384,7 +335,6 @@
             border: 2px solid var(--border-light);
         }
 
-        /* ========== ИСТОРИЯ ========== */
         .history-section {
             background: var(--bg-elevated);
             border-radius: 28px;
@@ -425,7 +375,6 @@
 </head>
 <body>
     <div class="app">
-        <!-- ШАПКА -->
         <header class="header">
             <div class="balance">
                 <i class="fas fa-star"></i>
@@ -436,19 +385,15 @@
             </button>
         </header>
 
-        <!-- ТАБЫ -->
         <div class="tabs">
             <button class="tab active" id="tabRocket">ROCKET</button>
             <button class="tab" id="tabPlinko">PLINKO</button>
         </div>
 
-        <!-- ROCKET GAME -->
+        <!-- ROCKET -->
         <div id="rocketGame" class="rocket-container">
             <div class="stage">
                 <div class="stars-layer" id="starsLayer"></div>
-                <div class="countdown-overlay" id="countdownOverlay">
-                    <div class="countdown-number" id="countdownNumber">3</div>
-                </div>
                 <canvas id="rocketCanvas" width="380" height="280"></canvas>
                 <div class="multiplier-display" id="rocketMultiplier">1.00x</div>
             </div>
@@ -484,14 +429,11 @@
             </div>
         </div>
 
-        <!-- PLINKO GAME -->
+        <!-- PLINKO (без отдельного ряда множителей) -->
         <div id="plinkoGame" class="plinko-container hidden">
             <div class="plinko-stage">
                 <canvas id="plinkoCanvas" width="380" height="500"></canvas>
             </div>
-
-            <!-- Один ряд множителей -->
-            <div class="multiplier-row" id="multiplierRow"></div>
 
             <div class="bet-panel">
                 <div class="bet-header">
@@ -505,7 +447,6 @@
             </div>
         </div>
 
-        <!-- ИСТОРИЯ (5 ПОСЛЕДНИХ) -->
         <div class="history-section">
             <div class="history-title">
                 <i class="fas fa-history"></i>
@@ -517,25 +458,23 @@
 
     <script>
         (function() {
-            // ========== ИНИЦИАЛИЗАЦИЯ TELEGRAM ==========
+            // Telegram
             const tg = window.Telegram.WebApp;
             tg.expand();
-            tg.ready();
 
-            // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
-            let balance = 10000;               // текущий баланс
-            let gameActive = false;             // активна ли игра в ракете
-            let countdownActive = false;        // идёт ли обратный отсчёт
-            let rocketInterval = null;           // интервал анимации ракеты
-            let starsInterval = null;            // интервал движения звёзд
-            let crashPoint = 2.0;                // реальная точка краша
-            let visualCrashPoint = 2.0;           // для визуального продолжения
-            let currentMultiplier = 1.0;          // текущий множитель
-            let rocketBet = 10;                    // текущая ставка
-            let vibration = 0;                      // сила тряски (0-...)
-            let stars = [];                          // массив звёзд
+            // ========== ГЛОБАЛЬНЫЕ ==========
+            let balance = 10000;
+            let gameActive = false;
+            let countdownActive = false;
+            let rocketInterval = null;
+            let starsInterval = null;
+            let crashPoint = 2.0;
+            let visualCrashPoint = 2.0;
+            let currentMultiplier = 1.0;
+            let rocketBet = 10;
+            let vibration = 0;
+            let stars = [];
 
-            // История крашей
             let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67];
             let maxCrash = 12.5;
 
@@ -543,7 +482,7 @@
             let plinkoAnimation = null;
             const plinkoMultipliers = [0.5, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0, 8.0, 10.0];
 
-            // ========== DOM ЭЛЕМЕНТЫ ==========
+            // ========== DOM ==========
             const balanceSpan = document.getElementById('balance');
             const tabRocket = document.getElementById('tabRocket');
             const tabPlinko = document.getElementById('tabPlinko');
@@ -560,16 +499,13 @@
             const rocketBetInput = document.getElementById('rocketBet');
             const rocketStart = document.getElementById('rocketStart');
             const rocketStop = document.getElementById('rocketStop');
-            const countdownOverlay = document.getElementById('countdownOverlay');
-            const countdownNumber = document.getElementById('countdownNumber');
             const starsLayer = document.getElementById('starsLayer');
-            const multiplierRow = document.getElementById('multiplierRow');
             const plinkoBetInput = document.getElementById('plinkoBet');
             const plinkoDrop = document.getElementById('plinkoDrop');
             const plinkoResult = document.getElementById('plinkoResult');
             const historyList = document.getElementById('historyList');
 
-            // ========== ФУНКЦИИ УПРАВЛЕНИЯ БАЛАНСОМ ==========
+            // ========== БАЛАНС ==========
             function updateBalance() {
                 balanceSpan.textContent = balance.toLocaleString().replace(',', ' ');
             }
@@ -589,7 +525,7 @@
                 return false;
             }
 
-            // ========== СОЗДАНИЕ ЗВЁЗД (МНОГО) ==========
+            // ========== ЗВЁЗДЫ ==========
             function createStars(count = 150) {
                 starsLayer.innerHTML = '';
                 stars = [];
@@ -605,13 +541,12 @@
                     star.style.top = top + '%';
                     star.style.opacity = Math.random() * 0.8 + 0.2;
                     starsLayer.appendChild(star);
-                    stars.push({ element: star, top: top, speed: 0 }); // speed будет меняться
+                    stars.push({ element: star, top: top });
                 }
             }
 
-            // Движение звёзд вниз (с ускорением)
             function moveStars(speedFactor) {
-                let baseSpeed = 0.05; // базовая скорость
+                let baseSpeed = 0.1;
                 let speed = baseSpeed * speedFactor;
                 stars.forEach(star => {
                     let top = parseFloat(star.element.style.top);
@@ -624,86 +559,64 @@
                 });
             }
 
-            // ========== ОТРИСОВКА РАКЕТЫ (СТИЛЬ BOXSTARX) ==========
+            // ========== РАКЕТА В СТИЛЕ ЭМОДЗИ 🚀 ==========
             function drawRocket(mult, vib) {
                 rocketCtx.clearRect(0, 0, 380, 280);
 
-                // Чёрный фон уже есть, но канвас прозрачный — звёзды отдельно
-
-                // Позиция ракеты: поднимается вверх с множителем
-                const baseY = 210 - (mult - 1) * 25; // старт Y = 210
-                // Тряска: смещение по X и Y на основе vib и синуса
-                const shakeX = Math.sin(Date.now() * 0.02) * vib * 2;
-                const shakeY = Math.cos(Date.now() * 0.03) * vib * 1.5;
+                // Позиция: поднимается вверх
+                const baseY = 210 - (mult - 1) * 20; // старт Y
+                // Тряска: больше вертикальная, чем горизонтальная
+                const shakeY = Math.sin(Date.now() * 0.03) * vib * 1.2;
+                const shakeX = Math.cos(Date.now() * 0.02) * vib * 0.5; // уменьшили горизонтальную
                 const x = 180 + shakeX;
                 const y = baseY + shakeY;
 
-                // ---- РИСУЕМ РАКЕТУ (ДЕТАЛЬНО) ----
                 // Тень
                 rocketCtx.shadowColor = '#3b82f6';
-                rocketCtx.shadowBlur = 20 + vib * 2;
+                rocketCtx.shadowBlur = 15 + vib;
 
-                // Корпус (основной) — белый градиент
-                let grad = rocketCtx.createLinearGradient(x-20, y-20, x+20, y+20);
-                grad.addColorStop(0, '#ffffff');
-                grad.addColorStop(1, '#e0e7ff');
-                rocketCtx.fillStyle = grad;
+                // Корпус (белый)
+                rocketCtx.fillStyle = '#ffffff';
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x-18, y-18);
-                rocketCtx.lineTo(x+18, y-22);
-                rocketCtx.lineTo(x+22, y+12);
-                rocketCtx.lineTo(x-15, y+18);
+                rocketCtx.moveTo(x-15, y-20);
+                rocketCtx.lineTo(x+15, y-20);
+                rocketCtx.lineTo(x+20, y);
+                rocketCtx.lineTo(x+15, y+20);
+                rocketCtx.lineTo(x-15, y+20);
+                rocketCtx.lineTo(x-20, y);
                 rocketCtx.closePath();
                 rocketCtx.fill();
 
                 // Нос (красный)
                 rocketCtx.fillStyle = '#ef4444';
-                rocketCtx.shadowColor = '#ef4444';
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x+18, y-22);
-                rocketCtx.lineTo(x+38, y-8);
-                rocketCtx.lineTo(x+22, y+12);
+                rocketCtx.moveTo(x+15, y-20);
+                rocketCtx.lineTo(x+30, y-5);
+                rocketCtx.lineTo(x+20, y);
                 rocketCtx.closePath();
                 rocketCtx.fill();
 
-                // Иллюминатор (синий ободок, белый внутри)
-                rocketCtx.shadowColor = '#3b82f6';
+                // Иллюминатор (синий круг)
                 rocketCtx.fillStyle = '#3b82f6';
+                rocketCtx.shadowBlur = 20;
                 rocketCtx.beginPath();
-                rocketCtx.arc(x-2, y-6, 10, 0, Math.PI*2);
+                rocketCtx.arc(x-2, y-2, 8, 0, Math.PI*2);
                 rocketCtx.fill();
                 rocketCtx.fillStyle = '#ffffff';
-                rocketCtx.shadowBlur = 15;
+                rocketCtx.shadowBlur = 10;
                 rocketCtx.beginPath();
-                rocketCtx.arc(x-4, y-8, 4, 0, Math.PI*2);
+                rocketCtx.arc(x-4, y-4, 3, 0, Math.PI*2);
                 rocketCtx.fill();
 
-                // Крылья (синие)
-                rocketCtx.fillStyle = '#2563eb';
-                rocketCtx.shadowColor = '#2563eb';
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(x-18, y+5);
-                rocketCtx.lineTo(x-35, y+25);
-                rocketCtx.lineTo(x-12, y+15);
-                rocketCtx.closePath();
-                rocketCtx.fill();
-
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(x+12, y+5);
-                rocketCtx.lineTo(x+30, y+25);
-                rocketCtx.lineTo(x+8, y+15);
-                rocketCtx.closePath();
-                rocketCtx.fill();
-
-                // Пламя (оранжевое, пульсирует)
-                let flameSize = 18 + Math.sin(Date.now() * 0.02) * 6;
+                // Пламя
+                let flameSize = 12 + Math.sin(Date.now()*0.02)*4;
                 rocketCtx.fillStyle = '#f97316';
                 rocketCtx.shadowColor = '#f97316';
-                rocketCtx.shadowBlur = 25;
+                rocketCtx.shadowBlur = 20;
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x-8, y+20);
+                rocketCtx.moveTo(x-6, y+22);
                 rocketCtx.lineTo(x, y+30 + flameSize);
-                rocketCtx.lineTo(x+8, y+20);
+                rocketCtx.lineTo(x+6, y+22);
                 rocketCtx.fill();
 
                 rocketCtx.shadowBlur = 0;
@@ -715,13 +628,12 @@
 
                 rocketBet = parseInt(rocketBetInput.value);
                 if (rocketBet < 1 || rocketBet > balance) {
-                    alert('Invalid bet amount');
+                    alert('Invalid bet');
                     return;
                 }
-
                 if (!deductStars(rocketBet)) return;
 
-                // Генерация точки краша (с повышенными шансами на 4-10x)
+                // Генерация краша
                 let r = Math.random();
                 if (r < 0.4) {
                     crashPoint = 4 + Math.random() * 6;
@@ -731,19 +643,18 @@
                 crashPoint = parseFloat(crashPoint.toFixed(2));
                 visualCrashPoint = crashPoint;
 
-                // Обратный отсчёт
+                // Обратный отсчёт прямо в поле множителя
                 countdownActive = true;
-                countdownOverlay.classList.add('active');
+                rocketMultiplier.innerHTML = '<span class="countdown-number">3</span>';
                 let count = 3;
-                countdownNumber.textContent = count;
-
                 let countInterval = setInterval(() => {
                     count--;
-                    countdownNumber.textContent = count;
-                    if (count === 0) {
+                    if (count > 0) {
+                        rocketMultiplier.innerHTML = `<span class="countdown-number">${count}</span>`;
+                    } else {
                         clearInterval(countInterval);
-                        countdownOverlay.classList.remove('active');
                         countdownActive = false;
+                        rocketMultiplier.innerHTML = '1.00x'; // вернём множитель
 
                         // Запуск игры
                         gameActive = true;
@@ -751,9 +662,7 @@
                         rocketStart.disabled = true;
                         rocketStop.disabled = false;
                         currentMultiplier = 1.0;
-                        rocketMultiplier.textContent = '1.00x';
 
-                        // Создаём много звёзд
                         createStars(200);
                         const startTime = Date.now();
 
@@ -764,14 +673,11 @@
                             currentMultiplier = 1 + 0.9 * elapsed;
                             rocketMultiplier.textContent = currentMultiplier.toFixed(2) + 'x';
 
-                            // Тряска усиливается с множителем
-                            vibration = currentMultiplier * 1.8;
-                            // Движение звёзд: скорость зависит от множителя
+                            vibration = currentMultiplier * 1.2; // тряска
                             moveStars(currentMultiplier * 1.5);
 
                             drawRocket(currentMultiplier, vibration);
 
-                            // Проверка краша
                             if (currentMultiplier >= crashPoint) {
                                 clearInterval(rocketInterval);
                                 gameActive = false;
@@ -788,7 +694,7 @@
                             }
                         }, 30);
                     }
-                }, 1000);
+                }, 800); // таймер быстрее (0.8 сек)
             });
 
             rocketStop.addEventListener('click', () => {
@@ -811,7 +717,7 @@
                 updateBalance();
                 addHistory('ROCKET', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
 
-                // Ракета продолжает лететь визуально до crashPoint
+                // Визуальное продолжение
                 let visualInterval = setInterval(() => {
                     visualCrashPoint += 0.05;
                     drawRocket(currentMultiplier, vibration);
@@ -829,7 +735,7 @@
                 const stepY = 48;
                 const startX = 190;
 
-                // Колышки (синие)
+                // Колышки
                 plinkoCtx.fillStyle = '#3b82f6';
                 plinkoCtx.shadowColor = '#3b82f6';
                 plinkoCtx.shadowBlur = 10;
@@ -843,7 +749,7 @@
                     }
                 }
 
-                // Ячейки внизу (только текст, без цвета)
+                // Ячейки внизу (с текстом)
                 const cellY = startY + rows * stepY + 30;
                 for (let i = 0; i < 9; i++) {
                     let x = startX - (rows * 20) + i * 40;
@@ -857,34 +763,22 @@
                 plinkoCtx.shadowBlur = 0;
             }
 
-            function fillMultiplierRow() {
-                multiplierRow.innerHTML = '';
-                plinkoMultipliers.forEach(m => {
-                    let cell = document.createElement('div');
-                    cell.className = 'multiplier-cell';
-                    cell.textContent = m.toFixed(1) + 'x';
-                    multiplierRow.appendChild(cell);
-                });
-            }
-
-            // Анимация падения с белым шаром (жемчужный)
             function animatePlinko() {
                 if (plinkoAnimation) clearInterval(plinkoAnimation);
                 const rows = 8;
                 const startY = 40;
                 const stepY = 48;
                 const startX = 190;
-                let ball = { x: 190, y: 20, vx: 0, vy: 1, row: 0 };
+                let ball = { x: 190, y: 20, vx: 0, vy: 1 };
                 let lastCollision = 0;
 
                 plinkoAnimation = setInterval(() => {
-                    // Гравитация
                     ball.vy += 0.4;
                     ball.y += ball.vy;
                     ball.x += ball.vx;
                     ball.vx *= 0.98;
 
-                    // Столкновения с колышками
+                    // Столкновения
                     for (let r = 0; r < rows; r++) {
                         for (let c = 0; c <= r; c++) {
                             let pegX = startX - (r * 20) + c * 40;
@@ -907,10 +801,9 @@
                     if (ball.x < 30) { ball.x = 30; ball.vx *= -0.5; }
                     if (ball.x > 350) { ball.x = 350; ball.vx *= -0.5; }
 
-                    // Отрисовка
                     drawPlinkoBoard();
 
-                    // Белый жемчужный шар
+                    // Белый шар
                     let grad = plinkoCtx.createRadialGradient(ball.x-4, ball.y-4, 4, ball.x, ball.y, 15);
                     grad.addColorStop(0, '#ffffff');
                     grad.addColorStop(0.8, '#cbd5e1');
@@ -921,7 +814,6 @@
                     plinkoCtx.arc(ball.x, ball.y, 10, 0, Math.PI*2);
                     plinkoCtx.fill();
 
-                    // Проверка достижения ячеек
                     if (ball.y > 470) {
                         clearInterval(plinkoAnimation);
                         let col = Math.floor((ball.x - (startX - (rows*20))) / 40);
@@ -947,7 +839,7 @@
                 animatePlinko();
             });
 
-            // ========== ИСТОРИЯ (5 ПОСЛЕДНИХ) ==========
+            // ========== ИСТОРИЯ ==========
             function addHistory(game, text, type) {
                 if (historyList.children.length >= 5) {
                     historyList.removeChild(historyList.lastElementChild);
@@ -973,28 +865,26 @@
                 plinkoGame.classList.remove('hidden');
             });
 
-            // ========== БЫСТРЫЕ ДЕЙСТВИЯ ==========
-            rocketBetInput.addEventListener('input', () => {
-                rocketBetAmount.textContent = rocketBetInput.value;
-            });
-
+            // ========== БОНУС ==========
             document.getElementById('dailyBonus').addEventListener('click', () => {
                 addStarsBalance(1000);
             });
 
-            // ========== ИНИЦИАЛИЗАЦИЯ ==========
+            rocketBetInput.addEventListener('input', () => {
+                rocketBetAmount.textContent = rocketBetInput.value;
+            });
+
+            // ========== INIT ==========
             function init() {
                 updateBalance();
                 createStars(200);
                 drawRocket(1.0, 0);
                 drawPlinkoBoard();
-                fillMultiplierRow();
 
                 lastCrashSpan.textContent = crashHistory[0].toFixed(2) + 'x';
                 maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
                 rocketBetAmount.textContent = rocketBetInput.value;
 
-                // Добавляем примеры истории (5 шт)
                 addHistory('ROCKET', 'x4.56 +456 ⭐', 'win');
                 addHistory('PLINKO', 'x0.5 -5 ⭐', 'lose');
                 addHistory('ROCKET', 'x7.23 +723 ⭐', 'win');
