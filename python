@@ -1,0 +1,11 @@
+# models.py
+class User(Base):
+    __tablename__ = 'users'
+    
+    id = Column(Integer, primary_key=True)
+    telegram_id = Column(String, unique=True)
+    balance = Column(Integer, default=1000)
+    referrer_id = Column(String, nullable=True)
+    referrals_count = Column(Integer, default=0)
+    games_played = Column(Integer, default=0)
+    total_won = Column(Integer, default=0)
