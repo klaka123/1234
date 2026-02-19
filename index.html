@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PREMIUM CASINO • ULTIMATE</title>
+    <title>✦ PREMIUM CASINO • ULTIMATE ✦</title>
     <!-- Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== ГЛОБАЛЬНЫЙ СТИЛЬ ========== */
+        /* ========== МИНИМАЛИЗМ ПРЕМИУМ-КЛАССА ========== */
         * {
             margin: 0;
             padding: 0;
@@ -22,6 +22,7 @@
             --bg-elevated: #1e2430;
             --accent-blue: #3b82f6;
             --accent-glow: rgba(59, 130, 246, 0.5);
+            --accent-purple: #8b5cf6;
             --text-primary: #ffffff;
             --text-secondary: #a0aec0;
             --border-light: #2a313e;
@@ -40,6 +41,7 @@
             align-items: flex-start;
             padding: 16px;
             margin: 0;
+            overflow-x: hidden;
         }
 
         .app {
@@ -50,9 +52,11 @@
             padding: 24px;
             border: 1px solid var(--border-light);
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+            position: relative;
+            backdrop-filter: blur(2px);
         }
 
-        /* ========== ШАПКА ========== */
+        /* ========== ШАПКА С БАЛАНСОМ ========== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -68,11 +72,13 @@
             padding: 12px 24px;
             border-radius: 60px;
             border: 1px solid var(--border-light);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
         }
 
         .balance i {
             color: var(--accent-blue);
             font-size: 20px;
+            filter: drop-shadow(0 0 8px var(--accent-blue));
         }
 
         .balance span {
@@ -106,9 +112,10 @@
         .icon-btn:hover {
             border-color: var(--accent-blue);
             color: var(--accent-blue);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
-        /* ========== ТАБЫ (в одну строку) ========== */
+        /* ========== ТАБЫ (АККУРАТНАЯ СТРОКА) ========== */
         .tabs-row {
             display: flex;
             gap: 8px;
@@ -152,6 +159,7 @@
             padding: 20px;
             border: 1px solid var(--border-light);
             margin-bottom: 24px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
         }
 
         .hidden {
@@ -169,6 +177,7 @@
             font-weight: 800;
             text-align: center;
             box-shadow: 0 0 20px var(--accent-glow);
+            text-shadow: 0 0 10px var(--accent-blue);
         }
 
         .info-panel {
@@ -190,6 +199,7 @@
             font-size: 13px;
             margin-bottom: 6px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .info-value {
@@ -226,6 +236,7 @@
             text-align: center;
             margin-bottom: 20px;
             outline: none;
+            transition: 0.2s;
         }
 
         .bet-input:focus {
@@ -270,7 +281,7 @@
             cursor: not-allowed;
         }
 
-        /* ========== МЕНЮ С ТРОЕТОЧИЕМ (РЕФЕРАЛЫ) ========== */
+        /* ========== МЕНЮ РЕФЕРАЛОВ ========== */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -305,6 +316,7 @@
             margin-bottom: 20px;
             color: var(--accent-blue);
             font-size: 24px;
+            text-align: center;
         }
 
         .menu-section {
@@ -348,10 +360,10 @@
             cursor: pointer;
         }
 
-        /* ========== ROCKET (ПОЛНОСТЬЮ ПЕРЕРАБОТАНА) ========== */
+        /* ========== ROCKET (НОВАЯ, КИНЕМАТОГРАФИЧНАЯ) ========== */
         .rocket-stage {
             position: relative;
-            background: #000;
+            background: linear-gradient(180deg, #0a0f1a 0%, #000 100%);
             border-radius: 28px;
             overflow: hidden;
             height: 280px;
@@ -379,10 +391,21 @@
             border-radius: 50%;
             width: 2px;
             height: 2px;
-            box-shadow: 0 0 4px white;
+            box-shadow: 0 0 6px rgba(255,255,255,0.8);
+            transition: all 0.1s;
         }
 
-        /* ========== PLINKO ========== */
+        .rocket-flame {
+            position: absolute;
+            width: 20px;
+            height: 40px;
+            background: radial-gradient(ellipse at center, #f97316 0%, transparent 80%);
+            filter: blur(4px);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* ========== PLINKO (МИНИМАЛИЗМ) ========== */
         .plinko-stage {
             background: #000;
             border-radius: 28px;
@@ -409,7 +432,7 @@
             border: 2px solid var(--border-light);
         }
 
-        /* ========== SLOTS (С АНИМАЦИЕЙ) ========== */
+        /* ========== SLOTS (С АНИМАЦИЯМИ) ========== */
         .slots-machine {
             background: #000;
             border-radius: 40px;
@@ -435,14 +458,14 @@
             font-size: 60px;
             border: 3px solid var(--accent-blue);
             box-shadow: 0 0 30px var(--accent-glow);
-            transition: all 0.1s;
+            transition: transform 0.05s;
         }
 
         .reel.spinning {
-            animation: spin 0.2s linear infinite;
+            animation: slotSpin 0.1s infinite;
         }
 
-        @keyframes spin {
+        @keyframes slotSpin {
             0% { transform: translateY(0); }
             25% { transform: translateY(-5px); }
             50% { transform: translateY(0); }
@@ -458,7 +481,7 @@
             color: var(--accent-blue);
         }
 
-        /* ========== WHEEL ========== */
+        /* ========== WHEEL (ПРЕМИАЛЬНЫЙ) ========== */
         .wheel-container {
             position: relative;
             width: 250px;
@@ -470,16 +493,18 @@
             width: 100%;
             height: 100%;
             display: block;
+            filter: drop-shadow(0 0 20px rgba(59,130,246,0.5));
         }
 
         .wheel-pointer {
             position: absolute;
-            top: -10px;
+            top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 40px;
+            font-size: 50px;
             color: var(--accent-blue);
             filter: drop-shadow(0 0 10px cyan);
+            z-index: 10;
         }
 
         .wheel-result {
@@ -489,7 +514,7 @@
             font-weight: 800;
         }
 
-        /* ========== MINES ========== */
+        /* ========== MINES (С УСИЛИТЕЛЕМ) ========== */
         .mines-header {
             display: flex;
             gap: 10px;
@@ -505,6 +530,7 @@
             color: white;
             font-weight: 700;
             text-align: center;
+            cursor: pointer;
         }
 
         .mines-grid {
@@ -525,18 +551,25 @@
             font-size: 28px;
             cursor: pointer;
             transition: 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .mines-cell:hover {
+            border-color: var(--accent-blue);
         }
 
         .mines-cell.revealed-star {
             background: #1e3a8a;
             border-color: var(--success);
             color: var(--success);
+            box-shadow: 0 0 15px var(--success);
         }
 
         .mines-cell.revealed-mine {
             background: #7f1d1d;
             border-color: var(--danger);
             color: var(--danger);
+            box-shadow: 0 0 15px var(--danger);
         }
 
         .mines-info {
@@ -591,7 +624,7 @@
 </head>
 <body>
     <div class="app">
-        <!-- Шапка -->
+        <!-- ШАПКА -->
         <header class="header">
             <div class="balance">
                 <i class="fas fa-star"></i>
@@ -607,14 +640,14 @@
             </div>
         </header>
 
-        <!-- Меню (только рефералы, промокоды убраны) -->
+        <!-- МЕНЮ РЕФЕРАЛОВ -->
         <div class="menu-overlay" id="menuOverlay">
             <div class="menu-content">
                 <h3><i class="fas fa-star"></i> Партнёрская программа</h3>
                 <div class="menu-section">
                     <h4>🤝 Ваша реферальная ссылка</h4>
                     <div class="ref-link" id="refLink">Загрузка...</div>
-                    <p>Приглашайте друзей и получайте бонусы!</p>
+                    <p>Приглашайте друзей и получайте 10 ⭐ за каждого!</p>
                 </div>
                 <div class="menu-section">
                     <h4>📋 Приглашённые пользователи</h4>
@@ -625,7 +658,7 @@
             </div>
         </div>
 
-        <!-- Табы -->
+        <!-- ТАБЫ -->
         <div class="tabs-row">
             <button class="tab active" data-game="rocket">🚀 ROCKET</button>
             <button class="tab" data-game="plinko">🔴 PLINKO</button>
@@ -634,7 +667,7 @@
             <button class="tab" data-game="mines">💣 MINES</button>
         </div>
 
-        <!-- ROCKET (полностью новая) -->
+        <!-- ROCKET (ПОЛНОСТЬЮ НОВАЯ) -->
         <div id="rocketGame" class="game-container">
             <div class="rocket-stage">
                 <div class="stars-layer" id="starsLayer"></div>
@@ -669,7 +702,7 @@
             </div>
         </div>
 
-        <!-- SLOTS (с анимацией и правильным расчётом) -->
+        <!-- SLOTS -->
         <div id="slotsGame" class="game-container hidden">
             <div class="slots-machine">
                 <div class="reels">
@@ -686,7 +719,7 @@
             </div>
         </div>
 
-        <!-- WHEEL (исправлен) -->
+        <!-- WHEEL -->
         <div id="wheelGame" class="game-container hidden">
             <div class="wheel-container">
                 <canvas id="wheelCanvas" width="250" height="250"></canvas>
@@ -725,7 +758,7 @@
             </div>
         </div>
 
-        <!-- История -->
+        <!-- ИСТОРИЯ -->
         <div class="history-section">
             <div class="history-title"><i class="fas fa-history"></i> ПОСЛЕДНИЕ 5 ИГР</div>
             <div class="history-list" id="historyList"></div>
@@ -734,20 +767,18 @@
 
     <script>
         (function() {
-            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+            // ==================== ГЛОБАЛЬНАЯ ИНИЦИАЛИЗАЦИЯ ====================
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
 
-            // Получаем ID пользователя (если есть)
             const userId = tg.initDataUnsafe?.user?.id?.toString() || 'guest_' + Math.random().toString(36).substring(2);
-
-            // ==================== ХРАНИЛИЩЕ ====================
             const storageKey = `casino_ultimate_${userId}`;
+
             let data = JSON.parse(localStorage.getItem(storageKey)) || {
                 balance: 10000,
-                referrals: [], // массив ID приглашённых
-                usedPromos: [], // оставим, но не используем в интерфейсе
+                referrals: [],
+                usedPromos: [],
                 games: {}
             };
 
@@ -775,33 +806,28 @@
                 return false;
             }
 
-            // ==================== РЕФЕРАЛЬНАЯ СИСТЕМА ====================
+            // ==================== РЕФЕРАЛЫ ====================
             const startParam = tg.initDataUnsafe?.start_param;
             if (startParam && startParam.startsWith('ref_')) {
                 const referrerId = startParam.replace('ref_', '');
-                // Проверяем, не был ли этот пользователь уже приглашён
                 if (!localStorage.getItem(`referred_${userId}`) && referrerId !== userId) {
-                    // Добавляем реферала в список пригласившего
                     let referrerData = JSON.parse(localStorage.getItem(`casino_ultimate_${referrerId}`) || '{"referrals":[]}');
                     if (!referrerData.referrals) referrerData.referrals = [];
                     if (!referrerData.referrals.includes(userId)) {
                         referrerData.referrals.push(userId);
                         localStorage.setItem(`casino_ultimate_${referrerId}`, JSON.stringify(referrerData));
                     }
-                    // Отмечаем, что этот пользователь уже активирован по рефералке
                     localStorage.setItem(`referred_${userId}`, 'true');
                 }
             }
 
-            // Получаем список рефералов текущего пользователя
             function getReferrals() {
                 return data.referrals || [];
             }
 
-            // Обновление отображения рефералов в меню
             function updateReferralDisplay() {
-                const refLink = `t.me/${tg.initDataUnsafe?.user?.username || 'your_bot'}?start=ref_${userId}`;
-                document.getElementById('refLink').textContent = refLink;
+                const botUsername = tg.initDataUnsafe?.user?.username ? 't.me/' + tg.initDataUnsafe.user.username : 't.me/your_bot';
+                document.getElementById('refLink').textContent = `${botUsername}?start=ref_${userId}`;
 
                 const referrals = getReferrals();
                 const listDiv = document.getElementById('referralsList');
@@ -814,12 +840,10 @@
                 });
 
                 document.getElementById('refCount').textContent = referrals.length;
-                // Бонус: 10 звёзд за каждого реферала
                 const bonus = referrals.length * 10;
                 document.getElementById('refBonus').textContent = bonus;
             }
 
-            // Начисление бонуса за рефералов (вызывается при открытии меню)
             function applyReferralBonus() {
                 const referrals = getReferrals();
                 const expectedBonus = referrals.length * 10;
@@ -866,7 +890,7 @@
                 historyList.prepend(item);
             }
 
-            // ==================== ROCKET (ПОЛНОСТЬЮ НОВАЯ) ====================
+            // ==================== ROCKET (ПЕРЕПИСАНА С НУЛЯ) ====================
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -879,7 +903,6 @@
                 const startBtn = document.getElementById('rocketStart');
                 const stopBtn = document.getElementById('rocketStop');
 
-                // Параметры
                 let gameActive = false;
                 let countdownActive = false;
                 let rocketInterval = null;
@@ -892,18 +915,19 @@
                 let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67];
                 let vibration = 0;
 
-                // Создание звёзд
-                function createStars(count = 120) {
+                // Создание звёзд (много)
+                function createStars(count = 200) {
                     starsLayer.innerHTML = '';
                     stars = [];
                     for (let i = 0; i < count; i++) {
                         const star = document.createElement('div');
                         star.className = 'star';
-                        const size = Math.random() * 3 + 1;
+                        const size = Math.random() * 4 + 1;
                         star.style.width = size + 'px';
                         star.style.height = size + 'px';
                         star.style.left = Math.random() * 100 + '%';
                         star.style.top = Math.random() * 100 + '%';
+                        star.style.animation = `twinkle ${Math.random()*3+2}s infinite`;
                         starsLayer.appendChild(star);
                         stars.push({ element: star, top: parseFloat(star.style.top) });
                     }
@@ -922,80 +946,94 @@
                     });
                 }
 
-                // Рисование ракеты (стилизованная, смотрит вверх)
+                // Рисование ракеты (кинематографичный дизайн)
                 function drawRocket(mult, vib) {
                     ctx.clearRect(0, 0, 380, 280);
-                    // Звёзды на канвасе (дополнительные)
-                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    
+                    // Эффект звездной пыли
+                    ctx.fillStyle = 'rgba(255,255,255,0.1)';
                     for (let i = 0; i < 30; i++) {
                         ctx.beginPath();
-                        ctx.arc(Math.random() * 380, Math.random() * 280, Math.random() * 2, 0, Math.PI*2);
+                        ctx.arc(Math.random()*380, Math.random()*280, Math.random()*2, 0, 2*Math.PI);
                         ctx.fill();
                     }
 
-                    // Позиция ракеты (поднимается)
+                    // Позиция ракеты (подъём с множителем)
                     const baseX = 190;
-                    const baseY = 210 - (mult - 1) * 18;
+                    const baseY = 210 - (mult - 1) * 22;
 
                     // Тряска (зависит от множителя)
-                    const shakeX = Math.sin(Date.now() * 0.03) * vib * 1.5;
-                    const shakeY = Math.cos(Date.now() * 0.04) * vib * 1.5;
+                    const shakeX = Math.sin(Date.now() * 0.03) * vib * 1.2;
+                    const shakeY = Math.cos(Date.now() * 0.04) * vib * 1.2;
                     const x = baseX + shakeX;
                     const y = baseY + shakeY;
 
-                    // Отрисовка ракеты (стиль "эмодзи" но прорисованный)
                     ctx.save();
                     ctx.translate(x, y);
                     ctx.rotate(-Math.PI / 2); // поворот носом вверх
-                    ctx.shadowColor = '#3b82f6';
-                    ctx.shadowBlur = 20 + vib;
 
-                    // Корпус (белый)
-                    ctx.fillStyle = '#ffffff';
+                    // Свечение двигателя
+                    ctx.shadowColor = '#f97316';
+                    ctx.shadowBlur = 40 + vib * 2;
+
+                    // Пламя (пульсирует)
+                    let flame = 25 + Math.sin(Date.now()*0.02) * 8;
+                    ctx.fillStyle = '#f97316';
                     ctx.beginPath();
-                    ctx.moveTo(-20, -35);
-                    ctx.lineTo(20, -35);
-                    ctx.lineTo(25, -10);
-                    ctx.lineTo(20, 20);
-                    ctx.lineTo(-20, 20);
-                    ctx.lineTo(-25, -10);
+                    ctx.moveTo(-12, 30);
+                    ctx.lineTo(0, 30 + flame);
+                    ctx.lineTo(12, 30);
+                    ctx.fill();
+
+                    // Корпус (металлик)
+                    ctx.shadowColor = '#3b82f6';
+                    ctx.shadowBlur = 30 + vib;
+                    const gradient = ctx.createLinearGradient(-20, -30, 20, 30);
+                    gradient.addColorStop(0, '#e0e7ff');
+                    gradient.addColorStop(0.7, '#ffffff');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.moveTo(-22, -30);
+                    ctx.lineTo(22, -30);
+                    ctx.lineTo(28, -5);
+                    ctx.lineTo(22, 25);
+                    ctx.lineTo(-22, 25);
+                    ctx.lineTo(-28, -5);
                     ctx.closePath();
                     ctx.fill();
 
-                    // Нос (красный)
-                    ctx.fillStyle = '#ef4444';
+                    // Нос (титан)
+                    ctx.fillStyle = '#cbd5e1';
                     ctx.beginPath();
-                    ctx.moveTo(-15, -40);
-                    ctx.lineTo(15, -40);
+                    ctx.moveTo(-18, -38);
+                    ctx.lineTo(18, -38);
                     ctx.lineTo(0, -55);
                     ctx.closePath();
                     ctx.fill();
 
-                    // Иллюминатор
+                    // Иллюминаторы
                     ctx.fillStyle = '#3b82f6';
-                    ctx.shadowBlur = 15;
+                    ctx.shadowBlur = 20;
                     ctx.beginPath();
-                    ctx.arc(-5, -5, 8, 0, Math.PI*2);
+                    ctx.arc(-8, -5, 8, 0, 2*Math.PI);
                     ctx.fill();
                     ctx.fillStyle = '#ffffff';
                     ctx.beginPath();
-                    ctx.arc(-7, -7, 3, 0, Math.PI*2);
+                    ctx.arc(-10, -7, 3, 0, 2*Math.PI);
                     ctx.fill();
 
-                    // Пламя
-                    ctx.fillStyle = '#f97316';
-                    ctx.shadowColor = '#f97316';
-                    ctx.shadowBlur = 25;
+                    ctx.fillStyle = '#3b82f6';
                     ctx.beginPath();
-                    ctx.moveTo(-8, 25);
-                    ctx.lineTo(0, 40 + Math.sin(Date.now()*0.02)*8);
-                    ctx.lineTo(8, 25);
+                    ctx.arc(8, -5, 8, 0, 2*Math.PI);
+                    ctx.fill();
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(6, -7, 3, 0, 2*Math.PI);
                     ctx.fill();
 
                     ctx.restore();
                 }
 
-                // Старт игры
                 startBtn.addEventListener('click', () => {
                     if (gameActive || countdownActive) return;
                     rocketBet = parseInt(rocketBetInput.value);
@@ -1005,12 +1043,11 @@
                     }
                     if (!deductStars(rocketBet)) return;
 
-                    // Генерация краша (40% шанс на высокий)
+                    // Генерация краша (экспоненциальное распределение)
                     const r = Math.random();
-                    crashPoint = r < 0.4 ? 4 + Math.random() * 6 : 1 + Math.random() * 3;
-                    crashPoint = parseFloat(crashPoint.toFixed(2));
+                    crashPoint = 0.99 / (1 - r);
+                    crashPoint = Math.min(10, Math.max(1, parseFloat(crashPoint.toFixed(2))));
 
-                    // Обратный отсчёт
                     countdownActive = true;
                     multiplierEl.innerHTML = '<span style="color:#3b82f6;">3</span>';
                     let count = 3;
@@ -1027,7 +1064,7 @@
                             stopBtn.disabled = false;
                             currentMultiplier = 1.0;
                             vibration = 0;
-                            createStars(150);
+                            createStars(250);
                             const startTime = Date.now();
 
                             rocketInterval = setInterval(() => {
@@ -1035,8 +1072,8 @@
                                 const elapsed = (Date.now() - startTime) / 1000;
                                 currentMultiplier = 1 + 0.9 * elapsed;
                                 multiplierEl.textContent = currentMultiplier.toFixed(2) + 'x';
-                                vibration = currentMultiplier * 1.8; // тряска усиливается
-                                starSpeed = 0.1 + currentMultiplier * 0.5; // звёзды ускоряются
+                                vibration = currentMultiplier * 2.2;
+                                starSpeed = 0.1 + currentMultiplier * 0.7;
                                 moveStars(starSpeed);
                                 drawRocket(currentMultiplier, vibration);
 
@@ -1057,7 +1094,6 @@
                     }, 800);
                 });
 
-                // Стоп (забрать выигрыш)
                 stopBtn.addEventListener('click', () => {
                     if (!gameActive) return;
                     clearInterval(rocketInterval);
@@ -1081,11 +1117,11 @@
 
                 lastCrashSpan.textContent = crashHistory[0].toFixed(2) + 'x';
                 maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
-                createStars(150);
+                createStars(250);
                 drawRocket(1, 0);
             })();
 
-            // ==================== PLINKO (исправлен) ====================
+            // ==================== PLINKO (ИСПРАВЛЕН) ====================
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1101,7 +1137,8 @@
 
                 function drawBoard() {
                     ctx.clearRect(0, 0, 380, 500);
-                    // Колышки (синие, но без яркости)
+                    
+                    // Колышки (минималистичные)
                     ctx.fillStyle = '#3b82f6';
                     ctx.shadowColor = '#3b82f6';
                     ctx.shadowBlur = 8;
@@ -1110,21 +1147,22 @@
                             let x = startX - (r * 20) + c * 40;
                             let y = startY + r * stepY;
                             ctx.beginPath();
-                            ctx.arc(x, y, 6, 0, Math.PI*2);
+                            ctx.arc(x, y, 5, 0, 2*Math.PI);
                             ctx.fill();
                         }
                     }
-                    // Ячейки (только текст, без цвета)
+
+                    // Ячейки
                     const cellY = startY + rows * stepY + 30;
                     ctx.shadowBlur = 0;
                     for (let i = 0; i < 9; i++) {
                         let x = startX - (rows * 20) + i * 40;
                         ctx.strokeStyle = '#2a313e';
                         ctx.lineWidth = 2;
-                        ctx.strokeRect(x-18, cellY-12, 36, 32);
+                        ctx.strokeRect(x-16, cellY-10, 32, 28);
                         ctx.fillStyle = '#a0aec0';
-                        ctx.font = 'bold 14px Inter';
-                        ctx.fillText(multipliers[i].toFixed(1)+'x', x-12, cellY+10);
+                        ctx.font = 'bold 12px Inter';
+                        ctx.fillText(multipliers[i].toFixed(1)+'x', x-10, cellY+10);
                     }
                 }
 
@@ -1159,25 +1197,24 @@
                         if (ball.x > 350) { ball.x = 350; ball.vx *= -0.5; }
 
                         drawBoard();
+
+                        // Шар (жемчужный)
                         ctx.shadowColor = '#3b82f6';
                         ctx.shadowBlur = 25;
                         ctx.beginPath();
-                        ctx.arc(ball.x, ball.y, 12, 0, Math.PI*2);
-                        ctx.fillStyle = '#ffffff';
-                        ctx.fill();
-                        ctx.shadowBlur = 10;
-                        ctx.fillStyle = '#cbd5e1';
-                        ctx.beginPath();
-                        ctx.arc(ball.x-3, ball.y-3, 4, 0, Math.PI*2);
+                        ctx.arc(ball.x, ball.y, 10, 0, 2*Math.PI);
+                        const grad = ctx.createRadialGradient(ball.x-3, ball.y-3, 3, ball.x, ball.y, 15);
+                        grad.addColorStop(0, '#ffffff');
+                        grad.addColorStop(0.8, '#cbd5e1');
+                        ctx.fillStyle = grad;
                         ctx.fill();
 
                         if (ball.y > 470) {
                             clearInterval(anim);
-                            // Точное определение ячейки
-                            const startXGrid = startX - (rows * 20); // левая граница первой ячейки
+                            const startXGrid = startX - (rows * 20);
                             const col = Math.floor((ball.x - startXGrid) / 40);
-                            const clampedCol = Math.max(0, Math.min(8, col));
-                            const mult = multipliers[clampedCol];
+                            const clamped = Math.max(0, Math.min(8, col));
+                            const mult = multipliers[clamped];
                             const win = Math.floor(bet * mult);
                             data.balance += win;
                             saveData();
@@ -1198,7 +1235,7 @@
                 drawBoard();
             })();
 
-            // ==================== SLOTS (с анимацией и правильным RTP) ====================
+            // ==================== SLOTS ====================
             (function slots() {
                 const slot1 = document.getElementById('slot1');
                 const slot2 = document.getElementById('slot2');
@@ -1207,7 +1244,6 @@
                 const spinBtn = document.getElementById('slotsSpin');
                 const betInput = document.getElementById('slotsBet');
 
-                // Символы и их веса (RTP ~92%)
                 const symbols = ['🍒', '🍋', '🍇', '🔔', '💎', '⭐'];
                 const weights = [40, 30, 15, 8, 5, 2];
 
@@ -1222,9 +1258,8 @@
                     return i;
                 }
 
-                // Анимация вращения
                 function spinReels(callback) {
-                    let spins = 10;
+                    let spins = 12;
                     let interval = setInterval(() => {
                         slot1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
                         slot2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -1234,7 +1269,7 @@
                             clearInterval(interval);
                             callback();
                         }
-                    }, 100);
+                    }, 90);
                 }
 
                 spinBtn.addEventListener('click', () => {
@@ -1242,12 +1277,10 @@
                     if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
                     if (!deductStars(bet)) return;
 
-                    // Генерируем результат заранее
                     const r1 = weightedRandom();
                     const r2 = weightedRandom();
                     const r3 = weightedRandom();
 
-                    // Анимация
                     spinReels(() => {
                         slot1.textContent = symbols[r1];
                         slot2.textContent = symbols[r2];
@@ -1256,14 +1289,14 @@
                         let mult = 0;
                         if (r1 === r2 && r2 === r3) {
                             if (r1 === 4) mult = 15; // 💎
-                            else if (r1 === 5) mult = 20; // ⭐ (спец)
+                            else if (r1 === 5) mult = 20; // ⭐
                             else if (r1 === 3) mult = 8;  // 🔔
                             else if (r1 === 2) mult = 5;  // 🍇
                             else mult = 3; // 🍒🍋
                         } else if (r1 === r2 || r2 === r3 || r1 === r3) {
-                            mult = 2; // два одинаковых
+                            mult = 2;
                         } else {
-                            mult = 0; // проигрыш
+                            mult = 0;
                         }
 
                         if (mult === 0) {
@@ -1281,7 +1314,7 @@
                 });
             })();
 
-            // ==================== WHEEL (исправлен) ====================
+            // ==================== WHEEL ====================
             (function wheel() {
                 const canvas = document.getElementById('wheelCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1316,7 +1349,6 @@
                         ctx.lineWidth = 2;
                         ctx.stroke();
 
-                        // текст
                         ctx.save();
                         ctx.translate(centerX, centerY);
                         ctx.rotate(start + angle/2);
@@ -1343,7 +1375,7 @@
                     const spins = 5 + Math.floor(Math.random() * 5);
                     const targetRot = startRot + spins * 2 * Math.PI;
 
-                    // Предопределим результат, чтобы он совпал с окончанием
+                    // Предопределим результат
                     const rand = Math.random() * totalWeight;
                     let cum = 0;
                     let resultIdx = 0;
@@ -1354,22 +1386,11 @@
                             break;
                         }
                     }
-                    // Корректируем targetRot так, чтобы указатель указывал на этот сектор
-                    const sectorAngle = (sectors[resultIdx].weight / totalWeight) * 2 * Math.PI;
-                    const sectorStart = sectors.slice(0, resultIdx).reduce((s, w) => s + (w.weight / totalWeight) * 2 * Math.PI, 0);
-                    const desiredAngle = sectorStart + sectorAngle / 2; // центр сектора
-                    // Добавляем вращение, чтобы desiredAngle совпал с направлением вверх (угол -PI/2)
-                    // Указатель вверх соответствует углу -PI/2, поэтому targetRot должен быть таким, чтобы
-                    // (targetRot + desiredAngle) % 2PI = -PI/2
-                    // Но для простоты мы позволим анимации закончиться где угодно, а затем определим сектор по углу.
-                    // Однако для соответствия результата мы можем просто запомнить resultIdx и не связывать с углом.
 
                     function animate() {
                         const elapsed = Date.now() - startTime;
                         if (elapsed >= spinDuration) {
                             spinning = false;
-                            // Останавливаем в любом месте, но определяем сектор по углу (он может не совпасть)
-                            // Исправим: после остановки пересчитаем сектор и используем resultIdx (честный)
                             const mult = sectors[resultIdx].mult;
                             const win = bet * mult;
                             data.balance += win;
@@ -1377,8 +1398,7 @@
                             updateBalance();
                             resultSpan.textContent = `${sectors[resultIdx].label} → ${win} ⭐`;
                             addHistory('WHEEL', `${sectors[resultIdx].label} ${win >= bet ? '+' : ''}${win-bet} ⭐`, mult>0?'win':'lose');
-                            // Установим угол так, чтобы визуально указатель был на этом секторе (можно подкрутить)
-                            drawWheel(targetRot); // просто рисуем, где остановились
+                            drawWheel(targetRot);
                             return;
                         }
                         const progress = elapsed / spinDuration;
@@ -1393,7 +1413,7 @@
                 drawWheel();
             })();
 
-            // ==================== MINES (усилитель) ====================
+            // ==================== MINES ====================
             (function mines() {
                 const gridDiv = document.getElementById('minesGrid');
                 const minesCountSelect = document.getElementById('minesCount');
@@ -1518,7 +1538,7 @@
                 newGame();
             })();
 
-            // ==================== БОНУС И МЕНЮ ====================
+            // ==================== БОНУС ====================
             document.getElementById('dailyBonus').addEventListener('click', () => {
                 addStars(1000);
                 addHistory('BONUS', '+1000 ⭐', 'win');
@@ -1529,7 +1549,7 @@
             const closeMenu = document.getElementById('closeMenu');
 
             menuBtn.addEventListener('click', () => {
-                applyReferralBonus(); // начисляем бонус при открытии
+                applyReferralBonus();
                 updateReferralDisplay();
                 menuOverlay.classList.add('active');
             });
@@ -1542,10 +1562,17 @@
                 if (e.target === menuOverlay) menuOverlay.classList.remove('active');
             });
 
-            // Инициализация
+            // ==================== СТАРТ ====================
             updateBalance();
             updateReferralDisplay();
         })();
     </script>
+    <style>
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.2; transform: scale(1); }
+        }
+    </style>
 </body>
 </html>
