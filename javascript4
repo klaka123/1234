@@ -1,0 +1,19 @@
+function drawRocket(ctx, x, y, multiplier) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-Math.PI/2); // поворачиваем на 90° против часовой
+    ctx.shadowColor = '#3b82f6';
+    ctx.shadowBlur = 20 + multiplier * 2;
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.moveTo(-15, -25);
+    ctx.lineTo(15, -25);
+    ctx.lineTo(20, -5);
+    ctx.lineTo(15, 15);
+    ctx.lineTo(-15, 15);
+    ctx.lineTo(-20, -5);
+    ctx.closePath();
+    ctx.fill();
+    // ... детали
+    ctx.restore();
+}
