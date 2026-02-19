@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEBULA • PREMIUM CASINO</title>
+    <title>AURORA • PREMIUM CASINO</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== МИНИМАЛИСТИЧНЫЙ ПРЕМИУМ ДИЗАЙН ========== */
         * {
             margin: 0;
             padding: 0;
@@ -15,27 +14,26 @@
         }
 
         :root {
-            --bg-primary: #0B0E14;
-            --bg-secondary: #141820;
-            --accent-primary: #6366F1;
-            --accent-secondary: #8B5CF6;
-            --accent-glow: rgba(99, 102, 241, 0.3);
+            --bg-deep: #0A0B0E;
+            --bg-surface: #121316;
+            --bg-elevated: #1C1D21;
+            --accent-blue: #3B82F6;
+            --accent-purple: #8B5CF6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
             --text-primary: #FFFFFF;
-            --text-secondary: #94A3B8;
-            --surface: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.05);
+            --text-secondary: #9CA3AF;
+            --border-light: rgba(255, 255, 255, 0.05);
+            --border-medium: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            background: var(--bg-primary);
+            background: var(--bg-deep);
             color: var(--text-primary);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             position: relative;
-            overflow-x: hidden;
         }
 
-        /* Минималистичный градиентный фон */
         body::before {
             content: '';
             position: fixed;
@@ -43,30 +41,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            background: radial-gradient(circle at 30% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 70% 60%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
             pointer-events: none;
-            z-index: 0;
         }
 
         .app {
             position: relative;
-            z-index: 1;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            z-index: 1;
         }
 
-        /* ========== МИНИМАЛИСТИЧНАЯ ШАПКА ========== */
+        /* Хедер */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             padding: 12px 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 100px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            border-radius: 60px;
             backdrop-filter: blur(10px);
         }
 
@@ -76,27 +73,23 @@
             gap: 8px;
             font-size: 24px;
             font-weight: 600;
-            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--text-primary), #E0E7FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .balance i {
-            color: var(--accent-primary);
-            font-size: 20px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
+            color: var(--accent-blue);
+            -webkit-text-fill-color: initial;
         }
 
         .icon-btn {
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
             color: var(--text-secondary);
-            font-size: 18px;
             cursor: pointer;
             transition: 0.2s;
             display: flex;
@@ -105,26 +98,26 @@
         }
 
         .icon-btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
         }
 
-        /* ========== МИНИМАЛИСТИЧНЫЕ ТАБЫ ========== */
+        /* Табы */
         .tabs {
             display: flex;
             gap: 8px;
             margin-bottom: 24px;
             padding: 4px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 100px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
+            border-radius: 60px;
         }
 
         .tab {
             flex: 1;
             padding: 12px;
             border: none;
-            border-radius: 100px;
+            border-radius: 60px;
             background: transparent;
             color: var(--text-secondary);
             font-size: 16px;
@@ -134,28 +127,29 @@
         }
 
         .tab.active {
-            background: var(--accent-primary);
+            background: var(--accent-blue);
             color: white;
         }
 
-        /* ========== ИГРОВОЙ КОНТЕЙНЕР ========== */
+        /* Игровой контейнер */
         .game-container {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
             border-radius: 32px;
             padding: 24px;
             backdrop-filter: blur(10px);
             margin-bottom: 24px;
         }
 
-        /* ========== ROCKET - КИНЕМАТОГРАФИЧЕСКИЙ ЭФФЕКТ ========== */
+        /* ========== ROCKET - ДЕТАЛИЗИРОВАННАЯ 3D РАКЕТА ========== */
         .rocket-stage {
             position: relative;
-            background: linear-gradient(180deg, #0A0C12 0%, #000000 100%);
+            background: linear-gradient(180deg, #0A0C14 0%, #030405 100%);
             border-radius: 24px;
             overflow: hidden;
             margin-bottom: 20px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-medium);
+            min-height: 400px;
         }
 
         #rocketCanvas {
@@ -163,9 +157,10 @@
             width: 100%;
             height: auto;
             background: transparent;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Бесконечный космос для звезд */
         .stars-layer {
             position: absolute;
             top: 0;
@@ -180,7 +175,43 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            box-shadow: 0 0 10px white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Таймер обратного отсчета */
+        .countdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+
+        .countdown-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .countdown-number {
+            font-size: 120px;
+            font-weight: 800;
+            color: var(--accent-blue);
+            text-shadow: 0 0 50px var(--accent-blue);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
         }
 
         .multiplier-display {
@@ -188,17 +219,17 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 80px;
+            font-size: 72px;
             font-weight: 800;
-            color: var(--accent-primary);
-            text-shadow: 0 0 30px var(--accent-primary);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 30px 60px;
-            border-radius: 100px;
+            color: var(--accent-blue);
+            text-shadow: 0 0 30px var(--accent-blue);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px 40px;
+            border-radius: 60px;
             backdrop-filter: blur(10px);
-            border: 2px solid var(--accent-primary);
-            z-index: 10;
-            letter-spacing: 2px;
+            border: 2px solid var(--accent-blue);
+            z-index: 15;
+            white-space: nowrap;
         }
 
         .crash-info {
@@ -206,8 +237,8 @@
             justify-content: space-between;
             margin-bottom: 20px;
             padding: 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
             border-radius: 20px;
         }
 
@@ -217,23 +248,24 @@
 
         .crash-label {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 12px;
             margin-bottom: 4px;
         }
 
         .crash-value {
             font-size: 20px;
             font-weight: 600;
-            color: var(--accent-primary);
+            color: var(--accent-blue);
         }
 
-        /* ========== PLINKO - РЕАЛИСТИЧНАЯ ФИЗИКА ========== */
+        /* ========== PLINKO - ЖЕМЧУЖНЫЙ ШАР ========== */
         .plinko-stage {
-            background: linear-gradient(180deg, #0A0C12 0%, #000000 100%);
+            position: relative;
+            background: linear-gradient(180deg, #0A0C14 0%, #030405 100%);
             border-radius: 24px;
             overflow: hidden;
             margin-bottom: 20px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-medium);
         }
 
         #plinkoCanvas {
@@ -248,16 +280,16 @@
             gap: 8px;
             margin: 20px 0;
             padding: 4px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 100px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            border-radius: 60px;
         }
 
         .risk-option {
             flex: 1;
             padding: 12px;
             border: none;
-            border-radius: 100px;
+            border-radius: 60px;
             background: transparent;
             color: var(--text-secondary);
             font-weight: 500;
@@ -265,20 +297,9 @@
             transition: 0.2s;
         }
 
-        .risk-option.low.active {
-            background: #10B981;
-            color: white;
-        }
-
-        .risk-option.medium.active {
-            background: #F59E0B;
-            color: white;
-        }
-
-        .risk-option.high.active {
-            background: #EF4444;
-            color: white;
-        }
+        .risk-option.low.active { background: #10B981; color: white; }
+        .risk-option.medium.active { background: #F59E0B; color: white; }
+        .risk-option.high.active { background: #EF4444; color: white; }
 
         .multiplier-grid {
             display: grid;
@@ -289,8 +310,8 @@
 
         .multiplier-cell {
             aspect-ratio: 1;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -301,16 +322,20 @@
             transition: 0.2s;
         }
 
-        .multiplier-cell.highlight {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-            box-shadow: 0 0 20px var(--accent-glow);
+        .multiplier-cell.win {
+            border-color: #10B981;
+            color: #10B981;
         }
 
-        /* ========== МИНИМАЛИСТИЧНАЯ ПАНЕЛЬ СТАВОК ========== */
+        .multiplier-cell.lose {
+            border-color: #EF4444;
+            color: #EF4444;
+        }
+
+        /* Панель ставок */
         .bet-panel {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
             border-radius: 24px;
             padding: 20px;
         }
@@ -332,8 +357,8 @@
         .bet-input {
             flex: 2;
             padding: 16px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
+            background: var(--bg-deep);
+            border: 1px solid var(--border-medium);
             border-radius: 16px;
             color: var(--text-primary);
             font-size: 18px;
@@ -342,7 +367,7 @@
         }
 
         .bet-input:focus {
-            border-color: var(--accent-primary);
+            border-color: var(--accent-blue);
         }
 
         .bet-multipliers {
@@ -353,8 +378,8 @@
 
         .mult-btn {
             flex: 1;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
+            background: var(--bg-deep);
+            border: 1px solid var(--border-medium);
             border-radius: 16px;
             color: var(--text-secondary);
             font-weight: 600;
@@ -363,8 +388,8 @@
         }
 
         .mult-btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
         }
 
         .action-buttons {
@@ -388,12 +413,11 @@
         }
 
         .game-btn.primary {
-            background: var(--accent-primary);
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             color: white;
         }
 
         .game-btn.primary:hover {
-            background: var(--accent-secondary);
             transform: translateY(-2px);
             box-shadow: 0 10px 20px var(--accent-glow);
         }
@@ -408,10 +432,10 @@
             cursor: not-allowed;
         }
 
-        /* ========== ИСТОРИЯ ========== */
+        /* История */
         .history-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-medium);
             border-radius: 24px;
             padding: 20px;
         }
@@ -434,56 +458,27 @@
             display: flex;
             justify-content: space-between;
             padding: 12px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-medium);
             font-size: 14px;
         }
 
-        .history-item:last-child {
-            border-bottom: none;
-        }
+        .history-win { color: #10B981; }
+        .history-lose { color: #EF4444; }
 
-        .history-win {
-            color: #10B981;
-        }
-
-        .history-lose {
-            color: #EF4444;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        /* Анимации */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .float {
-            animation: float 3s ease-in-out infinite;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
     <div class="app">
-        <!-- Шапка -->
+        <!-- Хедер -->
         <header class="header">
             <div class="balance">
-                <i class="fas fa-sparkle"></i>
+                <i class="fas fa-sparkles"></i>
                 <span id="balance">10,000</span>
             </div>
             <div class="header-actions">
                 <button class="icon-btn" id="dailyBonus">
                     <i class="fas fa-gift"></i>
-                </button>
-                <button class="icon-btn" id="menuBtn">
-                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </header>
@@ -498,29 +493,32 @@
         <div id="rocketGame" class="game-container">
             <div class="rocket-stage">
                 <div class="stars-layer" id="starsLayer"></div>
+                <div class="countdown-overlay" id="countdownOverlay">
+                    <div class="countdown-number" id="countdownNumber">3</div>
+                </div>
                 <canvas id="rocketCanvas" width="800" height="400"></canvas>
                 <div class="multiplier-display" id="rocketMultiplier">1.00x</div>
             </div>
 
             <div class="crash-info">
                 <div class="crash-stat">
-                    <div class="crash-label">Last Crash</div>
+                    <div class="crash-label">LAST CRASH</div>
                     <div class="crash-value" id="lastCrash">2.45x</div>
                 </div>
                 <div class="crash-stat">
-                    <div class="crash-label">Max Crash</div>
+                    <div class="crash-label">MAX CRASH</div>
                     <div class="crash-value" id="maxCrash">12.5x</div>
                 </div>
                 <div class="crash-stat">
-                    <div class="crash-label">Next</div>
-                    <div class="crash-value" id="nextCrash">3.2x</div>
+                    <div class="crash-label">BET AMOUNT</div>
+                    <div class="crash-value" id="rocketBetAmount">10 ⭐</div>
                 </div>
             </div>
 
             <div class="bet-panel">
                 <div class="bet-header">
-                    <span>Bet Amount</span>
-                    <span id="rocketBetAmount">10 ⭐</span>
+                    <span>YOUR BET</span>
+                    <span>QUICK MULTIPLY</span>
                 </div>
 
                 <div class="bet-input-wrapper">
@@ -534,10 +532,10 @@
 
                 <div class="action-buttons">
                     <button class="game-btn primary" id="rocketStart">
-                        <i class="fas fa-play"></i> Launch
+                        <i class="fas fa-rocket"></i> LAUNCH (3s)
                     </button>
                     <button class="game-btn success" id="rocketCashout" disabled>
-                        <i class="fas fa-hand-holding-usd"></i> Cash Out
+                        <i class="fas fa-hand-holding-usd"></i> CASH OUT
                     </button>
                 </div>
             </div>
@@ -550,17 +548,17 @@
             </div>
 
             <div class="risk-selector">
-                <button class="risk-option low active" data-risk="low">Low Risk</button>
-                <button class="risk-option medium" data-risk="medium">Medium Risk</button>
-                <button class="risk-option high" data-risk="high">High Risk</button>
+                <button class="risk-option low active" data-risk="low">LOW RISK</button>
+                <button class="risk-option medium" data-risk="medium">MEDIUM RISK</button>
+                <button class="risk-option high" data-risk="high">HIGH RISK</button>
             </div>
 
             <div class="multiplier-grid" id="multiplierGrid"></div>
 
             <div class="bet-panel">
                 <div class="bet-header">
-                    <span>Bet Amount</span>
-                    <span id="plinkoBetAmount">10 ⭐</span>
+                    <span>YOUR BET</span>
+                    <span>QUICK MULTIPLY</span>
                 </div>
 
                 <div class="bet-input-wrapper">
@@ -574,12 +572,12 @@
 
                 <div class="action-buttons">
                     <button class="game-btn primary" id="plinkoDrop">
-                        <i class="fas fa-arrow-down"></i> Drop Ball
+                        <i class="fas fa-arrow-down"></i> DROP BALL
                     </button>
                 </div>
 
-                <div class="multiplier-display" style="position: relative; transform: none; left: auto; margin-top: 20px; font-size: 36px;" id="plinkoResult">
-                    ⚡ Place Your Bet
+                <div class="multiplier-display" style="position: relative; transform: none; left: auto; margin-top: 20px; font-size: 32px;" id="plinkoResult">
+                    ⚡ PLACE YOUR BET
                 </div>
             </div>
         </div>
@@ -587,8 +585,8 @@
         <!-- HISTORY -->
         <div class="history-section">
             <div class="history-title">
-                <i class="fas fa-clock"></i>
-                <span>Recent Games</span>
+                <i class="fas fa-history"></i>
+                <span>RECENT GAMES</span>
             </div>
             <div class="history-list" id="historyList"></div>
         </div>
@@ -596,31 +594,30 @@
 
     <script>
         (function() {
-            // Telegram Integration
             const tg = window.Telegram.WebApp;
             tg.expand();
-            tg.ready();
 
             // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
             let balance = 10000;
             let gameActive = false;
+            let countdownActive = false;
             let rocketInterval = null;
             let starsInterval = null;
             let crashPoint = 2.0;
+            let visualCrashPoint = 2.0;
             let currentMultiplier = 1.0;
             let rocketBet = 10;
             let vibration = 0;
             
-            // История крашей
-            let crashHistory = [2.45, 1.87, 3.21, 5.67, 1.23, 4.56];
+            let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67, 2.12, 8.91, 3.78];
             let maxCrash = 12.5;
 
-            // Plinko переменные
+            // Plinko
             let plinkoRisk = 'low';
             const plinkoMultipliers = {
-                low: [0.5, 0.7, 1, 1.2, 1.5, 1.2, 1, 0.7, 0.5],
-                medium: [0.3, 0.5, 1, 2, 3, 2, 1, 0.5, 0.3],
-                high: [0.1, 0.2, 0.5, 3, 8, 3, 0.5, 0.2, 0.1]
+                low: [0.7, 0.8, 1.0, 1.2, 1.5, 1.2, 1.0, 0.8, 0.7],
+                medium: [0.5, 0.7, 1.2, 2.0, 3.0, 2.0, 1.2, 0.7, 0.5],
+                high: [0.3, 0.5, 1.5, 3.0, 8.0, 3.0, 1.5, 0.5, 0.3]
             };
             let currentMultipliers = plinkoMultipliers.low;
             let plinkoAnimation = null;
@@ -638,19 +635,19 @@
             const rocketMultiplier = document.getElementById('rocketMultiplier');
             const lastCrashSpan = document.getElementById('lastCrash');
             const maxCrashSpan = document.getElementById('maxCrash');
-            const nextCrashSpan = document.getElementById('nextCrash');
-            const rocketBetInput = document.getElementById('rocketBet');
             const rocketBetAmount = document.getElementById('rocketBetAmount');
+            const rocketBetInput = document.getElementById('rocketBet');
             const rocketStart = document.getElementById('rocketStart');
             const rocketCashout = document.getElementById('rocketCashout');
             const starsLayer = document.getElementById('starsLayer');
+            const countdownOverlay = document.getElementById('countdownOverlay');
+            const countdownNumber = document.getElementById('countdownNumber');
 
             // Plinko элементы
             const plinkoCanvas = document.getElementById('plinkoCanvas');
             const plinkoCtx = plinkoCanvas.getContext('2d');
             const multiplierGrid = document.getElementById('multiplierGrid');
             const plinkoBetInput = document.getElementById('plinkoBet');
-            const plinkoBetAmount = document.getElementById('plinkoBetAmount');
             const plinkoDrop = document.getElementById('plinkoDrop');
             const plinkoResult = document.getElementById('plinkoResult');
             const riskBtns = document.querySelectorAll('.risk-option');
@@ -663,8 +660,7 @@
             function addStars(amount) {
                 balance += amount;
                 updateBalance();
-                addHistory('Bonus', `+${amount} ⭐`, 'win');
-                createParticles('win');
+                addHistory('BONUS', `+${amount} ⭐`, 'win');
             }
 
             function deductStars(amount) {
@@ -676,15 +672,15 @@
                 return false;
             }
 
-            // ========== ROCKET - КИНЕМАТОГРАФИЧЕСКАЯ ФИЗИКА ==========
+            // ========== ROCKET - ДЕТАЛИЗИРОВАННАЯ 3D РАКЕТА ==========
             function createStars() {
                 starsLayer.innerHTML = '';
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < 100; i++) {
                     let star = document.createElement('div');
                     star.className = 'star';
                     star.style.left = Math.random() * 100 + '%';
                     star.style.top = Math.random() * 100 + '%';
-                    star.style.width = Math.random() * 3 + 1 + 'px';
+                    star.style.width = Math.random() * 4 + 1 + 'px';
                     star.style.height = star.style.width;
                     star.style.opacity = Math.random() * 0.8 + 0.2;
                     starsLayer.appendChild(star);
@@ -695,7 +691,7 @@
                 let stars = document.querySelectorAll('.star');
                 stars.forEach(star => {
                     let top = parseFloat(star.style.top);
-                    top += speed * 0.5;
+                    top += speed * 0.8;
                     if (top > 100) {
                         top = -5;
                         star.style.left = Math.random() * 100 + '%';
@@ -704,85 +700,150 @@
                 });
             }
 
-            function drawRocket(mult, vib) {
-                rocketCtx.clearRect(0, 0, 800, 400);
-                
-                // Горизонт
-                rocketCtx.fillStyle = '#0A0C12';
-                rocketCtx.fillRect(0, 200, 800, 200);
-                
-                // Эффект свечения от ракеты
-                let gradient = rocketCtx.createRadialGradient(400 + vib * 5, 300 - mult * 30, 20, 
-                                                             400 + vib * 5, 300 - mult * 30, 100);
-                gradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)');
-                gradient.addColorStop(1, 'transparent');
-                rocketCtx.fillStyle = gradient;
-                rocketCtx.fillRect(200, 100, 400, 200);
-                
-                // Ракета (минималистичный дизайн)
+            // Детализированная ракета (3D-эффект)
+            function drawDetailedRocket(x, y, mult, vibration) {
+                // Корпус ракеты (основной)
                 rocketCtx.save();
-                rocketCtx.translate(400 + vib * 3, 300 - mult * 30);
+                rocketCtx.translate(x + vibration * 2, y - mult * 25);
                 
-                // Корпус
-                rocketCtx.fillStyle = '#FFFFFF';
-                rocketCtx.shadowColor = '#6366F1';
+                // Тень
+                rocketCtx.shadowColor = '#3B82F6';
                 rocketCtx.shadowBlur = 30;
+                rocketCtx.shadowOffsetY = 5;
+                
+                // Основной корпус (градиент)
+                let gradient = rocketCtx.createLinearGradient(-25, -40, 25, 40);
+                gradient.addColorStop(0, '#FFFFFF');
+                gradient.addColorStop(0.5, '#E0E7FF');
+                gradient.addColorStop(1, '#C7D2FE');
+                
+                rocketCtx.fillStyle = gradient;
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(-20, -30);
-                rocketCtx.lineTo(20, -30);
-                rocketCtx.lineTo(30, 0);
-                rocketCtx.lineTo(20, 30);
-                rocketCtx.lineTo(-20, 30);
-                rocketCtx.lineTo(-30, 0);
+                rocketCtx.moveTo(-25, -40);
+                rocketCtx.lineTo(25, -40);
+                rocketCtx.lineTo(30, -20);
+                rocketCtx.lineTo(30, 20);
+                rocketCtx.lineTo(25, 40);
+                rocketCtx.lineTo(-25, 40);
+                rocketCtx.lineTo(-30, 20);
+                rocketCtx.lineTo(-30, -20);
                 rocketCtx.closePath();
                 rocketCtx.fill();
                 
-                // Иллюминатор
-                rocketCtx.shadowBlur = 20;
-                rocketCtx.fillStyle = '#6366F1';
+                // Носовой обтекатель
+                rocketCtx.fillStyle = '#A5B4FC';
                 rocketCtx.beginPath();
-                rocketCtx.arc(0, 0, 8, 0, Math.PI * 2);
+                rocketCtx.moveTo(-20, -50);
+                rocketCtx.lineTo(20, -50);
+                rocketCtx.lineTo(25, -40);
+                rocketCtx.lineTo(-25, -40);
+                rocketCtx.closePath();
+                rocketCtx.fill();
+                
+                // Иллюминаторы
+                rocketCtx.shadowBlur = 20;
+                rocketCtx.fillStyle = '#3B82F6';
+                rocketCtx.beginPath();
+                rocketCtx.arc(-10, 0, 6, 0, Math.PI * 2);
+                rocketCtx.fill();
+                
+                rocketCtx.fillStyle = '#FFFFFF';
+                rocketCtx.beginPath();
+                rocketCtx.arc(-10, 0, 3, 0, Math.PI * 2);
+                rocketCtx.fill();
+                
+                rocketCtx.fillStyle = '#3B82F6';
+                rocketCtx.beginPath();
+                rocketCtx.arc(10, 0, 6, 0, Math.PI * 2);
+                rocketCtx.fill();
+                
+                rocketCtx.fillStyle = '#FFFFFF';
+                rocketCtx.beginPath();
+                rocketCtx.arc(10, 0, 3, 0, Math.PI * 2);
+                rocketCtx.fill();
+                
+                // Крылья
+                rocketCtx.fillStyle = '#8B5CF6';
+                rocketCtx.shadowColor = '#8B5CF6';
+                rocketCtx.beginPath();
+                rocketCtx.moveTo(-25, 10);
+                rocketCtx.lineTo(-45, 30);
+                rocketCtx.lineTo(-30, 30);
+                rocketCtx.closePath();
+                rocketCtx.fill();
+                
+                rocketCtx.beginPath();
+                rocketCtx.moveTo(25, 10);
+                rocketCtx.lineTo(45, 30);
+                rocketCtx.lineTo(30, 30);
+                rocketCtx.closePath();
                 rocketCtx.fill();
                 
                 // Пламя (пульсирует)
-                let flameSize = 15 + Math.sin(Date.now() * 0.02) * 5;
+                let flameSize = 20 + Math.sin(Date.now() * 0.02) * 10;
                 rocketCtx.shadowColor = '#F59E0B';
+                rocketCtx.shadowBlur = 40;
                 rocketCtx.fillStyle = '#F59E0B';
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(-10, 35);
-                rocketCtx.lineTo(0, 35 + flameSize);
-                rocketCtx.lineTo(10, 35);
+                rocketCtx.moveTo(-15, 45);
+                rocketCtx.lineTo(0, 45 + flameSize);
+                rocketCtx.lineTo(15, 45);
                 rocketCtx.fill();
                 
                 rocketCtx.restore();
+            }
+
+            // Отрисовка всего (ракета + графика)
+            function drawRocketScene(mult, vib, actualCrash) {
+                rocketCtx.clearRect(0, 0, 800, 400);
                 
-                // Линия графика
+                // Линия горизонта
+                rocketCtx.fillStyle = '#030405';
+                rocketCtx.fillRect(0, 200, 800, 200);
+                
+                // Эффект свечения от ракеты
+                let glow = rocketCtx.createRadialGradient(400 + vib*3, 300 - mult*25, 20, 400 + vib*3, 300 - mult*25, 150);
+                glow.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+                glow.addColorStop(1, 'transparent');
+                rocketCtx.fillStyle = glow;
+                rocketCtx.fillRect(200, 100, 400, 200);
+                
+                // График краша (показывает реальную точку)
                 rocketCtx.beginPath();
-                rocketCtx.strokeStyle = '#6366F1';
-                rocketCtx.lineWidth = 2;
-                rocketCtx.shadowColor = '#6366F1';
-                rocketCtx.shadowBlur = 10;
+                rocketCtx.strokeStyle = '#3B82F6';
+                rocketCtx.lineWidth = 3;
+                rocketCtx.shadowColor = '#3B82F6';
+                rocketCtx.shadowBlur = 15;
                 rocketCtx.moveTo(100, 300);
                 
                 for (let x = 100; x <= 700; x += 10) {
                     let t = (x - 100) / 600;
-                    let y = 300 - Math.min(t * crashPoint * 50, 250);
+                    let y = 300 - Math.min(t * actualCrash * 40, 250);
                     rocketCtx.lineTo(x, y);
                 }
                 rocketCtx.stroke();
-            }
-
-            // Обновление информации о крашах
-            function updateCrashInfo() {
-                lastCrashSpan.textContent = crashHistory[0]?.toFixed(2) + 'x';
-                maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
-                let next = (1 + Math.random() * 9).toFixed(2);
-                nextCrashSpan.textContent = next + 'x';
+                
+                // Точка краша
+                let crashX = 100 + (actualCrash / 10) * 600;
+                let crashY = 300 - Math.min(actualCrash * 40, 250);
+                
+                rocketCtx.shadowBlur = 20;
+                rocketCtx.fillStyle = '#EF4444';
+                rocketCtx.beginPath();
+                rocketCtx.arc(crashX, crashY, 8, 0, Math.PI * 2);
+                rocketCtx.fill();
+                
+                rocketCtx.fillStyle = '#FFFFFF';
+                rocketCtx.font = 'bold 12px Inter';
+                rocketCtx.fillText(actualCrash.toFixed(2) + 'x', crashX - 20, crashY - 15);
+                
+                // Ракета
+                drawDetailedRocket(400, 300, mult, vib);
             }
 
             // ========== ROCKET ЛОГИКА ==========
             rocketStart.addEventListener('click', () => {
-                if (gameActive) return;
+                if (gameActive || countdownActive) return;
                 
                 rocketBet = parseInt(rocketBetInput.value);
                 if (rocketBet < 1 || rocketBet > balance) {
@@ -792,50 +853,72 @@
                 
                 if (!deductStars(rocketBet)) return;
                 
-                // Генерация точки краша
+                // Генерация точки краша (повышенные шансы 4-10x)
                 let r = Math.random();
-                crashPoint = 0.99 / (1 - r);
-                crashPoint = Math.min(10, Math.max(1, parseFloat(crashPoint.toFixed(2))));
+                if (r < 0.4) { // 40% шанс на высокий множитель
+                    crashPoint = 4 + Math.random() * 6; // 4-10x
+                } else {
+                    crashPoint = 1 + Math.random() * 3; // 1-4x
+                }
+                crashPoint = parseFloat(crashPoint.toFixed(2));
+                visualCrashPoint = crashPoint;
                 
-                gameActive = true;
-                vibration = 0;
-                rocketStart.disabled = true;
-                rocketCashout.disabled = false;
-                currentMultiplier = 1.0;
-                rocketMultiplier.textContent = '1.00x';
+                // Запуск обратного отсчета
+                countdownActive = true;
+                countdownOverlay.classList.add('active');
+                let count = 3;
+                countdownNumber.textContent = count;
                 
-                createStars();
-                let startTime = Date.now();
-                
-                // Интервал анимации ракеты
-                rocketInterval = setInterval(() => {
-                    if (!gameActive) return;
+                let countdownInterval = setInterval(() => {
+                    count--;
+                    countdownNumber.textContent = count;
                     
-                    let elapsed = (Date.now() - startTime) / 1000;
-                    currentMultiplier = 1 + 0.8 * elapsed;
-                    rocketMultiplier.textContent = currentMultiplier.toFixed(2) + 'x';
-                    
-                    // Увеличиваем вибрацию и скорость звезд
-                    vibration = Math.min(5, elapsed * 2);
-                    animateStars(elapsed * 2);
-                    
-                    drawRocket(currentMultiplier, vibration);
-                    
-                    if (currentMultiplier >= crashPoint) {
-                        clearInterval(rocketInterval);
-                        gameActive = false;
-                        rocketStart.disabled = false;
-                        rocketCashout.disabled = true;
+                    if (count === 0) {
+                        clearInterval(countdownInterval);
+                        countdownOverlay.classList.remove('active');
+                        countdownActive = false;
                         
-                        crashHistory.unshift(crashPoint);
-                        if (crashHistory.length > 10) crashHistory.pop();
-                        if (crashPoint > maxCrash) maxCrash = crashPoint;
+                        // Запуск ракеты
+                        gameActive = true;
+                        vibration = 0;
+                        rocketStart.disabled = true;
+                        rocketCashout.disabled = false;
+                        currentMultiplier = 1.0;
+                        rocketMultiplier.textContent = '1.00x';
                         
-                        updateCrashInfo();
-                        addHistory('Rocket', `Crash -${rocketBet} ⭐`, 'lose');
-                        createParticles('crash');
+                        createStars();
+                        let startTime = Date.now();
+                        
+                        rocketInterval = setInterval(() => {
+                            if (!gameActive) return;
+                            
+                            let elapsed = (Date.now() - startTime) / 1000;
+                            currentMultiplier = 1 + 0.9 * elapsed;
+                            rocketMultiplier.textContent = currentMultiplier.toFixed(2) + 'x';
+                            
+                            vibration = Math.min(6, elapsed * 3);
+                            animateStars(elapsed * 3);
+                            
+                            drawRocketScene(currentMultiplier, vibration, visualCrashPoint);
+                            
+                            if (currentMultiplier >= crashPoint) {
+                                clearInterval(rocketInterval);
+                                gameActive = false;
+                                rocketStart.disabled = false;
+                                rocketCashout.disabled = true;
+                                
+                                crashHistory.unshift(crashPoint);
+                                if (crashHistory.length > 15) crashHistory.pop();
+                                if (crashPoint > maxCrash) maxCrash = crashPoint;
+                                
+                                lastCrashSpan.textContent = crashPoint.toFixed(2) + 'x';
+                                maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
+                                
+                                addHistory('ROCKET', `CRASH -${rocketBet} ⭐`, 'lose');
+                            }
+                        }, 30);
                     }
-                }, 30);
+                }, 1000);
             });
 
             rocketCashout.addEventListener('click', () => {
@@ -849,17 +932,29 @@
                 let win = Math.floor(rocketBet * currentMultiplier);
                 balance += win;
                 
+                // Ракета продолжает лететь визуально до случайной точки
+                let randomVisual = crashPoint + (Math.random() * 3);
+                let visualInterval = setInterval(() => {
+                    visualCrashPoint += 0.1;
+                    drawRocketScene(currentMultiplier, vibration, visualCrashPoint);
+                    
+                    if (visualCrashPoint >= randomVisual) {
+                        clearInterval(visualInterval);
+                    }
+                }, 50);
+                
                 crashHistory.unshift(currentMultiplier);
-                if (crashHistory.length > 10) crashHistory.pop();
+                if (crashHistory.length > 15) crashHistory.pop();
                 if (currentMultiplier > maxCrash) maxCrash = currentMultiplier;
                 
-                updateCrashInfo();
+                lastCrashSpan.textContent = currentMultiplier.toFixed(2) + 'x';
+                maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
+                
                 updateBalance();
-                addHistory('Rocket', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
-                createParticles('win');
+                addHistory('ROCKET', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
             });
 
-            // ========== PLINKO - РЕАЛИСТИЧНАЯ ФИЗИКА ==========
+            // ========== PLINKO - БЕЛЫЙ ЖЕМЧУЖНЫЙ ШАР ==========
             function drawPlinkoBoard() {
                 plinkoCtx.clearRect(0, 0, 800, 600);
                 
@@ -868,9 +963,9 @@
                 const stepY = 55;
                 const startX = 400;
                 
-                // Рисуем колышки
-                plinkoCtx.fillStyle = '#94A3B8';
-                plinkoCtx.shadowColor = '#6366F1';
+                // Колышки
+                plinkoCtx.fillStyle = '#9CA3AF';
+                plinkoCtx.shadowColor = '#3B82F6';
                 plinkoCtx.shadowBlur = 10;
                 
                 for (let row = 0; row < rows; row++) {
@@ -884,26 +979,24 @@
                     }
                 }
                 
-                // Рисуем ячейки
+                // Ячейки
                 const cellY = startY + rows * stepY + 30;
                 
                 for (let i = 0; i < 9; i++) {
                     let x = startX - (rows * 30) + i * 60;
                     
-                    // Контур ячейки
                     plinkoCtx.strokeStyle = currentMultipliers[i] >= 1 ? '#10B981' : '#EF4444';
                     plinkoCtx.lineWidth = 2;
                     plinkoCtx.strokeRect(x - 25, cellY - 15, 50, 40);
                     
-                    // Текст
                     plinkoCtx.fillStyle = currentMultipliers[i] >= 1 ? '#10B981' : '#EF4444';
                     plinkoCtx.font = 'bold 14px Inter';
-                    plinkoCtx.fillText(currentMultipliers[i] + 'x', x - 15, cellY + 10);
+                    plinkoCtx.fillText(currentMultipliers[i].toFixed(1) + 'x', x - 20, cellY + 10);
                 }
             }
 
-            // Физика падения с гравитацией и отскоками
-            function animatePlinkoWithPhysics(targetPos, multiplier, win) {
+            // Анимация с белым жемчужным шаром
+            function animatePlinkoWithPhysics() {
                 if (plinkoAnimation) clearInterval(plinkoAnimation);
                 
                 const rows = 8;
@@ -915,19 +1008,23 @@
                     x: 400,
                     y: 50,
                     vx: 0,
-                    vy: 2,
+                    vy: 1.5,
                     row: 0,
-                    col: 4,
-                    bouncing: false
+                    col: 4
                 };
                 
-                let path = [];
-                let physicsInterval = setInterval(() => {
+                let lastCollision = 0;
+                
+                plinkoAnimation = setInterval(() => {
                     // Гравитация
-                    ball.vy += 0.5;
+                    ball.vy += 0.4;
                     ball.y += ball.vy;
+                    ball.x += ball.vx;
                     
-                    // Проверка столкновения с колышками
+                    // Затухание скорости
+                    ball.vx *= 0.98;
+                    
+                    // Проверка столкновений с колышками
                     for (let row = 0; row < rows; row++) {
                         for (let col = 0; col <= row; col++) {
                             let pegX = startX - (row * 30) + col * 60;
@@ -935,29 +1032,21 @@
                             
                             let dx = ball.x - pegX;
                             let dy = ball.y - pegY;
-                            let distance = Math.sqrt(dx * dx + dy * dy);
+                            let dist = Math.sqrt(dx * dx + dy * dy);
                             
-                            if (distance < 15 && !ball.bouncing) {
-                                // Отскок с случайным отклонением
-                                ball.vy = -Math.abs(ball.vy) * 0.5;
-                                ball.vx = (Math.random() - 0.5) * 8;
-                                ball.bouncing = true;
+                            if (dist < 15 && Date.now() - lastCollision > 200) {
+                                // Отскок
+                                let angle = Math.atan2(dy, dx);
+                                ball.vx = Math.cos(angle) * 5;
+                                ball.vy = -Math.abs(Math.sin(angle) * 3);
+                                lastCollision = Date.now();
                                 
-                                setTimeout(() => { ball.bouncing = false; }, 200);
-                                
-                                // Определяем направление для следующего ряда
-                                if (row < rows - 1) {
-                                    ball.row = row + 1;
-                                    ball.col = col + (ball.vx > 0 ? 1 : 0);
-                                    ball.col = Math.max(0, Math.min(8, ball.col));
-                                }
+                                // Случайное отклонение
+                                ball.vx += (Math.random() - 0.5) * 2;
                                 break;
                             }
                         }
                     }
-                    
-                    // Обновление позиции
-                    ball.x += ball.vx;
                     
                     // Границы
                     if (ball.x < 50) { ball.x = 50; ball.vx *= -0.5; }
@@ -966,53 +1055,58 @@
                     // Отрисовка
                     drawPlinkoBoard();
                     
-                    // Рисуем шарик
-                    plinkoCtx.shadowColor = '#F59E0B';
-                    plinkoCtx.shadowBlur = 20;
+                    // Белый жемчужный шар
+                    plinkoCtx.shadowColor = '#FFFFFF';
+                    plinkoCtx.shadowBlur = 30;
+                    
+                    // Градиент для жемчужного эффекта
+                    let gradient = plinkoCtx.createRadialGradient(ball.x-5, ball.y-5, 5, ball.x, ball.y, 20);
+                    gradient.addColorStop(0, '#FFFFFF');
+                    gradient.addColorStop(0.7, '#E0E7FF');
+                    gradient.addColorStop(1, '#C7D2FE');
+                    
                     plinkoCtx.beginPath();
                     plinkoCtx.arc(ball.x, ball.y, 12, 0, Math.PI * 2);
-                    
-                    let gradient = plinkoCtx.createRadialGradient(ball.x-3, ball.y-3, 3, ball.x, ball.y, 15);
-                    gradient.addColorStop(0, '#F59E0B');
-                    gradient.addColorStop(1, '#EF4444');
                     plinkoCtx.fillStyle = gradient;
                     plinkoCtx.fill();
                     
-                    // Проверка достижения дна
+                    // Блик
+                    plinkoCtx.shadowBlur = 10;
+                    plinkoCtx.fillStyle = '#FFFFFF';
+                    plinkoCtx.beginPath();
+                    plinkoCtx.arc(ball.x-4, ball.y-4, 3, 0, Math.PI * 2);
+                    plinkoCtx.fill();
+                    
+                    // Проверка финиша
                     if (ball.y > 550) {
-                        clearInterval(physicsInterval);
+                        clearInterval(plinkoAnimation);
                         
-                        let finalCol = Math.floor((ball.x - (startX - (rows * 30))) / 60);
-                        finalCol = Math.max(0, Math.min(8, finalCol));
+                        let col = Math.floor((ball.x - (startX - (rows * 30))) / 60);
+                        col = Math.max(0, Math.min(8, col));
                         
-                        let resultMultiplier = currentMultipliers[finalCol];
-                        let resultWin = Math.floor(rocketBet * resultMultiplier);
+                        let multiplier = currentMultipliers[col];
+                        let win = Math.floor(rocketBet * multiplier);
                         
-                        balance += resultWin;
+                        balance += win;
                         updateBalance();
                         
-                        plinkoResult.textContent = resultMultiplier >= 1 
-                            ? `🎉 +${resultWin} ⭐ (${resultMultiplier}x)`
-                            : `😔 ${resultWin} ⭐ (${resultMultiplier}x)`;
+                        plinkoResult.textContent = multiplier >= 1 
+                            ? `🎉 WIN ${win} ⭐ (${multiplier}x)`
+                            : `😔 LOSE ${Math.abs(win)} ⭐ (${multiplier}x)`;
                         
-                        addHistory('Plinko', `x${resultMultiplier} ${resultWin >= rocketBet ? '+' : ''}${resultWin - rocketBet} ⭐`, 
-                                 resultMultiplier >= 1 ? 'win' : 'lose');
-                        
-                        if (resultMultiplier >= 3) createParticles('win');
+                        addHistory('PLINKO', `x${multiplier} ${win >= rocketBet ? '+' : ''}${win - rocketBet} ⭐`, 
+                                 multiplier >= 1 ? 'win' : 'lose');
                     }
                 }, 20);
-                
-                plinkoAnimation = physicsInterval;
             }
 
             // Обновление сетки множителей
             function updateMultiplierGrid() {
                 multiplierGrid.innerHTML = '';
-                currentMultipliers.forEach((mult, index) => {
+                currentMultipliers.forEach((mult, i) => {
                     let cell = document.createElement('div');
-                    cell.className = 'multiplier-cell';
-                    cell.textContent = mult + 'x';
-                    cell.style.color = mult >= 1 ? '#10B981' : '#EF4444';
+                    cell.className = `multiplier-cell ${mult >= 1 ? 'win' : 'lose'}`;
+                    cell.textContent = mult.toFixed(1) + 'x';
                     multiplierGrid.appendChild(cell);
                 });
             }
@@ -1029,7 +1123,7 @@
                 });
             });
 
-            // Бросок шарика
+            // Бросок
             plinkoDrop.addEventListener('click', () => {
                 let bet = parseInt(plinkoBetInput.value);
                 
@@ -1040,55 +1134,8 @@
                 
                 if (!deductStars(bet)) return;
                 rocketBet = bet;
-                
-                // Генерация случайной позиции (физика сама определит путь)
-                animatePlinkoWithPhysics(null, null, null);
+                animatePlinkoWithPhysics();
             });
-
-            // ========== СИСТЕМА ЧАСТИЦ ДЛЯ ЭФФЕКТОВ ==========
-            function createParticles(type) {
-                for (let i = 0; i < 30; i++) {
-                    let particle = document.createElement('div');
-                    particle.style.position = 'fixed';
-                    particle.style.left = '50%';
-                    particle.style.top = '50%';
-                    particle.style.width = '6px';
-                    particle.style.height = '6px';
-                    particle.style.background = type === 'win' ? '#10B981' : '#EF4444';
-                    particle.style.borderRadius = '50%';
-                    particle.style.pointerEvents = 'none';
-                    particle.style.zIndex = '9999';
-                    particle.style.transform = 'translate(-50%, -50%)';
-                    
-                    let angle = (i / 30) * Math.PI * 2;
-                    let velocity = 5 + Math.random() * 5;
-                    let vx = Math.cos(angle) * velocity;
-                    let vy = Math.sin(angle) * velocity;
-                    
-                    document.body.appendChild(particle);
-                    
-                    let posX = window.innerWidth / 2;
-                    let posY = window.innerHeight / 2;
-                    
-                    function animate() {
-                        posX += vx;
-                        posY += vy;
-                        vy += 0.2;
-                        
-                        particle.style.left = posX + 'px';
-                        particle.style.top = posY + 'px';
-                        particle.style.opacity = parseFloat(particle.style.opacity || 1) - 0.01;
-                        
-                        if (parseFloat(particle.style.opacity) > 0) {
-                            requestAnimationFrame(animate);
-                        } else {
-                            particle.remove();
-                        }
-                    }
-                    
-                    requestAnimationFrame(animate);
-                }
-            }
 
             // ========== ИСТОРИЯ ==========
             function addHistory(game, text, type) {
@@ -1117,13 +1164,8 @@
                 });
             });
 
-            // Обновление отображения ставок
             rocketBetInput.addEventListener('input', () => {
                 rocketBetAmount.textContent = rocketBetInput.value + ' ⭐';
-            });
-
-            plinkoBetInput.addEventListener('input', () => {
-                plinkoBetAmount.textContent = plinkoBetInput.value + ' ⭐';
             });
 
             // ========== ПЕРЕКЛЮЧЕНИЕ ТАБОВ ==========
@@ -1141,7 +1183,7 @@
                 plinkoGame.classList.remove('hidden');
             });
 
-            // ========== ЕЖЕДНЕВНЫЙ БОНУС ==========
+            // ========== БОНУС ==========
             document.getElementById('dailyBonus').addEventListener('click', () => {
                 addStars(1000);
             });
@@ -1150,16 +1192,18 @@
             function init() {
                 updateBalance();
                 createStars();
-                drawRocket(1.0, 0);
+                drawRocketScene(1.0, 0, 2.45);
                 drawPlinkoBoard();
                 updateMultiplierGrid();
-                updateCrashInfo();
                 
-                // Добавляем примеры истории
-                addHistory('Rocket', 'x2.45 +245 ⭐', 'win');
-                addHistory('Plinko', 'x0.3 -7 ⭐', 'lose');
-                addHistory('Rocket', 'x5.67 +567 ⭐', 'win');
-                addHistory('Bonus', '+1000 ⭐', 'win');
+                lastCrashSpan.textContent = crashHistory[0].toFixed(2) + 'x';
+                maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
+                
+                // Примеры истории
+                addHistory('ROCKET', 'x4.56 +456 ⭐', 'win');
+                addHistory('PLINKO', 'x8.0 +800 ⭐', 'win');
+                addHistory('ROCKET', 'CRASH -100 ⭐', 'lose');
+                addHistory('PLINKO', 'x0.3 -7 ⭐', 'lose');
             }
 
             init();
