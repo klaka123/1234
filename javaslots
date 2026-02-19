@@ -1,0 +1,20 @@
+const symbols = ['🍒', '🍋', '🍇', '🔔', '💎', '⭐'];
+const weights = [40, 30, 15, 8, 5, 2]; // веса для RTP
+function spin() {
+    const reel1 = weightedRandom(weights);
+    const reel2 = weightedRandom(weights);
+    const reel3 = weightedRandom(weights);
+    // расчёт выигрыша
+    if (reel1 === reel2 && reel2 === reel3) {
+        if (reel1 === 4) multiplier = 15; // 💎
+        else if (reel1 === 5) multiplier = 0; // ⭐ (фриспин)
+        else if (reel1 === 3) multiplier = 8; // 🔔
+        else if (reel1 === 2) multiplier = 5; // 🍇
+        else multiplier = 3; // 🍒🍋
+    } else if (reel1 === reel2 || reel2 === reel3 || reel1 === reel3) {
+        multiplier = 2; // два одинаковых
+    } else {
+        multiplier = 0; // проигрыш
+    }
+    return { reels: [reel1, reel2, reel3], multiplier };
+}
