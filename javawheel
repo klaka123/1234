@@ -1,0 +1,20 @@
+const sectors = [
+    { label: 'x0', mult: 0, color: '#ef4444', weight: 10 },
+    { label: 'x1', mult: 1, color: '#3b82f6', weight: 15 },
+    { label: 'x2', mult: 2, color: '#10b981', weight: 12 },
+    { label: 'x5', mult: 5, color: '#f59e0b', weight: 8 },
+    { label: 'x10', mult: 10, color: '#8b5cf6', weight: 5 },
+    { label: 'JACKPOT', mult: 50, color: '#ec4899', weight: 4 }
+];
+// выбор случайного сектора с учётом весов
+function spinWheel() {
+    const totalWeight = sectors.reduce((s, w) => s + w.weight, 0);
+    let rand = Math.random() * totalWeight;
+    let idx = 0;
+    while (rand > 0) {
+        rand -= sectors[idx].weight;
+        if (rand <= 0) break;
+        idx++;
+    }
+    return sectors[idx];
+}
