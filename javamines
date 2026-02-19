@@ -1,0 +1,8 @@
+const multiplierTable = {
+    3: [1.15, 1.35, 1.7, 2.2, 3.0, 6.5, 20, 50, 100, 200],
+    5: [1.2, 1.5, 2.0, 3.0, 5.0, 10, 25, 60, 150, 300],
+    10: [1.3, 2.0, 3.5, 6.0, 12, 25, 60, 150, 400, 1000]
+};
+function getMultiplier(mines, revealed) {
+    return revealed === 0 ? 1 : multiplierTable[mines][revealed-1];
+}
