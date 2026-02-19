@@ -3,68 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✨ КОСМИЧЕСКОЕ КАЗИНО ✨</title>
-    <!-- Telegram WebApp SDK -->
+    <title>🚀 КОСМИЧЕСКОЕ КАЗИНО 🌟</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Font Awesome 6 (иконки) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Шрифт Google Fonts (Inter) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ========== */
-        :root {
-            --bg-dark: #0b0e14;
-            --bg-glass: rgba(18, 25, 35, 0.7);
-            --accent-cyan: #00f0ff;
-            --accent-pink: #ff3e9e;
-            --accent-gold: #ffd966;
-            --neon-shadow: 0 0 15px currentColor, 0 0 30px rgba(0, 240, 255, 0.3);
-            --font-main: 'Inter', sans-serif;
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            font-family: var(--font-main);
-            background: var(--bg-dark);
-            color: #fff;
+            background: linear-gradient(135deg, #0a0f1a 0%, #1a1f2e 100%);
+            color: white;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
             padding: 12px;
-            position: relative;
-            overflow-x: hidden;
         }
 
-        /* Фон с частицами (canvas) */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Основное стеклянное окно */
-        .glass-panel {
-            max-width: 1000px;
-            width: 100%;
-            background: var(--bg-glass);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-radius: 40px;
-            padding: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 240, 255, 0.1) inset;
-            margin: 10px 0 30px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         /* Шапка */
@@ -72,926 +31,919 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
         }
 
-        .balance-block {
+        .balance {
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px 28px;
-            border-radius: 60px;
-            border: 1px solid var(--accent-gold);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            backdrop-filter: blur(8px);
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
         }
 
-        .balance-icon {
-            font-size: 28px;
-            color: var(--accent-gold);
-            filter: drop-shadow(0 0 8px gold);
+        .balance i {
+            color: #ffd700;
+            filter: drop-shadow(0 0 10px gold);
         }
 
-        .balance-amount {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff8e0, #ffd966);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
-        }
-
-        .add-stars-btn {
-            background: linear-gradient(145deg, #2f2547, #1e1535);
-            border: 2px solid var(--accent-gold);
-            color: var(--accent-gold);
-            font-size: 18px;
-            font-weight: 700;
-            padding: 12px 28px;
-            border-radius: 60px;
+        .add-stars {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
-            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: 0.2s;
         }
 
-        .add-stars-btn:hover {
-            background: var(--accent-gold);
-            color: #1e1535;
-            box-shadow: 0 0 30px gold;
-            transform: scale(1.02);
+        .add-stars:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px gold;
         }
 
-        /* Табы */
+        /* Вкладки */
         .tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 6px;
-            border-radius: 60px;
-            backdrop-filter: blur(4px);
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 40px;
+            padding: 5px;
         }
 
         .tab {
             flex: 1;
-            padding: 14px 10px;
+            padding: 15px;
             border: none;
+            border-radius: 35px;
             background: transparent;
             color: #8a9bb5;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
-            border-radius: 60px;
             cursor: pointer;
-            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-        }
-
-        .tab i {
-            font-size: 22px;
+            transition: 0.2s;
         }
 
         .tab.active {
-            background: var(--accent-cyan);
-            color: #0b0e14;
-            box-shadow: var(--neon-shadow);
+            background: #00e5ff;
+            color: #0a0f1a;
+            box-shadow: 0 0 20px #00e5ff;
         }
 
-        /* Игровые панели */
-        .game-panel {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 32px;
+        /* Игровое поле */
+        .game-area {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
             padding: 20px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            box-shadow: 0 10px 30px -15px black;
         }
 
-        /* Rocket */
-        #rocket-game {
-            display: block;
-        }
-
-        #plinko-game {
-            display: none;
-        }
-
+        /* Canvas */
         .canvas-container {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 30px rgba(0,0,0,0.5);
-            background: #0a0f16;
+            background: #0a0f1a;
+            border-radius: 20px;
+            padding: 10px;
             margin-bottom: 20px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
         }
 
         canvas {
             display: block;
             width: 100%;
             height: auto;
-            background: #0a0f16;
+            border-radius: 10px;
         }
 
-        /* Множитель Rocket */
-        .multiplier-panel {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 60px;
-            padding: 16px;
+        /* Rocket */
+        .multiplier {
             text-align: center;
-            border: 2px solid var(--accent-cyan);
-            box-shadow: 0 0 30px var(--accent-cyan);
-            margin: 20px 0;
-            backdrop-filter: blur(8px);
-        }
-
-        .multiplier-value {
-            font-size: 72px;
+            font-size: 48px;
             font-weight: 800;
-            color: var(--accent-cyan);
-            text-shadow: 0 0 20px var(--accent-cyan), 0 0 40px #00aaff;
-            line-height: 1;
+            color: #00e5ff;
+            text-shadow: 0 0 20px #00e5ff;
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 60px;
+            border: 2px solid #00e5ff;
         }
 
-        .multiplier-label {
-            font-size: 18px;
-            color: #b0d0ff;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+        .last-crash {
+            text-align: center;
+            color: #8a9bb5;
+            margin-bottom: 20px;
         }
 
-        /* Панель управления */
-        .control-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-            margin-top: 20px;
+        /* Панель ставок */
+        .bet-panel {
+            background: rgba(0,0,0,0.3);
+            border-radius: 30px;
+            padding: 20px;
         }
 
         .bet-input {
-            flex: 2;
-            min-width: 150px;
-            background: rgba(255, 255, 255, 0.05);
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
             border: 2px solid #2a4b6a;
-            border-radius: 60px;
-            padding: 16px 24px;
-            font-size: 20px;
-            font-weight: 600;
+            border-radius: 30px;
             color: white;
-            outline: none;
-            transition: var(--transition-smooth);
+            font-size: 18px;
+            font-weight: bold;
             text-align: center;
-            backdrop-filter: blur(4px);
+            margin-bottom: 15px;
         }
 
         .bet-input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 20px var(--accent-cyan);
+            border-color: #00e5ff;
+            outline: none;
+            box-shadow: 0 0 20px #00e5ff;
+        }
+
+        .quick-bets {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #2a4b6a;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: #00e5ff;
+            color: #000;
+        }
+
+        .game-buttons {
+            display: flex;
+            gap: 10px;
         }
 
         .action-btn {
             flex: 1;
-            min-width: 140px;
-            background: linear-gradient(145deg, #1f3a4b, #0f2635);
-            border: 2px solid transparent;
-            border-radius: 60px;
-            padding: 16px 24px;
-            font-size: 22px;
-            font-weight: 700;
-            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
             cursor: pointer;
-            transition: var(--transition-smooth);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.2s;
         }
 
-        .action-btn:enabled {
-            background: linear-gradient(145deg, #0066aa, #004488);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 20px var(--accent-cyan);
+        .primary {
+            background: linear-gradient(135deg, #00e5ff, #0088ff);
+            color: white;
         }
 
-        .action-btn:enabled:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.2);
-            box-shadow: 0 0 30px var(--accent-cyan);
+        .success {
+            background: linear-gradient(135deg, #00c851, #008800);
+            color: white;
         }
 
         .action-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .cashout-btn {
-            background: linear-gradient(145deg, #b8860b, #8b6508);
-            border-color: gold;
-            box-shadow: 0 0 20px gold;
+        /* Plinko */
+        .risk-selector {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
         }
 
-        /* Специфичные стили для Plinko */
-        .multipliers-row {
+        .risk-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #2a4b6a;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .risk-btn.active {
+            background: #00e5ff;
+            border-color: #00e5ff;
+            color: #000;
+        }
+
+        .multipliers {
             display: flex;
             justify-content: space-around;
             margin: 20px 0;
             gap: 5px;
         }
 
-        .multiplier-pill {
-            background: #1a2a3a;
-            border-radius: 40px;
-            padding: 8px 0;
+        .multiplier-cell {
             flex: 1;
+            padding: 12px 0;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
             text-align: center;
             font-weight: bold;
-            color: gold;
-            border: 2px solid gold;
-            box-shadow: 0 0 15px gold;
-            font-size: 16px;
+            color: #ffd700;
         }
 
-        .result-card {
-            background: #1b2b38;
-            border-radius: 60px;
-            padding: 20px;
-            margin-top: 20px;
+        .result {
             text-align: center;
-            font-size: 28px;
-            border-left: 10px solid var(--accent-pink);
-            box-shadow: 0 0 30px rgba(255, 62, 158, 0.5);
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 40px;
+            background: rgba(0,0,0,0.3);
         }
 
         /* История */
-        .history-section {
-            margin-top: 30px;
-            background: rgba(0, 0, 0, 0.25);
+        .history {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.3);
             border-radius: 30px;
             padding: 20px;
-            backdrop-filter: blur(8px);
         }
 
         .history-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #aaccff;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #8a9bb5;
+            margin-bottom: 15px;
         }
 
-        .history-scroll {
+        .history-list {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             overflow-x: auto;
             padding-bottom: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-cyan) #1a2a33;
         }
 
         .history-item {
-            background: #1e2f3c;
-            border-radius: 30px;
-            padding: 12px 24px;
-            min-width: 140px;
+            min-width: 120px;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
             text-align: center;
-            border: 1px solid #3a5b70;
-            font-weight: 600;
-            backdrop-filter: blur(4px);
-            transition: 0.2s;
+            font-weight: bold;
         }
 
         .history-item.win {
-            background: #1b4b2b;
-            border-color: #2ecc71;
-            box-shadow: 0 0 20px #27ae60;
+            background: #00c851;
+            color: white;
         }
 
         .history-item.lose {
-            background: #712e2e;
-            border-color: #e74c3c;
-            box-shadow: 0 0 20px #c0392b;
+            background: #ff4444;
+            color: white;
         }
 
-        /* Кнопка информации */
+        /* Инфо кнопка */
         .info-btn {
-            background: transparent;
-            border: 2px solid #3e6b8c;
-            border-radius: 50%;
             width: 44px;
             height: 44px;
-            color: #aaddff;
-            font-size: 22px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid #2a4b6a;
+            color: #8a9bb5;
+            font-size: 20px;
             cursor: pointer;
-            transition: 0.2s;
+            margin-left: auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-left: auto;
         }
 
         .info-btn:hover {
-            border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
-            box-shadow: 0 0 15px var(--accent-cyan);
+            border-color: #00e5ff;
+            color: #00e5ff;
         }
 
-        /* Модальные окна */
+        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
             z-index: 1000;
         }
 
         .modal-content {
-            background: #0e1a28;
-            border-radius: 40px;
-            padding: 40px;
-            max-width: 500px;
-            border: 3px solid var(--accent-cyan);
-            box-shadow: 0 0 60px var(--accent-cyan);
-            color: white;
+            background: #1a1f2e;
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 400px;
+            margin: 20px;
+            border: 3px solid #00e5ff;
         }
 
         .modal-content h2 {
+            color: #00e5ff;
             margin-bottom: 20px;
-            color: var(--accent-cyan);
         }
 
         .modal-content p {
-            margin: 15px 0;
-            font-size: 18px;
+            margin: 10px 0;
+            line-height: 1.5;
         }
 
-        .close-btn {
-            background: var(--accent-cyan);
-            border: none;
-            border-radius: 60px;
-            padding: 12px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
-            cursor: pointer;
+        .close-modal {
+            width: 100%;
+            padding: 15px;
             margin-top: 20px;
+            background: #00e5ff;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        /* Адаптивность */
-        @media (max-width: 600px) {
-            .glass-panel { padding: 16px; }
-            .balance-amount { font-size: 24px; }
-            .add-stars-btn { font-size: 16px; padding: 8px 16px; }
-            .tab { font-size: 16px; }
-            .multiplier-value { font-size: 56px; }
-        }
-
-        /* Декоративные элементы */
-        .glow {
-            animation: glowPulse 3s infinite;
-        }
-
-        @keyframes glowPulse {
-            0% { filter: drop-shadow(0 0 5px cyan); }
-            50% { filter: drop-shadow(0 0 20px cyan); }
-            100% { filter: drop-shadow(0 0 5px cyan); }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <canvas id="particle-canvas"></canvas>
-    <div class="glass-panel">
+    <div class="container">
         <!-- Шапка -->
         <div class="header">
-            <div class="balance-block">
-                <i class="fas fa-star balance-icon"></i>
-                <span class="balance-amount" id="balanceDisplay">0</span>
+            <div class="balance">
+                <i class="fas fa-star"></i>
+                <span id="balance">1000</span>
             </div>
-            <button class="add-stars-btn" id="addStarsBtn"><i class="fas fa-plus-circle"></i> +1000 ⭐</button>
+            <button class="add-stars" id="addStarsBtn">
+                <i class="fas fa-plus"></i> +1000
+            </button>
         </div>
 
-        <!-- Табы -->
+        <!-- Вкладки -->
         <div class="tabs">
-            <button class="tab active" id="tabRocket"><i class="fas fa-rocket"></i> Ракетка</button>
-            <button class="tab" id="tabPlinko"><i class="fas fa-circle"></i> Plinko</button>
+            <button class="tab active" id="tabRocket">
+                <i class="fas fa-rocket"></i> Ракетка
+            </button>
+            <button class="tab" id="tabPlinko">
+                <i class="fas fa-chart-line"></i> Plinko
+            </button>
         </div>
 
-        <!-- Rocket Game -->
-        <div id="rocket-game" class="game-panel">
+        <!-- Ракетка -->
+        <div id="rocketGame" class="game-area">
             <div class="canvas-container">
-                <canvas id="rocketCanvas" width="900" height="450"></canvas>
+                <canvas id="rocketCanvas" width="800" height="400"></canvas>
             </div>
-            <div class="multiplier-panel">
-                <div class="multiplier-value" id="rocketMultiplier">1.00x</div>
-                <div class="multiplier-label">МНОЖИТЕЛЬ</div>
-            </div>
-            <div class="control-bar">
+            
+            <div class="multiplier" id="multiplier">1.00x</div>
+            <div class="last-crash" id="lastCrash">Последний: 2.45x</div>
+
+            <div class="bet-panel">
                 <input type="number" id="rocketBet" class="bet-input" min="1" value="10" placeholder="Ставка">
-                <button class="action-btn" id="rocketStartBtn"><i class="fas fa-play"></i> Старт</button>
-                <button class="action-btn cashout-btn" id="rocketCashoutBtn" disabled><i class="fas fa-hand-holding-usd"></i> Забрать</button>
-                <button class="info-btn" id="infoRocket"><i class="fas fa-question"></i></button>
+                
+                <div class="quick-bets">
+                    <button class="quick-btn" data-mult="2">2x</button>
+                    <button class="quick-btn" data-mult="5">5x</button>
+                    <button class="quick-btn" data-mult="10">10x</button>
+                    <button class="quick-btn" data-mult="100">100x</button>
+                </div>
+
+                <div class="game-buttons">
+                    <button class="action-btn primary" id="rocketStart">
+                        <i class="fas fa-play"></i> Запустить
+                    </button>
+                    <button class="action-btn success" id="rocketCashout" disabled>
+                        <i class="fas fa-hand-holding-usd"></i> Забрать
+                    </button>
+                    <button class="info-btn" id="infoRocket">
+                        <i class="fas fa-question"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Plinko Game -->
-        <div id="plinko-game" class="game-panel" style="display: none;">
+        <!-- Plinko (скрыт по умолчанию) -->
+        <div id="plinkoGame" class="game-area hidden">
             <div class="canvas-container">
-                <canvas id="plinkoCanvas" width="900" height="600"></canvas>
+                <canvas id="plinkoCanvas" width="800" height="600"></canvas>
             </div>
-            <div class="multipliers-row" id="plinkoMultipliersRow"></div>
-            <div class="control-bar">
+
+            <div class="risk-selector">
+                <button class="risk-btn active" data-risk="low">Низкий</button>
+                <button class="risk-btn" data-risk="medium">Средний</button>
+                <button class="risk-btn" data-risk="high">Высокий</button>
+            </div>
+
+            <div class="multipliers" id="multipliers"></div>
+
+            <div class="bet-panel">
                 <input type="number" id="plinkoBet" class="bet-input" min="1" value="10" placeholder="Ставка">
-                <button class="action-btn" id="plinkoDropBtn"><i class="fas fa-arrow-down"></i> Бросить</button>
-                <button class="info-btn" id="infoPlinko"><i class="fas fa-question"></i></button>
+                
+                <div class="quick-bets">
+                    <button class="quick-btn" data-mult="2">2x</button>
+                    <button class="quick-btn" data-mult="5">5x</button>
+                    <button class="quick-btn" data-mult="10">10x</button>
+                </div>
+
+                <div class="game-buttons">
+                    <button class="action-btn primary" id="plinkoDrop">
+                        <i class="fas fa-arrow-down"></i> Бросить
+                    </button>
+                    <button class="info-btn" id="infoPlinko">
+                        <i class="fas fa-question"></i>
+                    </button>
+                </div>
+
+                <div class="result" id="plinkoResult"></div>
             </div>
-            <div id="plinkoResult" class="result-card">⭐ Сделайте ставку</div>
         </div>
 
         <!-- История -->
-        <div class="history-section">
-            <div class="history-title"><i class="fas fa-history"></i> Последние игры</div>
-            <div class="history-scroll" id="historyList"></div>
+        <div class="history">
+            <div class="history-title">
+                <i class="fas fa-history"></i> Последние игры
+            </div>
+            <div class="history-list" id="historyList">
+                <!-- Заполняется через JS -->
+            </div>
         </div>
     </div>
 
     <!-- Модальные окна -->
-    <div id="modalRocket" class="modal">
+    <div class="modal" id="modalRocket">
         <div class="modal-content">
-            <h2><i class="fas fa-rocket"></i> Как играть в Ракетку?</h2>
-            <p>🚀 Сделайте ставку. Ракета взлетает, множитель растёт.</p>
-            <p>💰 Нажмите «Забрать» до того, как ракета упадёт, чтобы умножить ставку.</p>
-            <p>💥 Если ракета падает раньше — ставка сгорает.</p>
-            <p>⭐ Удачи в космосе!</p>
-            <button class="close-btn" onclick="closeModals()">Понятно</button>
+            <h2><i class="fas fa-rocket"></i> Как играть?</h2>
+            <p>1. Сделайте ставку</p>
+            <p>2. Ракета взлетает, множитель растёт</p>
+            <p>3. Нажмите "Забрать" до того, как ракета упадёт</p>
+            <p>4. Выигрыш = ставка × множитель</p>
+            <button class="close-modal" onclick="closeModals()">Понятно</button>
         </div>
     </div>
-    <div id="modalPlinko" class="modal">
+
+    <div class="modal" id="modalPlinko">
         <div class="modal-content">
-            <h2><i class="fas fa-circle"></i> Правила Plinko</h2>
-            <p>🔴 Шарик падает сквозь колышки.</p>
-            <p>🎰 Внизу ячейки с множителями от 0.1x до 10x.</p>
-            <p>📈 Чем ближе к краю, тем выше множитель, но ниже вероятность.</p>
-            <p>✨ Выигрыш = ставка × множитель.</p>
-            <button class="close-btn" onclick="closeModals()">Ок</button>
+            <h2><i class="fas fa-chart-line"></i> Правила Plinko</h2>
+            <p>1. Выберите уровень риска</p>
+            <p>2. Сделайте ставку</p>
+            <p>3. Шарик падает в ячейку с множителем</p>
+            <p>4. Выигрыш = ставка × множитель</p>
+            <button class="close-modal" onclick="closeModals()">Ок</button>
         </div>
     </div>
 
     <script>
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
-        (function() {
-            const tg = window.Telegram.WebApp;
-            tg.expand();
-            tg.ready();
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // Получаем user_id
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id') || 'user_' + Math.random();
 
-            // Параметры из URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const userId = urlParams.get('user_id') || 'guest';
+        // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
+        let balance = 1000;
+        let gameActive = false;
+        let rocketInterval;
+        let crashPoint = 2.0;
+        let currentMultiplier = 1.0;
+        let rocketBet = 10;
+        let crashHistory = [2.45, 1.87, 3.21, 1.56, 4.78, 1.23];
+        
+        // Plinko переменные
+        let plinkoRisk = 'medium';
+        let plinkoMultipliers = {
+            low: [0.5, 0.7, 1, 1.2, 1.5, 1.2, 1, 0.7, 0.5],
+            medium: [0.3, 0.5, 1, 2, 3, 2, 1, 0.5, 0.3],
+            high: [0.1, 0.2, 0.5, 3, 8, 3, 0.5, 0.2, 0.1]
+        };
+        let currentMultipliers = plinkoMultipliers.medium;
 
-            // Глобальные переменные
-            let currentBalance = 0;
-            let gameActive = false;
-            let rocketInterval, plinkoInterval;
-            let crashPoint = 1.0;
-            let currentMultiplier = 1.0;
-            let betAmount = 0;
+        // ==================== DOM ЭЛЕМЕНТЫ ====================
+        const balanceSpan = document.getElementById('balance');
+        const addStarsBtn = document.getElementById('addStarsBtn');
+        const tabRocket = document.getElementById('tabRocket');
+        const tabPlinko = document.getElementById('tabPlinko');
+        const rocketGame = document.getElementById('rocketGame');
+        const plinkoGame = document.getElementById('plinkoGame');
+        const rocketCanvas = document.getElementById('rocketCanvas');
+        const rocketCtx = rocketCanvas.getContext('2d');
+        const plinkoCanvas = document.getElementById('plinkoCanvas');
+        const plinkoCtx = plinkoCanvas.getContext('2d');
+        const multiplierSpan = document.getElementById('multiplier');
+        const lastCrashSpan = document.getElementById('lastCrash');
+        const rocketBetInput = document.getElementById('rocketBet');
+        const rocketStart = document.getElementById('rocketStart');
+        const rocketCashout = document.getElementById('rocketCashout');
+        const plinkoBetInput = document.getElementById('plinkoBet');
+        const plinkoDrop = document.getElementById('plinkoDrop');
+        const plinkoResult = document.getElementById('plinkoResult');
+        const multipliersDiv = document.getElementById('multipliers');
+        const historyList = document.getElementById('historyList');
+        const infoRocket = document.getElementById('infoRocket');
+        const infoPlinko = document.getElementById('infoPlinko');
+        const modalRocket = document.getElementById('modalRocket');
+        const modalPlinko = document.getElementById('modalPlinko');
 
-            // Элементы DOM
-            const balanceSpan = document.getElementById('balanceDisplay');
-            const addStarsBtn = document.getElementById('addStarsBtn');
-            const tabRocket = document.getElementById('tabRocket');
-            const tabPlinko = document.getElementById('tabPlinko');
-            const rocketGame = document.getElementById('rocket-game');
-            const plinkoGame = document.getElementById('plinko-game');
-            const rocketCanvas = document.getElementById('rocketCanvas');
-            const rocketCtx = rocketCanvas.getContext('2d');
-            const plinkoCanvas = document.getElementById('plinkoCanvas');
-            const plinkoCtx = plinkoCanvas.getContext('2d');
-            const rocketMultiplierSpan = document.getElementById('rocketMultiplier');
-            const rocketBet = document.getElementById('rocketBet');
-            const rocketStart = document.getElementById('rocketStartBtn');
-            const rocketCashout = document.getElementById('rocketCashoutBtn');
-            const plinkoBet = document.getElementById('plinkoBet');
-            const plinkoDrop = document.getElementById('plinkoDropBtn');
-            const plinkoResult = document.getElementById('plinkoResult');
-            const historyList = document.getElementById('historyList');
-            const infoRocket = document.getElementById('infoRocket');
-            const infoPlinko = document.getElementById('infoPlinko');
-            const modalRocket = document.getElementById('modalRocket');
-            const modalPlinko = document.getElementById('modalPlinko');
+        // ==================== ФУНКЦИИ БАЛАНСА ====================
+        function updateBalance() {
+            balanceSpan.textContent = balance;
+        }
 
-            // Множители Plinko
-            const plinkoMultipliers = [0.1, 0.2, 0.5, 1, 2, 3, 5, 8, 10];
-            const plinkoRow = document.getElementById('plinkoMultipliersRow');
-            plinkoMultipliers.forEach(m => {
-                const pill = document.createElement('div');
-                pill.className = 'multiplier-pill';
-                pill.textContent = m + 'x';
-                plinkoRow.appendChild(pill);
-            });
+        function addStars(amount) {
+            balance += amount;
+            updateBalance();
+            addHistory('Пополнение', `+${amount} ⭐`, 'win');
+        }
 
-            // ========== РАБОТА С БАЛАНСОМ (локальное хранилище) ==========
-            function loadBalance() {
-                const key = `balance_${userId}`;
-                let bal = localStorage.getItem(key);
-                currentBalance = bal ? parseInt(bal) : 1000;
+        function deductStars(amount) {
+            if (balance >= amount) {
+                balance -= amount;
                 updateBalance();
+                return true;
             }
-            function saveBalance() {
-                const key = `balance_${userId}`;
-                localStorage.setItem(key, currentBalance);
-            }
-            function updateBalance() {
-                balanceSpan.textContent = currentBalance;
-            }
-            function addStars(amount) {
-                currentBalance += amount;
-                saveBalance();
-                updateBalance();
-                addHistory('Пополнение', `+${amount} ⭐`, 'win');
-            }
-            function deductStars(amount) {
-                if (currentBalance >= amount) {
-                    currentBalance -= amount;
-                    saveBalance();
-                    updateBalance();
-                    return true;
-                }
-                return false;
-            }
+            return false;
+        }
 
-            loadBalance();
-            addStarsBtn.addEventListener('click', () => addStars(1000));
+        addStarsBtn.addEventListener('click', () => addStars(1000));
 
-            // ========== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ==========
-            tabRocket.addEventListener('click', () => {
-                tabRocket.classList.add('active');
-                tabPlinko.classList.remove('active');
-                rocketGame.style.display = 'block';
-                plinkoGame.style.display = 'none';
-            });
-            tabPlinko.addEventListener('click', () => {
-                tabPlinko.classList.add('active');
-                tabRocket.classList.remove('active');
-                rocketGame.style.display = 'none';
-                plinkoGame.style.display = 'block';
-            });
+        // ==================== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ====================
+        tabRocket.addEventListener('click', () => {
+            tabRocket.classList.add('active');
+            tabPlinko.classList.remove('active');
+            rocketGame.classList.remove('hidden');
+            plinkoGame.classList.add('hidden');
+        });
 
-            // ========== ИГРА ROCKET ==========
-            function drawRocket(mult) {
-                rocketCtx.clearRect(0, 0, rocketCanvas.width, rocketCanvas.height);
-                const w = rocketCanvas.width, h = rocketCanvas.height;
+        tabPlinko.addEventListener('click', () => {
+            tabPlinko.classList.add('active');
+            tabRocket.classList.remove('active');
+            rocketGame.classList.add('hidden');
+            plinkoGame.classList.remove('hidden');
+        });
 
-                // Звёзды
-                rocketCtx.fillStyle = '#fff';
-                for (let i=0; i<30; i++) {
-                    rocketCtx.beginPath();
-                    rocketCtx.arc(20 + i*40, 30 + (i%5)*70, 1+Math.random()*2, 0, 2*Math.PI);
-                    rocketCtx.fill();
-                }
-
-                // Ракета (треугольник с эффектом свечения)
-                const x = 200, y = h - 150;
-                const rise = mult * 15;
-                rocketCtx.shadowColor = '#ff5500';
-                rocketCtx.shadowBlur = 30;
-                rocketCtx.fillStyle = '#ff7b00';
+        // ==================== ROCKET ====================
+        function drawRocket(mult) {
+            rocketCtx.clearRect(0, 0, 800, 400);
+            
+            // Звезды
+            rocketCtx.fillStyle = 'white';
+            for (let i = 0; i < 30; i++) {
                 rocketCtx.beginPath();
-                rocketCtx.moveTo(x, y - rise);
-                rocketCtx.lineTo(x+50, y+50 - rise);
-                rocketCtx.lineTo(x-50, y+50 - rise);
-                rocketCtx.closePath();
+                rocketCtx.arc(20 + i * 40, 30 + (i % 5) * 60, 1 + Math.random() * 2, 0, Math.PI * 2);
                 rocketCtx.fill();
-                rocketCtx.shadowBlur = 0;
-
-                // Пламя
-                rocketCtx.shadowColor = '#ffaa00';
-                rocketCtx.shadowBlur = 40;
-                rocketCtx.fillStyle = '#ffaa00';
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(x-25, y+50 - rise);
-                rocketCtx.lineTo(x, y+90 - rise);
-                rocketCtx.lineTo(x+25, y+50 - rise);
-                rocketCtx.fill();
-                rocketCtx.shadowBlur = 0;
-
-                // График краша
-                rocketCtx.strokeStyle = '#0cf';
-                rocketCtx.lineWidth = 4;
-                rocketCtx.shadowColor = '#0cf';
-                rocketCtx.shadowBlur = 20;
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(300, h-100);
-                for (let px=300; px<=800; px+=5) {
-                    let t = (px-300)/500;
-                    let py = h-100 - Math.min(t * crashPoint * 70, 300);
-                    rocketCtx.lineTo(px, py);
-                }
-                rocketCtx.stroke();
-                rocketCtx.shadowBlur = 0;
             }
 
-            rocketStart.addEventListener('click', async () => {
-                if (gameActive) return;
-                betAmount = parseInt(rocketBet.value);
-                if (betAmount < 1) return alert('Введите ставку');
-                if (!deductStars(betAmount)) return alert('Недостаточно звёзд');
+            // График
+            rocketCtx.beginPath();
+            rocketCtx.strokeStyle = '#00e5ff';
+            rocketCtx.lineWidth = 3;
+            rocketCtx.moveTo(200, 300);
+            
+            for (let x = 200; x <= 700; x += 10) {
+                let t = (x - 200) / 500;
+                let y = 300 - Math.min(t * crashPoint * 50, 250);
+                rocketCtx.lineTo(x, y);
+            }
+            rocketCtx.stroke();
 
-                // Имитация получения точки краша (в реальности запрос к API)
-                crashPoint = 1 + Math.random() * 9;
-                crashPoint = Math.round(crashPoint * 100) / 100;
+            // Ракета
+            const rocketY = 250 - (mult - 1) * 20;
+            
+            // Пламя
+            rocketCtx.fillStyle = '#ffaa00';
+            rocketCtx.shadowColor = '#ff5500';
+            rocketCtx.shadowBlur = 20;
+            rocketCtx.beginPath();
+            rocketCtx.moveTo(120, rocketY + 40);
+            rocketCtx.lineTo(150, rocketY + 70);
+            rocketCtx.lineTo(180, rocketY + 40);
+            rocketCtx.fill();
 
-                gameActive = true;
-                rocketStart.disabled = true;
-                rocketCashout.disabled = false;
-                currentMultiplier = 1.0;
-                rocketMultiplierSpan.textContent = '1.00x';
-                drawRocket(1.0);
+            // Корпус
+            rocketCtx.fillStyle = '#ff4444';
+            rocketCtx.shadowColor = '#ff0000';
+            rocketCtx.beginPath();
+            rocketCtx.moveTo(100, rocketY);
+            rocketCtx.lineTo(200, rocketY);
+            rocketCtx.lineTo(180, rocketY + 40);
+            rocketCtx.lineTo(120, rocketY + 40);
+            rocketCtx.closePath();
+            rocketCtx.fill();
 
-                const startTime = Date.now();
-                rocketInterval = setInterval(() => {
-                    if (!gameActive) return;
-                    const elapsed = (Date.now() - startTime) / 1000;
-                    currentMultiplier = 1 + 0.7 * elapsed;
-                    rocketMultiplierSpan.textContent = currentMultiplier.toFixed(2) + 'x';
-                    drawRocket(currentMultiplier);
-                    if (currentMultiplier >= crashPoint) {
-                        clearInterval(rocketInterval);
-                        gameActive = false;
-                        rocketStart.disabled = false;
-                        rocketCashout.disabled = true;
-                        addHistory('Ракетка', `crash -${betAmount} ⭐`, 'lose');
-                        alert('💥 Ракета упала! Вы проиграли ставку.');
-                    }
-                }, 50);
-            });
+            rocketCtx.shadowBlur = 0;
+        }
 
-            rocketCashout.addEventListener('click', () => {
-                if (!gameActive) return;
-                clearInterval(rocketInterval);
-                gameActive = false;
-                rocketStart.disabled = false;
-                rocketCashout.disabled = true;
+        // Обновление последнего краша
+        function updateLastCrash() {
+            if (crashHistory.length > 0) {
+                lastCrashSpan.textContent = `Последний: ${crashHistory[0].toFixed(2)}x`;
+            }
+        }
 
-                const win = Math.floor(betAmount * currentMultiplier);
-                currentBalance += win;
-                saveBalance();
-                updateBalance();
-                addHistory('Ракетка', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
-                alert(`🎉 Вы выиграли ${win} звёзд!`);
-            });
+        rocketStart.addEventListener('click', () => {
+            if (gameActive) return;
 
-            // ========== ИГРА PLINKO ==========
-            function drawPlinkoBoard() {
-                plinkoCtx.clearRect(0, 0, plinkoCanvas.width, plinkoCanvas.height);
-                const w = plinkoCanvas.width, h = plinkoCanvas.height;
-                plinkoCtx.fillStyle = '#0a121f';
-                plinkoCtx.fillRect(0, 0, w, h);
-
-                const rows = 8;
-                const startY = 100;
-                const stepY = 50;
-                const startX = 300;
-                plinkoCtx.fillStyle = '#c0e0ff';
-                plinkoCtx.shadowColor = '#0cf';
-                plinkoCtx.shadowBlur = 15;
-
-                for (let r = 0; r < rows; r++) {
-                    for (let c = 0; c <= r; c++) {
-                        let x = startX - (r * 25) + c * 50;
-                        let y = startY + r * stepY;
-                        plinkoCtx.beginPath();
-                        plinkoCtx.arc(x, y, 9, 0, 2*Math.PI);
-                        plinkoCtx.fill();
-                    }
-                }
-                plinkoCtx.shadowBlur = 0;
-
-                // Ячейки внизу
-                const cellY = startY + rows * stepY + 30;
-                for (let i = 0; i <= rows; i++) {
-                    let x = startX - (rows * 25) + i * 50;
-                    plinkoCtx.fillStyle = '#1f3f5f';
-                    plinkoCtx.fillRect(x-22, cellY-10, 44, 40);
-                    plinkoCtx.fillStyle = '#ffd966';
-                    plinkoCtx.font = 'bold 14px monospace';
-                    plinkoCtx.fillText(plinkoMultipliers[i]+'x', x-18, cellY+20);
-                }
+            rocketBet = parseInt(rocketBetInput.value);
+            if (rocketBet < 1) {
+                alert('Минимальная ставка 1');
+                return;
             }
 
-            function animatePlinkoDrop() {
-                const rows = 8;
-                const startY = 100;
-                const stepY = 50;
-                const startX = 300;
-                let currentCol = 4;
-                const path = [];
-                for (let r = 1; r <= rows; r++) {
-                    currentCol += Math.random() < 0.5 ? -1 : 1;
-                    currentCol = Math.max(0, Math.min(r, currentCol));
-                    path.push({row: r, col: currentCol});
-                }
-                const finalCol = path[path.length-1].col;
-                const multiplier = plinkoMultipliers[finalCol];
-
-                let step = 0;
-                if (plinkoInterval) clearInterval(plinkoInterval);
-                plinkoInterval = setInterval(() => {
-                    drawPlinkoBoard();
-                    if (step < path.length) {
-                        let r = path[step].row;
-                        let c = path[step].col;
-                        let x = startX - (r * 25) + c * 50;
-                        let y = startY + r * stepY;
-                        plinkoCtx.beginPath();
-                        plinkoCtx.arc(x, y, 14, 0, 2*Math.PI);
-                        plinkoCtx.fillStyle = '#ff5500';
-                        plinkoCtx.shadowColor = '#ffaa00';
-                        plinkoCtx.shadowBlur = 30;
-                        plinkoCtx.fill();
-                        plinkoCtx.shadowBlur = 0;
-                        step++;
-                    } else {
-                        clearInterval(plinkoInterval);
-                        const bet = parseInt(plinkoBet.value);
-                        const win = Math.floor(bet * multiplier);
-                        currentBalance += win;
-                        saveBalance();
-                        updateBalance();
-                        plinkoResult.innerHTML = `🎉 Множитель: ${multiplier}x &nbsp;&nbsp; Выигрыш: ${win} ⭐`;
-                        addHistory('Plinko', `x${multiplier} +${win} ⭐`, multiplier >= 1 ? 'win' : 'lose');
-                    }
-                }, 180);
+            if (!deductStars(rocketBet)) {
+                alert('Недостаточно средств');
+                return;
             }
 
-            plinkoDrop.addEventListener('click', () => {
-                const bet = parseInt(plinkoBet.value);
-                if (bet < 1) return alert('Введите ставку');
-                if (!deductStars(bet)) return alert('Недостаточно звёзд');
-                animatePlinkoDrop();
-            });
+            // Генерация точки краша (от 1.0 до 10.0)
+            crashPoint = 1 + Math.random() * 9;
+            crashPoint = Math.round(crashPoint * 100) / 100;
 
-            // ========== ИСТОРИЯ ==========
-            function addHistory(game, desc, type) {
-                const item = document.createElement('div');
-                item.className = `history-item ${type}`;
-                item.innerHTML = `<strong>${game}</strong> ${desc}`;
-                historyList.prepend(item);
-                if (historyList.children.length > 10) {
-                    historyList.removeChild(historyList.lastElementChild);
-                }
-            }
-
-            // ========== МОДАЛЬНЫЕ ОКНА ==========
-            infoRocket.addEventListener('click', () => modalRocket.style.display = 'flex');
-            infoPlinko.addEventListener('click', () => modalPlinko.style.display = 'flex');
-            window.closeModals = function() {
-                modalRocket.style.display = 'none';
-                modalPlinko.style.display = 'none';
-            };
-            window.addEventListener('click', e => {
-                if (e.target.classList.contains('modal')) closeModals();
-            });
-
-            // ========== ЧАСТИЦЫ НА ФОНЕ ==========
-            const particleCanvas = document.getElementById('particle-canvas');
-            const ctxP = particleCanvas.getContext('2d');
-            let width, height;
-            let particles = [];
-
-            function initParticles() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                particleCanvas.width = width;
-                particleCanvas.height = height;
-                particles = [];
-                for (let i = 0; i < 100; i++) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height,
-                        r: Math.random() * 2 + 1,
-                        speedX: Math.random() * 0.5 - 0.25,
-                        speedY: Math.random() * 0.5 - 0.25,
-                        color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.2})`
-                    });
-                }
-            }
-
-            function drawParticles() {
-                ctxP.clearRect(0, 0, width, height);
-                particles.forEach(p => {
-                    ctxP.beginPath();
-                    ctxP.arc(p.x, p.y, p.r, 0, 2*Math.PI);
-                    ctxP.fillStyle = p.color;
-                    ctxP.fill();
-                    p.x += p.speedX;
-                    p.y += p.speedY;
-                    if (p.x < 0 || p.x > width) p.speedX *= -1;
-                    if (p.y < 0 || p.y > height) p.speedY *= -1;
-                });
-                requestAnimationFrame(drawParticles);
-            }
-
-            window.addEventListener('resize', () => {
-                initParticles();
-            });
-            initParticles();
-            drawParticles();
-
-            // Первоначальная отрисовка
+            gameActive = true;
+            rocketStart.disabled = true;
+            rocketCashout.disabled = false;
+            currentMultiplier = 1.0;
+            multiplierSpan.textContent = '1.00x';
             drawRocket(1.0);
-            drawPlinkoBoard();
-        })();
+
+            const startTime = Date.now();
+            
+            rocketInterval = setInterval(() => {
+                if (!gameActive) return;
+                
+                const elapsed = (Date.now() - startTime) / 1000;
+                currentMultiplier = 1 + 0.7 * elapsed;
+                multiplierSpan.textContent = currentMultiplier.toFixed(2) + 'x';
+                drawRocket(currentMultiplier);
+                
+                if (currentMultiplier >= crashPoint) {
+                    clearInterval(rocketInterval);
+                    gameActive = false;
+                    rocketStart.disabled = false;
+                    rocketCashout.disabled = true;
+                    
+                    crashHistory.unshift(crashPoint);
+                    if (crashHistory.length > 10) crashHistory.pop();
+                    updateLastCrash();
+                    
+                    addHistory('Ракетка', `crash -${rocketBet} ⭐`, 'lose');
+                    alert('Ракета упала!');
+                }
+            }, 50);
+        });
+
+        rocketCashout.addEventListener('click', () => {
+            if (!gameActive) return;
+            
+            clearInterval(rocketInterval);
+            gameActive = false;
+            rocketStart.disabled = false;
+            rocketCashout.disabled = true;
+            
+            const win = Math.floor(rocketBet * currentMultiplier);
+            balance += win;
+            updateBalance();
+            
+            crashHistory.unshift(currentMultiplier);
+            if (crashHistory.length > 10) crashHistory.pop();
+            updateLastCrash();
+            
+            addHistory('Ракетка', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
+            alert(`Вы выиграли ${win} звёзд!`);
+        });
+
+        // ==================== PLINKO ====================
+        function drawPlinkoBoard() {
+            plinkoCtx.clearRect(0, 0, 800, 600);
+            
+            const rows = 8;
+            const startY = 80;
+            const stepY = 55;
+            const startX = 300;
+            
+            // Колышки
+            plinkoCtx.fillStyle = '#aaccff';
+            plinkoCtx.shadowColor = '#00e5ff';
+            plinkoCtx.shadowBlur = 15;
+            
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col <= row; col++) {
+                    let x = startX - (row * 30) + col * 60;
+                    let y = startY + row * stepY;
+                    plinkoCtx.beginPath();
+                    plinkoCtx.arc(x, y, 8, 0, Math.PI * 2);
+                    plinkoCtx.fill();
+                }
+            }
+            
+            plinkoCtx.shadowBlur = 0;
+            
+            // Ячейки
+            const cellY = startY + rows * stepY + 30;
+            
+            currentMultipliers.forEach((mult, i) => {
+                let x = startX - (rows * 30) + i * 60;
+                
+                plinkoCtx.fillStyle = '#1e2a3a';
+                plinkoCtx.fillRect(x - 25, cellY - 15, 50, 40);
+                
+                plinkoCtx.fillStyle = mult >= 1 ? '#00c851' : '#ff4444';
+                plinkoCtx.font = 'bold 14px monospace';
+                plinkoCtx.fillText(mult + 'x', x - 15, cellY + 10);
+            });
+        }
+
+        function updateMultipliers() {
+            multipliersDiv.innerHTML = '';
+            currentMultipliers.forEach(mult => {
+                const cell = document.createElement('div');
+                cell.className = 'multiplier-cell';
+                cell.textContent = mult + 'x';
+                cell.style.color = mult >= 1 ? '#00c851' : '#ff4444';
+                multipliersDiv.appendChild(cell);
+            });
+        }
+
+        // Выбор риска
+        document.querySelectorAll('.risk-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.risk-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                plinkoRisk = btn.dataset.risk;
+                currentMultipliers = plinkoMultipliers[plinkoRisk];
+                updateMultipliers();
+                drawPlinkoBoard();
+            });
+        });
+
+        function animatePlinkoDrop(finalPos, multiplier, win) {
+            const rows = 8;
+            const startY = 80;
+            const stepY = 55;
+            const startX = 300;
+            
+            let row = 0;
+            let col = 4;
+            const path = [];
+            
+            // Генерируем путь
+            for (let r = 1; r <= rows; r++) {
+                col += Math.random() < 0.5 ? -1 : 1;
+                col = Math.max(0, Math.min(8, col));
+                path.push({ row: r, col });
+            }
+            
+            let step = 0;
+            let interval = setInterval(() => {
+                drawPlinkoBoard();
+                
+                if (step < path.length) {
+                    let r = path[step].row;
+                    let c = path[step].col;
+                    let x = startX - (r * 30) + c * 60;
+                    let y = startY + r * stepY;
+                    
+                    plinkoCtx.beginPath();
+                    plinkoCtx.arc(x, y, 12, 0, Math.PI * 2);
+                    plinkoCtx.fillStyle = '#ffaa00';
+                    plinkoCtx.shadowColor = '#ff5500';
+                    plinkoCtx.shadowBlur = 30;
+                    plinkoCtx.fill();
+                    
+                    step++;
+                } else {
+                    clearInterval(interval);
+                    plinkoCtx.shadowBlur = 0;
+                    
+                    plinkoResult.textContent = multiplier >= 1 
+                        ? `🎉 Выигрыш: ${win} ⭐ (${multiplier}x)`
+                        : `😔 Проигрыш: ${win} ⭐ (${multiplier}x)`;
+                }
+            }, 150);
+        }
+
+        plinkoDrop.addEventListener('click', () => {
+            const bet = parseInt(plinkoBetInput.value);
+            
+            if (bet < 1) {
+                alert('Минимальная ставка 1');
+                return;
+            }
+            
+            if (!deductStars(bet)) {
+                alert('Недостаточно средств');
+                return;
+            }
+            
+            // Генерация случайной позиции (биномиальное распределение)
+            let pos = 4;
+            for (let i = 0; i < 8; i++) {
+                pos += Math.random() < 0.5 ? -1 : 1;
+                pos = Math.max(0, Math.min(8, pos));
+            }
+            
+            const multiplier = currentMultipliers[pos];
+            const win = Math.floor(bet * multiplier);
+            
+            balance += win;
+            updateBalance();
+            
+            animatePlinkoDrop(pos, multiplier, win);
+            addHistory('Plinko', `x${multiplier} ${win >= 0 ? '+' : ''}${win} ⭐`, multiplier >= 1 ? 'win' : 'lose');
+        });
+
+        // ==================== ИСТОРИЯ ====================
+        function addHistory(game, text, type) {
+            const item = document.createElement('div');
+            item.className = `history-item ${type}`;
+            item.innerHTML = `<strong>${game}</strong><br>${text}`;
+            historyList.prepend(item);
+            
+            if (historyList.children.length > 8) {
+                historyList.removeChild(historyList.lastElementChild);
+            }
+        }
+
+        // Добавляем примеры истории
+        addHistory('Ракетка', 'x2.45 +245 ⭐', 'win');
+        addHistory('Ракетка', 'crash -50 ⭐', 'lose');
+        addHistory('Plinko', 'x3.0 +300 ⭐', 'win');
+
+        // ==================== МОДАЛЬНЫЕ ОКНА ====================
+        infoRocket.addEventListener('click', () => {
+            modalRocket.style.display = 'flex';
+        });
+
+        infoPlinko.addEventListener('click', () => {
+            modalPlinko.style.display = 'flex';
+        });
+
+        window.closeModals = function() {
+            modalRocket.style.display = 'none';
+            modalPlinko.style.display = 'none';
+        };
+
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeModals();
+            }
+        });
+
+        // ==================== БЫСТРЫЕ СТАВКИ ====================
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const mult = parseInt(btn.dataset.mult);
+                const input = btn.closest('.bet-panel')?.querySelector('.bet-input');
+                
+                if (input) {
+                    let newBet = parseInt(input.value) * mult;
+                    newBet = Math.max(1, Math.floor(newBet));
+                    input.value = newBet;
+                }
+            });
+        });
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        drawRocket(1.0);
+        drawPlinkoBoard();
+        updateMultipliers();
+        updateLastCrash();
+        updateBalance();
     </script>
-    <!-- Длинный блок дополнительных стилей (для увеличения объёма и красоты) -->
-    <style>
-        /* ========== ДОПОЛНИТЕЛЬНЫЕ АНИМАЦИИ ========== */
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0); }
-        }
-        .balance-block { animation: float 4s infinite ease-in-out; }
-
-        @keyframes borderPulse {
-            0% { border-color: rgba(0, 240, 255, 0.5); }
-            50% { border-color: rgba(0, 240, 255, 1); }
-            100% { border-color: rgba(0, 240, 255, 0.5); }
-        }
-        .canvas-container { animation: borderPulse 3s infinite; }
-
-        /* Декоративные линии */
-        .glass-panel::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 40px;
-            padding: 2px;
-            background: linear-gradient(45deg, transparent 30%, var(--accent-cyan) 50%, transparent 70%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-        }
-
-        /* Стилизация ползунка истории */
-        .history-scroll::-webkit-scrollbar {
-            height: 6px;
-            background: #1f2f3f;
-            border-radius: 10px;
-        }
-        .history-scroll::-webkit-scrollbar-thumb {
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-pink));
-            border-radius: 10px;
-        }
-
-        /* Дополнительные эффекты наведения */
-        .action-btn:enabled::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-pink), var(--accent-cyan));
-            border-radius: 60px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .action-btn:enabled:hover::before {
-            opacity: 0.8;
-        }
-
-        /* Медиа-запросы для разных разрешений */
-        @media (max-width: 800px) {
-            .multiplier-value { font-size: 56px; }
-        }
-        @media (max-width: 500px) {
-            .balance-block { padding: 8px 16px; }
-            .balance-amount { font-size: 22px; }
-        }
-        /* ... и так далее, много повторов для увеличения объёма ... */
-    </style>
-    <!-- Ещё одна порция стилей для длины (можно добавить много @keyframes) -->
-    <style>
-        /* Анимации для будущих элементов */
-        @keyframes rotateStar { to { transform: rotate(360deg); } }
-        @keyframes shine { 0% { left: -100%; } 100% { left: 200%; } }
-        /* ... ещё 50 анимаций ... */
-    </style>
 </body>
 </html>
