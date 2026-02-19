@@ -1,14 +1,14 @@
-// Точное определение ячейки после падения
-function getFinalMultiplier(ballX) {
-    const cellWidth = 40; // ширина ячейки
-    const startX = 190 - (rows * 20); // левая граница первой ячейки
-    const col = Math.floor((ballX - startX) / cellWidth);
-    const clampedCol = Math.max(0, Math.min(8, col));
-    return plinkoMultipliers[clampedCol];
+const TG = window.Telegram.WebApp;
+const userId = TG.initDataUnsafe?.user?.id || 'guest';
+const storageKey = `casino_${userId}`;
+
+let data = JSON.parse(localStorage.getItem(storageKey)) || {
+    balance: 10000,
+    referrals: 0,
+    usedPromos: [],
+    games: {}
+};
+
+function saveData() {
+    localStorage.setItem(storageKey, JSON.stringify(data));
 }
-// Ракета смотрит вверх (поворот через canvas)
-ctx.save();
-ctx.translate(x, y);
-ctx.rotate(-Math.PI/2); // поворот на 90° против часовой
-ctx.drawImage(rocketImage, -25, -40, 50, 80);
-ctx.restore();
