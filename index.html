@@ -3,578 +3,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>💎 PREMIUM CASINO • DIAMOND EDITION 💎</title>
+    <title>NEBULA • PREMIUM CASINO</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== СУПЕР-ПРЕМИУМ ДИЗАЙН ========== */
-        :root {
-            --primary: #8A2BE2;
-            --primary-glow: rgba(138, 43, 226, 0.6);
-            --secondary: #FF1493;
-            --secondary-glow: rgba(255, 20, 147, 0.6);
-            --accent: #00FFFF;
-            --accent-glow: rgba(0, 255, 255, 0.6);
-            --gold: #FFD700;
-            --gold-glow: rgba(255, 215, 0, 0.6);
-            --dark: #0a0a0f;
-            --darker: #050507;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.05);
-            --neon-text: 0 0 10px currentColor;
-            --neon-box: 0 0 20px currentColor;
-        }
-
+        /* ========== МИНИМАЛИСТИЧНЫЙ ПРЕМИУМ ДИЗАЙН ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --bg-primary: #0B0E14;
+            --bg-secondary: #141820;
+            --accent-primary: #6366F1;
+            --accent-secondary: #8B5CF6;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.05);
         }
 
         body {
-            background: var(--darker);
-            color: white;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Анимированный фон с частицами */
-        #particle-canvas {
+        /* Минималистичный градиентный фон */
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
             pointer-events: none;
+            z-index: 0;
         }
 
-        /* Основной контейнер */
         .app {
             position: relative;
             z-index: 1;
             max-width: 800px;
             margin: 0 auto;
-            padding: 16px;
+            padding: 20px;
         }
 
-        /* ========== ШАПКА С БАЛАНСОМ ========== */
+        /* ========== МИНИМАЛИСТИЧНАЯ ШАПКА ========== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
+            margin-bottom: 30px;
             padding: 12px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .avatar {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: var(--neon-box) var(--primary-glow);
-        }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .username {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.7);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            backdrop-filter: blur(10px);
         }
 
         .balance {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--gold), #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .balance i {
-            color: var(--gold);
-            filter: drop-shadow(0 0 10px gold);
-            -webkit-text-fill-color: initial;
+            color: var(--accent-primary);
+            font-size: 20px;
         }
 
         .header-actions {
             display: flex;
-            gap: 10px;
-        }
-
-        .action-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .action-icon:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: var(--neon-box) var(--accent-glow);
-            transform: scale(1.1);
-        }
-
-        /* ========== СТАТИСТИКА ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 15px 5px;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .stat-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--accent);
-            text-shadow: var(--neon-text);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 5px;
-        }
-
-        /* ========== ПРЕМИУМ ВКЛАДКИ ========== */
-        .premium-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            padding: 5px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .premium-tab {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 45px;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 8px;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
         }
 
-        .premium-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: 0.5s;
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .premium-tab:hover::before {
-            left: 100%;
+        .icon-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
         }
 
-        .premium-tab.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        /* ========== МИНИМАЛИСТИЧНЫЕ ТАБЫ ========== */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tab.active {
+            background: var(--accent-primary);
             color: white;
-            box-shadow: 0 0 30px var(--primary-glow);
-        }
-
-        .premium-tab i {
-            font-size: 20px;
         }
 
         /* ========== ИГРОВОЙ КОНТЕЙНЕР ========== */
-        .game-wrapper {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
-            padding: 20px;
+        .game-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 24px;
+        }
+
+        /* ========== ROCKET - КИНЕМАТОГРАФИЧЕСКИЙ ЭФФЕКТ ========== */
+        .rocket-stage {
+            position: relative;
+            background: linear-gradient(180deg, #0A0C12 0%, #000000 100%);
+            border-radius: 24px;
+            overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ========== ROCKET ЭЛЕМЕНТЫ ========== */
-        .rocket-container {
-            position: relative;
-        }
-
-        .history-graph {
-            height: 80px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            margin-bottom: 15px;
-            padding: 10px;
-            display: flex;
-            align-items: flex-end;
-            gap: 5px;
-        }
-
-        .history-bar {
-            flex: 1;
-            background: linear-gradient(to top, var(--accent), transparent);
-            border-radius: 5px 5px 0 0;
-            transition: 0.3s;
-            position: relative;
-            min-height: 5px;
-        }
-
-        .history-bar::after {
-            content: attr(data-value);
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10px;
-            color: var(--accent);
-        }
-
-        .canvas-wrapper {
-            position: relative;
-            background: linear-gradient(180deg, #1a1a2a, #0a0a1a);
-            border-radius: 30px;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border);
         }
 
         #rocketCanvas {
             display: block;
             width: 100%;
             height: auto;
-            border-radius: 20px;
-            background: #0a0a1a;
+            background: transparent;
         }
 
-        .multiplier-badge {
+        /* Бесконечный космос для звезд */
+        .stars-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+        }
+
+        .multiplier-display {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 72px;
-            font-weight: 900;
-            color: var(--accent);
-            text-shadow: 0 0 30px var(--accent), 0 0 60px var(--primary);
-            background: rgba(0, 0, 0, 0.5);
+            font-size: 80px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            text-shadow: 0 0 30px var(--accent-primary);
+            background: rgba(0, 0, 0, 0.3);
             padding: 30px 60px;
-            border-radius: 80px;
+            border-radius: 100px;
             backdrop-filter: blur(10px);
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 50px var(--accent-glow);
+            border: 2px solid var(--accent-primary);
             z-index: 10;
-            white-space: nowrap;
+            letter-spacing: 2px;
         }
 
         .crash-info {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 30px;
+            padding: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
         }
 
-        .crash-item {
+        .crash-stat {
             text-align: center;
         }
 
         .crash-label {
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-secondary);
             font-size: 14px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .crash-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--gold);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent-primary);
         }
 
-        /* ========== PLINKO СПЕЦИФИКА ========== */
-        .risk-panel {
+        /* ========== PLINKO - РЕАЛИСТИЧНАЯ ФИЗИКА ========== */
+        .plinko-stage {
+            background: linear-gradient(180deg, #0A0C12 0%, #000000 100%);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        #plinkoCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: transparent;
+        }
+
+        .risk-selector {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin: 20px 0;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 50px;
+            padding: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
         }
 
         .risk-option {
             flex: 1;
             padding: 12px;
-            border: 2px solid transparent;
-            border-radius: 40px;
+            border: none;
+            border-radius: 100px;
             background: transparent;
-            color: white;
-            font-weight: 600;
+            color: var(--text-secondary);
+            font-weight: 500;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.2s;
         }
 
-        .risk-option.low {
-            border-color: #00c851;
-            box-shadow: 0 0 15px #00c851;
+        .risk-option.low.active {
+            background: #10B981;
+            color: white;
         }
 
-        .risk-option.medium {
-            border-color: #ffaa00;
-            box-shadow: 0 0 15px #ffaa00;
+        .risk-option.medium.active {
+            background: #F59E0B;
+            color: white;
         }
 
-        .risk-option.high {
-            border-color: #ff4444;
-            box-shadow: 0 0 15px #ff4444;
+        .risk-option.high.active {
+            background: #EF4444;
+            color: white;
         }
-
-        .risk-option.active {
-            background: currentColor;
-            color: black;
-            transform: scale(1.05);
-        }
-
-        .risk-option.low.active { background: #00c851; }
-        .risk-option.medium.active { background: #ffaa00; }
-        .risk-option.high.active { background: #ff4444; }
 
         .multiplier-grid {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
-            gap: 5px;
+            gap: 6px;
             margin: 20px 0;
         }
 
-        .multiplier-block {
+        .multiplier-cell {
             aspect-ratio: 1;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--gold);
-            border-radius: 15px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            color: var(--gold);
-            text-shadow: 0 0 10px gold;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: 0.2s;
         }
 
-        .multiplier-block::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, var(--gold), transparent);
-            animation: rotate 4s linear infinite;
-            opacity: 0;
+        .multiplier-cell.highlight {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .multiplier-block:hover::before {
-            opacity: 0.3;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* ========== ПАНЕЛЬ СТАВОК ========== */
-        .betting-panel {
-            background: linear-gradient(145deg, rgba(0,0,0,0.5), rgba(0,0,0,0.7));
-            border-radius: 40px;
+        /* ========== МИНИМАЛИСТИЧНАЯ ПАНЕЛЬ СТАВОК ========== */
+        .bet-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
             padding: 20px;
-            margin-top: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .bet-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-            color: rgba(255,255,255,0.7);
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
-        .bet-slider {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .bet-slider-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            width: 0%;
-            transition: 0.3s;
-        }
-
-        .bet-slider input {
-            position: absolute;
-            top: -5px;
-            left: 0;
-            width: 100%;
-            height: 18px;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .bet-input-group {
+        .bet-input-wrapper {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-        .bet-field {
+        .bet-input {
             flex: 2;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid var(--primary);
-            border-radius: 40px;
-            padding: 18px;
-            color: white;
-            font-size: 20px;
-            font-weight: 700;
-            text-align: center;
+            padding: 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+            outline: none;
         }
 
-        .bet-field:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow);
+        .bet-input:focus {
+            border-color: var(--accent-primary);
         }
 
         .bet-multipliers {
             flex: 1;
             display: flex;
-            gap: 5px;
+            gap: 6px;
         }
 
-        .bet-mult {
+        .mult-btn {
             flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--primary);
-            border-radius: 30px;
-            color: white;
-            font-weight: 700;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-secondary);
+            font-weight: 600;
             cursor: pointer;
             transition: 0.2s;
         }
 
-        .bet-mult:hover {
-            background: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
+        .mult-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
         }
 
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .game-btn {
             flex: 1;
-            padding: 20px;
+            padding: 18px;
             border: none;
-            border-radius: 50px;
-            font-size: 20px;
-            font-weight: 700;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
+            transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .game-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent);
-            opacity: 0;
-            transition: 0.5s;
-        }
-
-        .game-btn:hover::after {
-            opacity: 1;
+            gap: 8px;
         }
 
         .game-btn.primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--accent-primary);
             color: white;
-            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .game-btn.primary:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--accent-glow);
         }
 
         .game-btn.success {
-            background: linear-gradient(135deg, #00c851, #008800);
+            background: #10B981;
             color: white;
-            box-shadow: 0 0 30px #00c851;
         }
 
         .game-btn:disabled {
@@ -584,444 +410,193 @@
 
         /* ========== ИСТОРИЯ ========== */
         .history-section {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
             padding: 20px;
-        }
-
-        .history-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
         }
 
         .history-title {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 18px;
-            color: var(--accent);
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-size: 14px;
         }
 
-        .history-filter {
-            display: flex;
-            gap: 10px;
-        }
-
-        .filter-btn {
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .filter-btn.active {
-            background: var(--accent);
-            color: black;
-        }
-
-        .history-scroll {
+        .history-list {
             max-height: 200px;
             overflow-y: auto;
-            padding-right: 10px;
         }
 
-        .history-scroll::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .history-scroll::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-
-        .history-scroll::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
-
-        .history-row {
+        .history-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 12px;
-            margin-bottom: 8px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 20px;
-            transition: 0.2s;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
         }
 
-        .history-row:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateX(5px);
-        }
-
-        .history-game {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .game-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--primary);
+        .history-item:last-child {
+            border-bottom: none;
         }
 
         .history-win {
-            color: #00c851;
-            font-weight: 700;
+            color: #10B981;
         }
 
         .history-lose {
-            color: #ff4444;
-            font-weight: 700;
-        }
-
-        /* ========== МОДАЛЬНЫЕ ОКНА ========== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            max-width: 500px;
-            width: 90%;
-            background: linear-gradient(145deg, #1a1a2a, #0a0a1a);
-            border: 3px solid var(--primary);
-            border-radius: 50px;
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 0 100px var(--primary-glow);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .modal-title {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .modal-text {
-            line-height: 1.8;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 30px;
-        }
-
-        .modal-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            border-radius: 40px;
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* ========== АНИМАЦИИ ========== */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 20px var(--primary-glow); }
-            50% { box-shadow: 0 0 50px var(--primary-glow); }
-            100% { box-shadow: 0 0 20px var(--primary-glow); }
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .pulse-animation {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        /* ========== ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ ========== */
-        .glow-text {
-            text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-        }
-
-        .gradient-border {
-            position: relative;
-            border: double 1px transparent;
-            background-image: linear-gradient(var(--dark), var(--dark)), 
-                              linear-gradient(135deg, var(--primary), var(--secondary));
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
+            color: #EF4444;
         }
 
         .hidden {
             display: none !important;
         }
+
+        /* Анимации */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
-    <canvas id="particle-canvas"></canvas>
-    
     <div class="app">
-        <!-- Шапка с балансом -->
+        <!-- Шапка -->
         <header class="header">
-            <div class="user-profile">
-                <div class="avatar pulse-animation">
-                    <i class="fas fa-crown"></i>
-                </div>
-                <div class="user-info">
-                    <span class="username">DIAMOND PLAYER</span>
-                    <div class="balance">
-                        <i class="fas fa-star"></i>
-                        <span id="balance">10,000</span>
-                    </div>
-                </div>
+            <div class="balance">
+                <i class="fas fa-sparkle"></i>
+                <span id="balance">10,000</span>
             </div>
             <div class="header-actions">
-                <button class="action-icon" id="dailyBonus" title="Ежедневный бонус">
+                <button class="icon-btn" id="dailyBonus">
                     <i class="fas fa-gift"></i>
-                    <span class="badge">+1000</span>
                 </button>
-                <button class="action-icon" id="menuButton" title="Меню">
+                <button class="icon-btn" id="menuBtn">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </header>
 
-        <!-- Статистика -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value" id="gamesPlayed">247</div>
-                <div class="stat-label">Игр сыграно</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="winRate">68%</div>
-                <div class="stat-label">Винрейт</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="totalWon">45.2K</div>
-                <div class="stat-label">Выиграно</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="bestMulti">12.5x</div>
-                <div class="stat-label">Рекорд</div>
-            </div>
-        </div>
-
-        <!-- Премиум вкладки -->
-        <div class="premium-tabs">
-            <button class="premium-tab active" id="tabRocket">
-                <i class="fas fa-rocket"></i>
-                <span>Rocket X</span>
-            </button>
-            <button class="premium-tab" id="tabPlinko">
-                <i class="fas fa-chart-line"></i>
-                <span>Plinko Pro</span>
-            </button>
-            <button class="premium-tab" id="tabStats">
-                <i class="fas fa-trophy"></i>
-                <span>Рейтинг</span>
-            </button>
+        <!-- Табы -->
+        <div class="tabs">
+            <button class="tab active" id="tabRocket">Rocket</button>
+            <button class="tab" id="tabPlinko">Plinko</button>
         </div>
 
         <!-- ROCKET GAME -->
-        <div id="rocketGame" class="game-wrapper">
-            <div class="rocket-container">
-                <!-- График истории -->
-                <div class="history-graph" id="historyGraph"></div>
-                
-                <!-- Canvas с ракетой -->
-                <div class="canvas-wrapper">
-                    <canvas id="rocketCanvas" width="800" height="400"></canvas>
-                    <div class="multiplier-badge" id="rocketMultiplier">1.00x</div>
+        <div id="rocketGame" class="game-container">
+            <div class="rocket-stage">
+                <div class="stars-layer" id="starsLayer"></div>
+                <canvas id="rocketCanvas" width="800" height="400"></canvas>
+                <div class="multiplier-display" id="rocketMultiplier">1.00x</div>
+            </div>
+
+            <div class="crash-info">
+                <div class="crash-stat">
+                    <div class="crash-label">Last Crash</div>
+                    <div class="crash-value" id="lastCrash">2.45x</div>
+                </div>
+                <div class="crash-stat">
+                    <div class="crash-label">Max Crash</div>
+                    <div class="crash-value" id="maxCrash">12.5x</div>
+                </div>
+                <div class="crash-stat">
+                    <div class="crash-label">Next</div>
+                    <div class="crash-value" id="nextCrash">3.2x</div>
+                </div>
+            </div>
+
+            <div class="bet-panel">
+                <div class="bet-header">
+                    <span>Bet Amount</span>
+                    <span id="rocketBetAmount">10 ⭐</span>
                 </div>
 
-                <!-- Информация о крашах -->
-                <div class="crash-info">
-                    <div class="crash-item">
-                        <div class="crash-label">Последний краш</div>
-                        <div class="crash-value" id="lastCrash">2.45x</div>
-                    </div>
-                    <div class="crash-item">
-                        <div class="crash-label">Макс. краш</div>
-                        <div class="crash-value" id="maxCrash">12.5x</div>
-                    </div>
-                    <div class="crash-item">
-                        <div class="crash-label">След. игра</div>
-                        <div class="crash-value" id="nextGame">3.2x</div>
+                <div class="bet-input-wrapper">
+                    <input type="number" id="rocketBet" class="bet-input" min="1" max="10000" value="10">
+                    <div class="bet-multipliers">
+                        <button class="mult-btn" data-mult="2">2x</button>
+                        <button class="mult-btn" data-mult="5">5x</button>
+                        <button class="mult-btn" data-mult="10">10x</button>
                     </div>
                 </div>
 
-                <!-- Панель ставок -->
-                <div class="betting-panel">
-                    <div class="bet-header">
-                        <span>Сумма ставки</span>
-                        <span id="betAmount">10 ⭐</span>
-                    </div>
-                    
-                    <div class="bet-slider">
-                        <div class="bet-slider-fill" id="sliderFill" style="width: 10%"></div>
-                        <input type="range" id="betSlider" min="1" max="1000" value="10">
-                    </div>
-
-                    <div class="bet-input-group">
-                        <input type="number" id="rocketBetInput" class="bet-field" min="1" value="10">
-                        <div class="bet-multipliers">
-                            <button class="bet-mult" data-mult="2">2x</button>
-                            <button class="bet-mult" data-mult="5">5x</button>
-                            <button class="bet-mult" data-mult="10">10x</button>
-                        </div>
-                    </div>
-
-                    <div class="action-buttons">
-                        <button class="game-btn primary" id="rocketStartBtn">
-                            <i class="fas fa-play"></i> ЗАПУСТИТЬ
-                        </button>
-                        <button class="game-btn success" id="rocketCashoutBtn" disabled>
-                            <i class="fas fa-hand-holding-usd"></i> ЗАБРАТЬ
-                        </button>
-                    </div>
+                <div class="action-buttons">
+                    <button class="game-btn primary" id="rocketStart">
+                        <i class="fas fa-play"></i> Launch
+                    </button>
+                    <button class="game-btn success" id="rocketCashout" disabled>
+                        <i class="fas fa-hand-holding-usd"></i> Cash Out
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- PLINKO GAME -->
-        <div id="plinkoGame" class="game-wrapper hidden">
-            <div class="canvas-wrapper">
+        <div id="plinkoGame" class="game-container hidden">
+            <div class="plinko-stage">
                 <canvas id="plinkoCanvas" width="800" height="600"></canvas>
             </div>
 
-            <!-- Выбор риска -->
-            <div class="risk-panel">
-                <button class="risk-option low active" data-risk="low">НИЗКИЙ</button>
-                <button class="risk-option medium" data-risk="medium">СРЕДНИЙ</button>
-                <button class="risk-option high" data-risk="high">ВЫСОКИЙ</button>
+            <div class="risk-selector">
+                <button class="risk-option low active" data-risk="low">Low Risk</button>
+                <button class="risk-option medium" data-risk="medium">Medium Risk</button>
+                <button class="risk-option high" data-risk="high">High Risk</button>
             </div>
 
-            <!-- Множители -->
             <div class="multiplier-grid" id="multiplierGrid"></div>
 
-            <!-- Панель ставок -->
-            <div class="betting-panel">
+            <div class="bet-panel">
                 <div class="bet-header">
-                    <span>Ставка</span>
+                    <span>Bet Amount</span>
                     <span id="plinkoBetAmount">10 ⭐</span>
                 </div>
 
-                <div class="bet-input-group">
-                    <input type="number" id="plinkoBetInput" class="bet-field" min="1" value="10">
+                <div class="bet-input-wrapper">
+                    <input type="number" id="plinkoBet" class="bet-input" min="1" max="10000" value="10">
                     <div class="bet-multipliers">
-                        <button class="bet-mult" data-mult="2">2x</button>
-                        <button class="bet-mult" data-mult="5">5x</button>
-                        <button class="bet-mult" data-mult="10">10x</button>
+                        <button class="mult-btn" data-mult="2">2x</button>
+                        <button class="mult-btn" data-mult="5">5x</button>
+                        <button class="mult-btn" data-mult="10">10x</button>
                     </div>
                 </div>
 
                 <div class="action-buttons">
-                    <button class="game-btn primary" id="plinkoDropBtn">
-                        <i class="fas fa-arrow-down"></i> БРОСИТЬ
+                    <button class="game-btn primary" id="plinkoDrop">
+                        <i class="fas fa-arrow-down"></i> Drop Ball
                     </button>
                 </div>
 
-                <div id="plinkoResult" class="multiplier-badge" style="position: relative; transform: none; left: auto; margin-top: 20px; font-size: 36px;">
-                    👆 СДЕЛАЙТЕ СТАВКУ
+                <div class="multiplier-display" style="position: relative; transform: none; left: auto; margin-top: 20px; font-size: 36px;" id="plinkoResult">
+                    ⚡ Place Your Bet
                 </div>
             </div>
         </div>
 
-        <!-- СТАТИСТИКА И РЕЙТИНГ -->
-        <div id="statsGame" class="game-wrapper hidden">
-            <div style="text-align: center; padding: 40px;">
-                <i class="fas fa-trophy" style="font-size: 80px; color: gold; margin-bottom: 20px;"></i>
-                <h2 style="margin-bottom: 30px;">ТОП ИГРОКОВ</h2>
-                <div id="leaderboard"></div>
-            </div>
-        </div>
-
-        <!-- ИСТОРИЯ -->
+        <!-- HISTORY -->
         <div class="history-section">
-            <div class="history-header">
-                <div class="history-title">
-                    <i class="fas fa-clock"></i>
-                    <span>История игр</span>
-                </div>
-                <div class="history-filter">
-                    <button class="filter-btn active" data-filter="all">Все</button>
-                    <button class="filter-btn" data-filter="rocket">Ракета</button>
-                    <button class="filter-btn" data-filter="plinko">Plinko</button>
-                </div>
+            <div class="history-title">
+                <i class="fas fa-clock"></i>
+                <span>Recent Games</span>
             </div>
-            <div class="history-scroll" id="historyList"></div>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНЫЕ ОКНА -->
-    <div class="modal-overlay" id="menuModal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <h2 class="modal-title">МЕНЮ</h2>
-            <div style="display: flex; flex-direction: column; gap: 15px;">
-                <button class="modal-btn" id="provablyFairBtn">
-                    <i class="fas fa-shield-alt"></i> Provably Fair
-                </button>
-                <button class="modal-btn" id="settingsBtn">
-                    <i class="fas fa-cog"></i> Настройки
-                </button>
-                <button class="modal-btn" id="howToPlayBtn">
-                    <i class="fas fa-question"></i> Как играть
-                </button>
-                <button class="modal-btn" id="supportBtn">
-                    <i class="fas fa-headset"></i> Поддержка
-                </button>
-            </div>
+            <div class="history-list" id="historyList"></div>
         </div>
     </div>
 
     <script>
-        // ==================== ПРЕМИУМ ФИЗИКА И ЛОГИКА ====================
         (function() {
-            // Инициализация Telegram
+            // Telegram Integration
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
@@ -1030,36 +605,32 @@
             let balance = 10000;
             let gameActive = false;
             let rocketInterval = null;
+            let starsInterval = null;
             let crashPoint = 2.0;
             let currentMultiplier = 1.0;
             let rocketBet = 10;
-            let crashHistory = [2.45, 1.87, 3.21, 5.67, 1.23, 4.56, 2.89, 3.45, 1.98, 2.34];
-            let maxCrash = 12.5;
-            let gamesPlayed = 247;
-            let totalWon = 45200;
-            let winRate = 68;
+            let vibration = 0;
             
+            // История крашей
+            let crashHistory = [2.45, 1.87, 3.21, 5.67, 1.23, 4.56];
+            let maxCrash = 12.5;
+
             // Plinko переменные
             let plinkoRisk = 'low';
-            let plinkoMultipliers = {
+            const plinkoMultipliers = {
                 low: [0.5, 0.7, 1, 1.2, 1.5, 1.2, 1, 0.7, 0.5],
                 medium: [0.3, 0.5, 1, 2, 3, 2, 1, 0.5, 0.3],
                 high: [0.1, 0.2, 0.5, 3, 8, 3, 0.5, 0.2, 0.1]
             };
             let currentMultipliers = plinkoMultipliers.low;
+            let plinkoAnimation = null;
 
             // ========== DOM ЭЛЕМЕНТЫ ==========
             const balanceSpan = document.getElementById('balance');
-            const gamesPlayedSpan = document.getElementById('gamesPlayed');
-            const winRateSpan = document.getElementById('winRate');
-            const totalWonSpan = document.getElementById('totalWon');
-            const bestMultiSpan = document.getElementById('bestMulti');
             const tabRocket = document.getElementById('tabRocket');
             const tabPlinko = document.getElementById('tabPlinko');
-            const tabStats = document.getElementById('tabStats');
             const rocketGame = document.getElementById('rocketGame');
             const plinkoGame = document.getElementById('plinkoGame');
-            const statsGame = document.getElementById('statsGame');
             
             // Rocket элементы
             const rocketCanvas = document.getElementById('rocketCanvas');
@@ -1067,86 +638,33 @@
             const rocketMultiplier = document.getElementById('rocketMultiplier');
             const lastCrashSpan = document.getElementById('lastCrash');
             const maxCrashSpan = document.getElementById('maxCrash');
-            const nextGameSpan = document.getElementById('nextGame');
-            const betSlider = document.getElementById('betSlider');
-            const sliderFill = document.getElementById('sliderFill');
-            const rocketBetInput = document.getElementById('rocketBetInput');
-            const betAmountSpan = document.getElementById('betAmount');
-            const rocketStartBtn = document.getElementById('rocketStartBtn');
-            const rocketCashoutBtn = document.getElementById('rocketCashoutBtn');
-            const historyGraph = document.getElementById('historyGraph');
+            const nextCrashSpan = document.getElementById('nextCrash');
+            const rocketBetInput = document.getElementById('rocketBet');
+            const rocketBetAmount = document.getElementById('rocketBetAmount');
+            const rocketStart = document.getElementById('rocketStart');
+            const rocketCashout = document.getElementById('rocketCashout');
+            const starsLayer = document.getElementById('starsLayer');
 
             // Plinko элементы
             const plinkoCanvas = document.getElementById('plinkoCanvas');
             const plinkoCtx = plinkoCanvas.getContext('2d');
             const multiplierGrid = document.getElementById('multiplierGrid');
-            const plinkoBetInput = document.getElementById('plinkoBetInput');
+            const plinkoBetInput = document.getElementById('plinkoBet');
             const plinkoBetAmount = document.getElementById('plinkoBetAmount');
-            const plinkoDropBtn = document.getElementById('plinkoDropBtn');
+            const plinkoDrop = document.getElementById('plinkoDrop');
             const plinkoResult = document.getElementById('plinkoResult');
             const riskBtns = document.querySelectorAll('.risk-option');
-
-            // Модальные окна
-            const menuButton = document.getElementById('menuButton');
-            const menuModal = document.getElementById('menuModal');
-            const modalClose = document.querySelector('.modal-close');
-
-            // ========== ЧАСТИЦЫ НА ФОНЕ ==========
-            const particleCanvas = document.getElementById('particle-canvas');
-            const ctx = particleCanvas.getContext('2d');
-            let particles = [];
-
-            function initParticles() {
-                particleCanvas.width = window.innerWidth;
-                particleCanvas.height = window.innerHeight;
-                
-                for (let i = 0; i < 100; i++) {
-                    particles.push({
-                        x: Math.random() * particleCanvas.width,
-                        y: Math.random() * particleCanvas.height,
-                        vx: (Math.random() - 0.5) * 0.5,
-                        vy: (Math.random() - 0.5) * 0.5,
-                        size: Math.random() * 3 + 1,
-                        color: `rgba(138, 43, 226, ${Math.random() * 0.5})`
-                    });
-                }
-            }
-
-            function drawParticles() {
-                ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-                
-                particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.fill();
-                    
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    
-                    if (p.x < 0 || p.x > particleCanvas.width) p.vx *= -1;
-                    if (p.y < 0 || p.y > particleCanvas.height) p.vy *= -1;
-                });
-                
-                requestAnimationFrame(drawParticles);
-            }
 
             // ========== ФУНКЦИИ БАЛАНСА ==========
             function updateBalance() {
                 balanceSpan.textContent = balance.toLocaleString();
-                gamesPlayedSpan.textContent = gamesPlayed;
-                winRateSpan.textContent = winRate + '%';
-                totalWonSpan.textContent = (totalWon / 1000).toFixed(1) + 'K';
-                bestMultiSpan.textContent = maxCrash.toFixed(1) + 'x';
             }
 
             function addStars(amount) {
                 balance += amount;
                 updateBalance();
-                addHistory('Бонус', `+${amount} ⭐`, 'win');
-                
-                // Эффект конфетти
-                createConfetti();
+                addHistory('Bonus', `+${amount} ⭐`, 'win');
+                createParticles('win');
             }
 
             function deductStars(amount) {
@@ -1158,318 +676,352 @@
                 return false;
             }
 
-            // ========== ROCKET ФИЗИКА ==========
-            function drawRocket(mult) {
+            // ========== ROCKET - КИНЕМАТОГРАФИЧЕСКАЯ ФИЗИКА ==========
+            function createStars() {
+                starsLayer.innerHTML = '';
+                for (let i = 0; i < 50; i++) {
+                    let star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    star.style.width = Math.random() * 3 + 1 + 'px';
+                    star.style.height = star.style.width;
+                    star.style.opacity = Math.random() * 0.8 + 0.2;
+                    starsLayer.appendChild(star);
+                }
+            }
+
+            function animateStars(speed) {
+                let stars = document.querySelectorAll('.star');
+                stars.forEach(star => {
+                    let top = parseFloat(star.style.top);
+                    top += speed * 0.5;
+                    if (top > 100) {
+                        top = -5;
+                        star.style.left = Math.random() * 100 + '%';
+                    }
+                    star.style.top = top + '%';
+                });
+            }
+
+            function drawRocket(mult, vib) {
                 rocketCtx.clearRect(0, 0, 800, 400);
                 
-                // Звезды с мерцанием
-                for (let i = 0; i < 50; i++) {
-                    let x = (i * 37) % 800;
-                    let y = (i * 23) % 400;
-                    let brightness = Math.sin(Date.now() * 0.001 + i) * 0.5 + 0.5;
-                    
-                    rocketCtx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
-                    rocketCtx.beginPath();
-                    rocketCtx.arc(x, y, 1 + Math.random() * 2, 0, Math.PI * 2);
-                    rocketCtx.fill();
-                }
+                // Горизонт
+                rocketCtx.fillStyle = '#0A0C12';
+                rocketCtx.fillRect(0, 200, 800, 200);
                 
-                // График с эффектом свечения
-                rocketCtx.shadowColor = '#00ffff';
-                rocketCtx.shadowBlur = 20;
+                // Эффект свечения от ракеты
+                let gradient = rocketCtx.createRadialGradient(400 + vib * 5, 300 - mult * 30, 20, 
+                                                             400 + vib * 5, 300 - mult * 30, 100);
+                gradient.addColorStop(0, 'rgba(99, 102, 241, 0.8)');
+                gradient.addColorStop(1, 'transparent');
+                rocketCtx.fillStyle = gradient;
+                rocketCtx.fillRect(200, 100, 400, 200);
+                
+                // Ракета (минималистичный дизайн)
+                rocketCtx.save();
+                rocketCtx.translate(400 + vib * 3, 300 - mult * 30);
+                
+                // Корпус
+                rocketCtx.fillStyle = '#FFFFFF';
+                rocketCtx.shadowColor = '#6366F1';
+                rocketCtx.shadowBlur = 30;
                 rocketCtx.beginPath();
-                rocketCtx.strokeStyle = '#00ffff';
-                rocketCtx.lineWidth = 4;
+                rocketCtx.moveTo(-20, -30);
+                rocketCtx.lineTo(20, -30);
+                rocketCtx.lineTo(30, 0);
+                rocketCtx.lineTo(20, 30);
+                rocketCtx.lineTo(-20, 30);
+                rocketCtx.lineTo(-30, 0);
+                rocketCtx.closePath();
+                rocketCtx.fill();
+                
+                // Иллюминатор
+                rocketCtx.shadowBlur = 20;
+                rocketCtx.fillStyle = '#6366F1';
+                rocketCtx.beginPath();
+                rocketCtx.arc(0, 0, 8, 0, Math.PI * 2);
+                rocketCtx.fill();
+                
+                // Пламя (пульсирует)
+                let flameSize = 15 + Math.sin(Date.now() * 0.02) * 5;
+                rocketCtx.shadowColor = '#F59E0B';
+                rocketCtx.fillStyle = '#F59E0B';
+                rocketCtx.beginPath();
+                rocketCtx.moveTo(-10, 35);
+                rocketCtx.lineTo(0, 35 + flameSize);
+                rocketCtx.lineTo(10, 35);
+                rocketCtx.fill();
+                
+                rocketCtx.restore();
+                
+                // Линия графика
+                rocketCtx.beginPath();
+                rocketCtx.strokeStyle = '#6366F1';
+                rocketCtx.lineWidth = 2;
+                rocketCtx.shadowColor = '#6366F1';
+                rocketCtx.shadowBlur = 10;
                 rocketCtx.moveTo(100, 300);
                 
-                for (let x = 100; x <= 700; x += 5) {
+                for (let x = 100; x <= 700; x += 10) {
                     let t = (x - 100) / 600;
                     let y = 300 - Math.min(t * crashPoint * 50, 250);
                     rocketCtx.lineTo(x, y);
                 }
                 rocketCtx.stroke();
-                rocketCtx.shadowBlur = 0;
-                
-                // Ракета с реалистичным пламенем
-                let rocketY = 280 - (mult - 1) * 30;
-                
-                // Пламя (пульсирует)
-                let flameSize = 20 + Math.sin(Date.now() * 0.02) * 5;
-                rocketCtx.shadowColor = '#ff5500';
-                rocketCtx.shadowBlur = 30;
-                rocketCtx.fillStyle = '#ffaa00';
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(120, rocketY + 40);
-                rocketCtx.lineTo(150, rocketY + 40 + flameSize);
-                rocketCtx.lineTo(180, rocketY + 40);
-                rocketCtx.fill();
-                
-                // Корпус ракеты
-                rocketCtx.shadowColor = '#ff0000';
-                rocketCtx.fillStyle = '#ff4444';
-                rocketCtx.beginPath();
-                rocketCtx.moveTo(100, rocketY);
-                rocketCtx.lineTo(200, rocketY);
-                rocketCtx.lineTo(180, rocketY + 40);
-                rocketCtx.lineTo(120, rocketY + 40);
-                rocketCtx.closePath();
-                rocketCtx.fill();
-                
-                // Иллюминатор
-                rocketCtx.shadowBlur = 15;
-                rocketCtx.fillStyle = '#00aaff';
-                rocketCtx.beginPath();
-                rocketCtx.arc(150, rocketY + 15, 8, 0, Math.PI * 2);
-                rocketCtx.fill();
-                
-                rocketCtx.shadowBlur = 0;
             }
 
-            // Обновление истории крашей
-            function updateCrashHistory() {
-                historyGraph.innerHTML = '';
-                
-                crashHistory.slice(0, 20).forEach((crash, i) => {
-                    let bar = document.createElement('div');
-                    bar.className = 'history-bar';
-                    bar.style.height = Math.min(60, crash * 10) + 'px';
-                    bar.setAttribute('data-value', crash.toFixed(2) + 'x');
-                    historyGraph.appendChild(bar);
-                });
-                
-                lastCrashSpan.textContent = crashHistory[0].toFixed(2) + 'x';
+            // Обновление информации о крашах
+            function updateCrashInfo() {
+                lastCrashSpan.textContent = crashHistory[0]?.toFixed(2) + 'x';
                 maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
-                
-                // Прогноз следующего краша (случайно)
                 let next = (1 + Math.random() * 9).toFixed(2);
-                nextGameSpan.textContent = next + 'x';
+                nextCrashSpan.textContent = next + 'x';
             }
 
             // ========== ROCKET ЛОГИКА ==========
-            rocketStartBtn.addEventListener('click', () => {
+            rocketStart.addEventListener('click', () => {
                 if (gameActive) return;
                 
                 rocketBet = parseInt(rocketBetInput.value);
-                if (rocketBet < 1) {
-                    alert('Минимальная ставка 1');
+                if (rocketBet < 1 || rocketBet > balance) {
+                    alert('Invalid bet amount');
                     return;
                 }
                 
-                if (!deductStars(rocketBet)) {
-                    alert('Недостаточно средств');
-                    return;
-                }
+                if (!deductStars(rocketBet)) return;
                 
-                // Генерация точки краша (экспоненциальное распределение)
+                // Генерация точки краша
                 let r = Math.random();
                 crashPoint = 0.99 / (1 - r);
                 crashPoint = Math.min(10, Math.max(1, parseFloat(crashPoint.toFixed(2))));
                 
                 gameActive = true;
-                rocketStartBtn.disabled = true;
-                rocketCashoutBtn.disabled = false;
+                vibration = 0;
+                rocketStart.disabled = true;
+                rocketCashout.disabled = false;
                 currentMultiplier = 1.0;
                 rocketMultiplier.textContent = '1.00x';
-                drawRocket(1.0);
                 
+                createStars();
                 let startTime = Date.now();
                 
+                // Интервал анимации ракеты
                 rocketInterval = setInterval(() => {
                     if (!gameActive) return;
                     
                     let elapsed = (Date.now() - startTime) / 1000;
-                    currentMultiplier = 1 + 0.7 * elapsed;
+                    currentMultiplier = 1 + 0.8 * elapsed;
                     rocketMultiplier.textContent = currentMultiplier.toFixed(2) + 'x';
-                    drawRocket(currentMultiplier);
+                    
+                    // Увеличиваем вибрацию и скорость звезд
+                    vibration = Math.min(5, elapsed * 2);
+                    animateStars(elapsed * 2);
+                    
+                    drawRocket(currentMultiplier, vibration);
                     
                     if (currentMultiplier >= crashPoint) {
                         clearInterval(rocketInterval);
                         gameActive = false;
-                        rocketStartBtn.disabled = false;
-                        rocketCashoutBtn.disabled = true;
+                        rocketStart.disabled = false;
+                        rocketCashout.disabled = true;
                         
                         crashHistory.unshift(crashPoint);
-                        if (crashHistory.length > 20) crashHistory.pop();
+                        if (crashHistory.length > 10) crashHistory.pop();
                         if (crashPoint > maxCrash) maxCrash = crashPoint;
-                        gamesPlayed++;
-                        winRate = Math.round((totalWon / (gamesPlayed * 50)) * 100);
                         
-                        updateCrashHistory();
-                        updateBalance();
-                        addHistory('Ракетка', `crash -${rocketBet} ⭐`, 'lose');
-                        
-                        // Эффект взрыва
-                        for (let i = 0; i < 10; i++) {
-                            setTimeout(() => {
-                                drawRocket(currentMultiplier + Math.random());
-                            }, i * 50);
-                        }
+                        updateCrashInfo();
+                        addHistory('Rocket', `Crash -${rocketBet} ⭐`, 'lose');
+                        createParticles('crash');
                     }
-                }, 50);
+                }, 30);
             });
 
-            rocketCashoutBtn.addEventListener('click', () => {
+            rocketCashout.addEventListener('click', () => {
                 if (!gameActive) return;
                 
                 clearInterval(rocketInterval);
                 gameActive = false;
-                rocketStartBtn.disabled = false;
-                rocketCashoutBtn.disabled = true;
+                rocketStart.disabled = false;
+                rocketCashout.disabled = true;
                 
                 let win = Math.floor(rocketBet * currentMultiplier);
                 balance += win;
-                totalWon += win;
-                gamesPlayed++;
                 
                 crashHistory.unshift(currentMultiplier);
-                if (crashHistory.length > 20) crashHistory.pop();
+                if (crashHistory.length > 10) crashHistory.pop();
                 if (currentMultiplier > maxCrash) maxCrash = currentMultiplier;
                 
-                winRate = Math.round((totalWon / (gamesPlayed * 50)) * 100);
-                
-                updateCrashHistory();
+                updateCrashInfo();
                 updateBalance();
-                addHistory('Ракетка', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
-                
-                // Эффект конфетти
-                createConfetti();
+                addHistory('Rocket', `x${currentMultiplier.toFixed(2)} +${win} ⭐`, 'win');
+                createParticles('win');
             });
 
-            // ========== PLINKO ФИЗИКА ==========
+            // ========== PLINKO - РЕАЛИСТИЧНАЯ ФИЗИКА ==========
             function drawPlinkoBoard() {
                 plinkoCtx.clearRect(0, 0, 800, 600);
                 
-                let rows = 8;
-                let startY = 80;
-                let stepY = 55;
-                let startX = 300;
+                const rows = 8;
+                const startY = 80;
+                const stepY = 55;
+                const startX = 400;
                 
-                // Рисуем колышки с эффектом свечения
-                plinkoCtx.shadowColor = '#8A2BE2';
-                plinkoCtx.shadowBlur = 15;
-                plinkoCtx.fillStyle = '#aaccff';
+                // Рисуем колышки
+                plinkoCtx.fillStyle = '#94A3B8';
+                plinkoCtx.shadowColor = '#6366F1';
+                plinkoCtx.shadowBlur = 10;
                 
                 for (let row = 0; row < rows; row++) {
                     for (let col = 0; col <= row; col++) {
                         let x = startX - (row * 30) + col * 60;
                         let y = startY + row * stepY;
                         
-                        // Пульсация
-                        let size = 8 + Math.sin(Date.now() * 0.002 + row * col) * 2;
-                        
                         plinkoCtx.beginPath();
-                        plinkoCtx.arc(x, y, size, 0, Math.PI * 2);
+                        plinkoCtx.arc(x, y, 6, 0, Math.PI * 2);
                         plinkoCtx.fill();
                     }
                 }
                 
-                plinkoCtx.shadowBlur = 0;
+                // Рисуем ячейки
+                const cellY = startY + rows * stepY + 30;
                 
-                // Ячейки внизу
-                let cellY = startY + rows * stepY + 30;
-                
-                currentMultipliers.forEach((mult, i) => {
+                for (let i = 0; i < 9; i++) {
                     let x = startX - (rows * 30) + i * 60;
                     
-                    // Градиент для ячеек
-                    let gradient = plinkoCtx.createLinearGradient(x-25, cellY-15, x+25, cellY+25);
-                    gradient.addColorStop(0, '#1a2a3a');
-                    gradient.addColorStop(1, '#0a1a2a');
-                    
-                    plinkoCtx.fillStyle = gradient;
-                    plinkoCtx.fillRect(x - 25, cellY - 15, 50, 40);
-                    
-                    // Рамка с цветом в зависимости от множителя
-                    plinkoCtx.strokeStyle = mult >= 1 ? '#00c851' : '#ff4444';
+                    // Контур ячейки
+                    plinkoCtx.strokeStyle = currentMultipliers[i] >= 1 ? '#10B981' : '#EF4444';
                     plinkoCtx.lineWidth = 2;
                     plinkoCtx.strokeRect(x - 25, cellY - 15, 50, 40);
                     
-                    plinkoCtx.fillStyle = mult >= 1 ? '#00c851' : '#ff4444';
-                    plinkoCtx.font = 'bold 16px monospace';
-                    plinkoCtx.fillText(mult + 'x', x - 15, cellY + 10);
-                });
+                    // Текст
+                    plinkoCtx.fillStyle = currentMultipliers[i] >= 1 ? '#10B981' : '#EF4444';
+                    plinkoCtx.font = 'bold 14px Inter';
+                    plinkoCtx.fillText(currentMultipliers[i] + 'x', x - 15, cellY + 10);
+                }
+            }
+
+            // Физика падения с гравитацией и отскоками
+            function animatePlinkoWithPhysics(targetPos, multiplier, win) {
+                if (plinkoAnimation) clearInterval(plinkoAnimation);
+                
+                const rows = 8;
+                const startY = 80;
+                const stepY = 55;
+                const startX = 400;
+                
+                let ball = {
+                    x: 400,
+                    y: 50,
+                    vx: 0,
+                    vy: 2,
+                    row: 0,
+                    col: 4,
+                    bouncing: false
+                };
+                
+                let path = [];
+                let physicsInterval = setInterval(() => {
+                    // Гравитация
+                    ball.vy += 0.5;
+                    ball.y += ball.vy;
+                    
+                    // Проверка столкновения с колышками
+                    for (let row = 0; row < rows; row++) {
+                        for (let col = 0; col <= row; col++) {
+                            let pegX = startX - (row * 30) + col * 60;
+                            let pegY = startY + row * stepY;
+                            
+                            let dx = ball.x - pegX;
+                            let dy = ball.y - pegY;
+                            let distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 15 && !ball.bouncing) {
+                                // Отскок с случайным отклонением
+                                ball.vy = -Math.abs(ball.vy) * 0.5;
+                                ball.vx = (Math.random() - 0.5) * 8;
+                                ball.bouncing = true;
+                                
+                                setTimeout(() => { ball.bouncing = false; }, 200);
+                                
+                                // Определяем направление для следующего ряда
+                                if (row < rows - 1) {
+                                    ball.row = row + 1;
+                                    ball.col = col + (ball.vx > 0 ? 1 : 0);
+                                    ball.col = Math.max(0, Math.min(8, ball.col));
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Обновление позиции
+                    ball.x += ball.vx;
+                    
+                    // Границы
+                    if (ball.x < 50) { ball.x = 50; ball.vx *= -0.5; }
+                    if (ball.x > 750) { ball.x = 750; ball.vx *= -0.5; }
+                    
+                    // Отрисовка
+                    drawPlinkoBoard();
+                    
+                    // Рисуем шарик
+                    plinkoCtx.shadowColor = '#F59E0B';
+                    plinkoCtx.shadowBlur = 20;
+                    plinkoCtx.beginPath();
+                    plinkoCtx.arc(ball.x, ball.y, 12, 0, Math.PI * 2);
+                    
+                    let gradient = plinkoCtx.createRadialGradient(ball.x-3, ball.y-3, 3, ball.x, ball.y, 15);
+                    gradient.addColorStop(0, '#F59E0B');
+                    gradient.addColorStop(1, '#EF4444');
+                    plinkoCtx.fillStyle = gradient;
+                    plinkoCtx.fill();
+                    
+                    // Проверка достижения дна
+                    if (ball.y > 550) {
+                        clearInterval(physicsInterval);
+                        
+                        let finalCol = Math.floor((ball.x - (startX - (rows * 30))) / 60);
+                        finalCol = Math.max(0, Math.min(8, finalCol));
+                        
+                        let resultMultiplier = currentMultipliers[finalCol];
+                        let resultWin = Math.floor(rocketBet * resultMultiplier);
+                        
+                        balance += resultWin;
+                        updateBalance();
+                        
+                        plinkoResult.textContent = resultMultiplier >= 1 
+                            ? `🎉 +${resultWin} ⭐ (${resultMultiplier}x)`
+                            : `😔 ${resultWin} ⭐ (${resultMultiplier}x)`;
+                        
+                        addHistory('Plinko', `x${resultMultiplier} ${resultWin >= rocketBet ? '+' : ''}${resultWin - rocketBet} ⭐`, 
+                                 resultMultiplier >= 1 ? 'win' : 'lose');
+                        
+                        if (resultMultiplier >= 3) createParticles('win');
+                    }
+                }, 20);
+                
+                plinkoAnimation = physicsInterval;
             }
 
             // Обновление сетки множителей
             function updateMultiplierGrid() {
                 multiplierGrid.innerHTML = '';
-                currentMultipliers.forEach(mult => {
-                    let block = document.createElement('div');
-                    block.className = 'multiplier-block';
-                    block.textContent = mult + 'x';
-                    block.style.color = mult >= 1 ? '#00c851' : '#ff4444';
-                    block.style.borderColor = mult >= 1 ? '#00c851' : '#ff4444';
-                    multiplierGrid.appendChild(block);
+                currentMultipliers.forEach((mult, index) => {
+                    let cell = document.createElement('div');
+                    cell.className = 'multiplier-cell';
+                    cell.textContent = mult + 'x';
+                    cell.style.color = mult >= 1 ? '#10B981' : '#EF4444';
+                    multiplierGrid.appendChild(cell);
                 });
             }
 
-            // Анимация падения шарика с физикой
-            function animatePlinkoDrop(finalPos, multiplier, win) {
-                let rows = 8;
-                let startY = 80;
-                let stepY = 55;
-                let startX = 300;
-                
-                let pos = 4;
-                let path = [];
-                
-                // Реалистичный путь с инерцией
-                for (let r = 1; r <= rows; r++) {
-                    let target = finalPos;
-                    let step = (target - pos) / (rows - r + 1);
-                    
-                    if (Math.random() < 0.3) {
-                        pos += (Math.random() < 0.5 ? -1 : 1);
-                    } else {
-                        pos += step > 0 ? 1 : (step < 0 ? -1 : 0);
-                    }
-                    
-                    pos = Math.max(0, Math.min(8, pos));
-                    path.push({row: r, col: Math.round(pos)});
-                }
-                
-                let step = 0;
-                let interval = setInterval(() => {
-                    drawPlinkoBoard();
-                    
-                    if (step < path.length) {
-                        let r = path[step].row;
-                        let c = path[step].col;
-                        
-                        let x = startX - (r * 30) + c * 60;
-                        let y = startY + r * stepY;
-                        
-                        // Шарик с эффектом свечения
-                        plinkoCtx.shadowColor = '#ffaa00';
-                        plinkoCtx.shadowBlur = 30;
-                        plinkoCtx.beginPath();
-                        plinkoCtx.arc(x, y, 14, 0, Math.PI * 2);
-                        
-                        let gradient = plinkoCtx.createRadialGradient(x-5, y-5, 5, x, y, 20);
-                        gradient.addColorStop(0, '#ffff00');
-                        gradient.addColorStop(1, '#ff5500');
-                        plinkoCtx.fillStyle = gradient;
-                        plinkoCtx.fill();
-                        
-                        step++;
-                    } else {
-                        clearInterval(interval);
-                        plinkoCtx.shadowBlur = 0;
-                        
-                        plinkoResult.textContent = multiplier >= 1 
-                            ? `🎉 +${win} ⭐ (${multiplier}x)`
-                            : `😔 -${Math.abs(win)} ⭐ (${multiplier}x)`;
-                        plinkoResult.style.color = multiplier >= 1 ? '#00c851' : '#ff4444';
-                    }
-                }, 100);
-            }
-
-            // ========== PLINKO ЛОГИКА ==========
+            // Выбор риска
             riskBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     riskBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    
                     plinkoRisk = btn.dataset.risk;
                     currentMultipliers = plinkoMultipliers[plinkoRisk];
                     updateMultiplierGrid();
@@ -1477,209 +1029,140 @@
                 });
             });
 
-            plinkoDropBtn.addEventListener('click', () => {
+            // Бросок шарика
+            plinkoDrop.addEventListener('click', () => {
                 let bet = parseInt(plinkoBetInput.value);
                 
-                if (bet < 1) {
-                    alert('Минимальная ставка 1');
+                if (bet < 1 || bet > balance) {
+                    alert('Invalid bet amount');
                     return;
                 }
                 
-                if (!deductStars(bet)) {
-                    alert('Недостаточно средств');
-                    return;
-                }
+                if (!deductStars(bet)) return;
+                rocketBet = bet;
                 
-                // Генерация позиции (биномиальное распределение)
-                let pos = 4;
-                for (let i = 0; i < 8; i++) {
-                    pos += Math.random() < 0.5 ? -1 : 1;
-                    pos = Math.max(0, Math.min(8, pos));
-                }
-                
-                let multiplier = currentMultipliers[pos];
-                let win = Math.floor(bet * multiplier);
-                
-                balance += win;
-                totalWon += Math.max(0, win - bet);
-                gamesPlayed++;
-                
-                if (multiplier > 3) {
-                    createConfetti();
-                }
-                
-                winRate = Math.round((totalWon / (gamesPlayed * 50)) * 100);
-                updateBalance();
-                
-                animatePlinkoDrop(pos, multiplier, win);
-                addHistory('Plinko', `x${multiplier} ${win >= bet ? '+' : ''}${win - bet} ⭐`, 
-                         multiplier >= 1 ? 'win' : 'lose');
+                // Генерация случайной позиции (физика сама определит путь)
+                animatePlinkoWithPhysics(null, null, null);
             });
+
+            // ========== СИСТЕМА ЧАСТИЦ ДЛЯ ЭФФЕКТОВ ==========
+            function createParticles(type) {
+                for (let i = 0; i < 30; i++) {
+                    let particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    particle.style.width = '6px';
+                    particle.style.height = '6px';
+                    particle.style.background = type === 'win' ? '#10B981' : '#EF4444';
+                    particle.style.borderRadius = '50%';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '9999';
+                    particle.style.transform = 'translate(-50%, -50%)';
+                    
+                    let angle = (i / 30) * Math.PI * 2;
+                    let velocity = 5 + Math.random() * 5;
+                    let vx = Math.cos(angle) * velocity;
+                    let vy = Math.sin(angle) * velocity;
+                    
+                    document.body.appendChild(particle);
+                    
+                    let posX = window.innerWidth / 2;
+                    let posY = window.innerHeight / 2;
+                    
+                    function animate() {
+                        posX += vx;
+                        posY += vy;
+                        vy += 0.2;
+                        
+                        particle.style.left = posX + 'px';
+                        particle.style.top = posY + 'px';
+                        particle.style.opacity = parseFloat(particle.style.opacity || 1) - 0.01;
+                        
+                        if (parseFloat(particle.style.opacity) > 0) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particle.remove();
+                        }
+                    }
+                    
+                    requestAnimationFrame(animate);
+                }
+            }
 
             // ========== ИСТОРИЯ ==========
             function addHistory(game, text, type) {
-                let historyList = document.getElementById('historyList');
-                let row = document.createElement('div');
-                row.className = 'history-row';
-                
-                row.innerHTML = `
-                    <div class="history-game">
-                        <div class="game-icon">
-                            <i class="fas fa-${game === 'Ракетка' ? 'rocket' : (game === 'Plinko' ? 'chart-line' : 'gift')}"></i>
-                        </div>
-                        <span>${game}</span>
-                    </div>
+                let list = document.getElementById('historyList');
+                let item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <span>${game}</span>
                     <span class="history-${type}">${text}</span>
                 `;
-                
-                historyList.prepend(row);
-                if (historyList.children.length > 20) {
-                    historyList.removeChild(historyList.lastElementChild);
+                list.prepend(item);
+                if (list.children.length > 15) {
+                    list.removeChild(list.lastElementChild);
                 }
             }
 
-            // ========== КОНФЕТТИ ==========
-            function createConfetti() {
-                for (let i = 0; i < 50; i++) {
-                    let confetti = document.createElement('div');
-                    confetti.style.position = 'fixed';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.top = '-10px';
-                    confetti.style.width = '10px';
-                    confetti.style.height = '10px';
-                    confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    confetti.style.borderRadius = '50%';
-                    confetti.style.pointerEvents = 'none';
-                    confetti.style.zIndex = '9999';
-                    confetti.style.animation = `fall ${3 + Math.random() * 2}s linear`;
-                    document.body.appendChild(confetti);
-                    
-                    setTimeout(() => {
-                        document.body.removeChild(confetti);
-                    }, 5000);
-                }
-            }
-
-            // ========== СЛАЙДЕР СТАВОК ==========
-            betSlider.addEventListener('input', (e) => {
-                let val = e.target.value;
-                rocketBetInput.value = val;
-                betAmountSpan.textContent = val + ' ⭐';
-                sliderFill.style.width = (val / 1000 * 100) + '%';
-            });
-
-            rocketBetInput.addEventListener('input', (e) => {
-                let val = Math.min(1000, Math.max(1, parseInt(e.target.value) || 1));
-                rocketBetInput.value = val;
-                betSlider.value = val;
-                betAmountSpan.textContent = val + ' ⭐';
-                sliderFill.style.width = (val / 1000 * 100) + '%';
-            });
-
-            plinkoBetInput.addEventListener('input', (e) => {
-                let val = Math.min(1000, Math.max(1, parseInt(e.target.value) || 1));
-                plinkoBetInput.value = val;
-                plinkoBetAmount.textContent = val + ' ⭐';
-            });
-
-            // Быстрые ставки
-            document.querySelectorAll('.bet-mult').forEach(btn => {
-                btn.addEventListener('click', () => {
+            // ========== БЫСТРЫЕ СТАВКИ ==========
+            document.querySelectorAll('.mult-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
                     let mult = parseInt(btn.dataset.mult);
-                    let input = btn.closest('.bet-input-group').querySelector('.bet-field');
+                    let input = btn.closest('.bet-input-wrapper').querySelector('.bet-input');
                     let newVal = parseInt(input.value) * mult;
-                    newVal = Math.min(1000, Math.max(1, newVal));
+                    newVal = Math.min(10000, Math.max(1, newVal));
                     input.value = newVal;
                     input.dispatchEvent(new Event('input'));
                 });
             });
 
-            // ========== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ==========
+            // Обновление отображения ставок
+            rocketBetInput.addEventListener('input', () => {
+                rocketBetAmount.textContent = rocketBetInput.value + ' ⭐';
+            });
+
+            plinkoBetInput.addEventListener('input', () => {
+                plinkoBetAmount.textContent = plinkoBetInput.value + ' ⭐';
+            });
+
+            // ========== ПЕРЕКЛЮЧЕНИЕ ТАБОВ ==========
             tabRocket.addEventListener('click', () => {
-                document.querySelectorAll('.premium-tab').forEach(t => t.classList.remove('active'));
                 tabRocket.classList.add('active');
+                tabPlinko.classList.remove('active');
                 rocketGame.classList.remove('hidden');
                 plinkoGame.classList.add('hidden');
-                statsGame.classList.add('hidden');
             });
 
             tabPlinko.addEventListener('click', () => {
-                document.querySelectorAll('.premium-tab').forEach(t => t.classList.remove('active'));
                 tabPlinko.classList.add('active');
+                tabRocket.classList.remove('active');
                 rocketGame.classList.add('hidden');
                 plinkoGame.classList.remove('hidden');
-                statsGame.classList.add('hidden');
             });
 
-            tabStats.addEventListener('click', () => {
-                document.querySelectorAll('.premium-tab').forEach(t => t.classList.remove('active'));
-                tabStats.classList.add('active');
-                rocketGame.classList.add('hidden');
-                plinkoGame.classList.add('hidden');
-                statsGame.classList.remove('hidden');
-                
-                // Загрузка лидерборда
-                let leaderboard = document.getElementById('leaderboard');
-                leaderboard.innerHTML = '';
-                for (let i = 0; i < 10; i++) {
-                    leaderboard.innerHTML += `
-                        <div style="display: flex; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 30px; margin-bottom: 10px;">
-                            <span><i class="fas fa-crown" style="color: gold;"></i> Игрок ${i+1}</span>
-                            <span style="color: gold;">${(10000 - i * 500).toLocaleString()} ⭐</span>
-                        </div>
-                    `;
-                }
+            // ========== ЕЖЕДНЕВНЫЙ БОНУС ==========
+            document.getElementById('dailyBonus').addEventListener('click', () => {
+                addStars(1000);
             });
-
-            // ========== МОДАЛЬНЫЕ ОКНА ==========
-            menuButton.addEventListener('click', () => {
-                menuModal.style.display = 'flex';
-            });
-
-            modalClose.addEventListener('click', () => {
-                menuModal.style.display = 'none';
-            });
-
-            window.addEventListener('click', (e) => {
-                if (e.target === menuModal) {
-                    menuModal.style.display = 'none';
-                }
-            });
-
-            // ========== АНИМАЦИЯ ДЛЯ CSS ==========
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fall {
-                    to { transform: translateY(100vh) rotate(720deg); }
-                }
-            `;
-            document.head.appendChild(style);
 
             // ========== ИНИЦИАЛИЗАЦИЯ ==========
             function init() {
-                initParticles();
-                drawParticles();
-                updateCrashHistory();
-                updateMultiplierGrid();
-                drawRocket(1.0);
-                drawPlinkoBoard();
                 updateBalance();
+                createStars();
+                drawRocket(1.0, 0);
+                drawPlinkoBoard();
+                updateMultiplierGrid();
+                updateCrashInfo();
                 
                 // Добавляем примеры истории
-                addHistory('Ракетка', 'x2.45 +245 ⭐', 'win');
+                addHistory('Rocket', 'x2.45 +245 ⭐', 'win');
                 addHistory('Plinko', 'x0.3 -7 ⭐', 'lose');
-                addHistory('Ракетка', 'x5.67 +567 ⭐', 'win');
-                addHistory('Бонус', '+1000 ⭐', 'win');
+                addHistory('Rocket', 'x5.67 +567 ⭐', 'win');
+                addHistory('Bonus', '+1000 ⭐', 'win');
             }
 
             init();
-
-            // Обработка resize
-            window.addEventListener('resize', () => {
-                particleCanvas.width = window.innerWidth;
-                particleCanvas.height = window.innerHeight;
-                initParticles();
-            });
         })();
     </script>
 </body>
