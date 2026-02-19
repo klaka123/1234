@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>✦ PREMIUM CASINO ✦</title>
-    <!-- Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== МИНИМАЛИЗМ ПРЕМИУМ-КЛАССА ========== */
         * {
             margin: 0;
             padding: 0;
@@ -38,7 +35,6 @@
             justify-content: center;
             align-items: flex-start;
             padding: 16px;
-            margin: 0;
         }
 
         .app {
@@ -51,7 +47,7 @@
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
         }
 
-        /* ========== ШАПКА ========== */
+        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -107,57 +103,55 @@
             color: var(--accent-blue);
         }
 
-        /* ========== ТАБЫ (ПЕРЕКЛЮЧЕНИЕ РАБОТАЕТ) ========== */
-        .tabs-row {
-            display: flex;
-            gap: 8px;
+        /* ВЫПАДАЮЩЕЕ МЕНЮ ВМЕСТО ВКЛАДОК */
+        .game-selector {
             margin-bottom: 24px;
-            padding: 6px;
+        }
+
+        .game-select {
+            width: 100%;
+            padding: 16px 20px;
             background: var(--bg-elevated);
+            border: 2px solid var(--border-light);
             border-radius: 60px;
-            border: 1px solid var(--border-light);
-            overflow-x: auto;
-        }
-
-        .tabs-row::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab {
-            flex: 0 0 auto;
-            padding: 12px 16px;
-            border: none;
-            border-radius: 60px;
-            background: transparent;
-            color: var(--text-secondary);
-            font-weight: 700;
-            font-size: 16px;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-            white-space: nowrap;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 20px;
         }
 
-        .tab.active {
-            background: var(--accent-blue);
-            color: white;
+        .game-select:focus {
+            border-color: var(--accent-blue);
             box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        /* ========== КОНТЕЙНЕРЫ ИГР ========== */
+        .game-select option {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            padding: 12px;
+        }
+
+        /* Контейнеры игр */
         .game-container {
             background: var(--bg-elevated);
             border-radius: 36px;
             padding: 20px;
             border: 1px solid var(--border-light);
             margin-bottom: 24px;
-            display: block; /* по умолчанию показываем первый */
+            display: none;
         }
 
-        .hidden {
-            display: none !important;
+        .game-container.active {
+            display: block;
         }
 
-        /* ========== ROCKET ========== */
+        /* ROCKET */
         .rocket-stage {
             position: relative;
             background: #000;
@@ -304,7 +298,7 @@
             cursor: not-allowed;
         }
 
-        /* ========== PLINKO ========== */
+        /* PLINKO */
         .plinko-stage {
             background: #000;
             border-radius: 28px;
@@ -331,7 +325,7 @@
             border: 2px solid var(--border-light);
         }
 
-        /* ========== SLOTS ========== */
+        /* SLOTS */
         .slots-machine {
             background: #000;
             border-radius: 40px;
@@ -366,7 +360,7 @@
             color: var(--accent-blue);
         }
 
-        /* ========== WHEEL ========== */
+        /* WHEEL */
         .wheel-container {
             position: relative;
             width: 250px;
@@ -396,7 +390,7 @@
             font-weight: 800;
         }
 
-        /* ========== MINES ========== */
+        /* MINES */
         .mines-header {
             display: flex;
             gap: 10px;
@@ -412,6 +406,7 @@
             color: white;
             font-weight: 700;
             text-align: center;
+            cursor: pointer;
         }
 
         .mines-grid {
@@ -431,6 +426,7 @@
             justify-content: center;
             font-size: 28px;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .mines-cell.revealed-star {
@@ -457,7 +453,7 @@
             color: var(--accent-blue);
         }
 
-        /* ========== ИСТОРИЯ ========== */
+        /* ИСТОРИЯ */
         .history-section {
             background: var(--bg-elevated);
             border-radius: 32px;
@@ -494,7 +490,7 @@
         .history-win { color: var(--accent-blue); font-weight: 700; }
         .history-lose { color: var(--danger); font-weight: 700; }
 
-        /* ========== МЕНЮ РЕФЕРАЛОВ ========== */
+        /* МЕНЮ РЕФЕРАЛОВ */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -573,17 +569,19 @@
             </div>
         </div>
 
-        <!-- ТАБЫ (ПЕРЕКЛЮЧАЮТСЯ!) -->
-        <div class="tabs-row">
-            <button class="tab active" data-game="rocket">🚀 ROCKET</button>
-            <button class="tab" data-game="plinko">🔴 PLINKO</button>
-            <button class="tab" data-game="slots">🎰 SLOTS</button>
-            <button class="tab" data-game="wheel">🎡 WHEEL</button>
-            <button class="tab" data-game="mines">💣 MINES</button>
+        <!-- ВЫПАДАЮЩИЙ СПИСОК ВМЕСТО ТАБОВ (ТЕПЕРЬ ТОЧНО ВСЕ ВЛЕЗАЕТ) -->
+        <div class="game-selector">
+            <select id="gameSelect" class="game-select">
+                <option value="rocket">🚀 ROCKET</option>
+                <option value="plinko">🔴 PLINKO</option>
+                <option value="slots">🎰 SLOTS</option>
+                <option value="wheel">🎡 WHEEL</option>
+                <option value="mines">💣 MINES</option>
+            </select>
         </div>
 
-        <!-- ROCKET (с эмодзи 🚀) -->
-        <div id="rocketGame" class="game-container">
+        <!-- ROCKET -->
+        <div id="rocketGame" class="game-container active">
             <div class="rocket-stage">
                 <div class="stars-layer" id="starsLayer"></div>
                 <canvas id="rocketCanvas" width="380" height="280"></canvas>
@@ -605,7 +603,7 @@
         </div>
 
         <!-- PLINKO -->
-        <div id="plinkoGame" class="game-container hidden">
+        <div id="plinkoGame" class="game-container">
             <div class="plinko-stage">
                 <canvas id="plinkoCanvas" width="380" height="500"></canvas>
             </div>
@@ -618,7 +616,7 @@
         </div>
 
         <!-- SLOTS -->
-        <div id="slotsGame" class="game-container hidden">
+        <div id="slotsGame" class="game-container">
             <div class="slots-machine">
                 <div class="reels">
                     <div class="reel" id="slot1">🍒</div>
@@ -635,7 +633,7 @@
         </div>
 
         <!-- WHEEL -->
-        <div id="wheelGame" class="game-container hidden">
+        <div id="wheelGame" class="game-container">
             <div class="wheel-container">
                 <canvas id="wheelCanvas" width="250" height="250"></canvas>
                 <div class="wheel-pointer">▼</div>
@@ -649,7 +647,7 @@
         </div>
 
         <!-- MINES -->
-        <div id="minesGame" class="game-container hidden">
+        <div id="minesGame" class="game-container">
             <div class="mines-header">
                 <select id="minesCount" class="mines-select">
                     <option value="3">3 💣</option>
@@ -682,7 +680,6 @@
 
     <script>
         (function() {
-            // Telegram
             const tg = window.Telegram.WebApp;
             tg.expand();
 
@@ -744,9 +741,9 @@
                 document.getElementById('refBonus').textContent = count * 10;
             }
 
-            // ========== ПЕРЕКЛЮЧЕНИЕ ТАБОВ (ИСПРАВЛЕНО) ==========
-            const tabs = document.querySelectorAll('.tab');
-            const games = {
+            // ========== ПЕРЕКЛЮЧЕНИЕ ИГР ЧЕРЕЗ SELECT ==========
+            const gameSelect = document.getElementById('gameSelect');
+            const gameContainers = {
                 rocket: document.getElementById('rocketGame'),
                 plinko: document.getElementById('plinkoGame'),
                 slots: document.getElementById('slotsGame'),
@@ -754,23 +751,25 @@
                 mines: document.getElementById('minesGame')
             };
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Убираем active у всех
-                    tabs.forEach(t => t.classList.remove('active'));
-                    // Добавляем active текущему
-                    tab.classList.add('active');
-                    
-                    // Скрываем все игры
-                    Object.values(games).forEach(game => game.classList.add('hidden'));
-                    
-                    // Показываем нужную
-                    const gameId = tab.dataset.game;
-                    if (games[gameId]) {
-                        games[gameId].classList.remove('hidden');
-                    }
+            // Функция переключения
+            function switchGame(gameId) {
+                // Скрыть все
+                Object.values(gameContainers).forEach(container => {
+                    container.classList.remove('active');
                 });
+                // Показать выбранный
+                if (gameContainers[gameId]) {
+                    gameContainers[gameId].classList.add('active');
+                }
+            }
+
+            // Обработчик изменения селекта
+            gameSelect.addEventListener('change', (e) => {
+                switchGame(e.target.value);
             });
+
+            // Устанавливаем Rocket активной по умолчанию
+            switchGame('rocket');
 
             // ========== ИСТОРИЯ ==========
             const historyList = document.getElementById('historyList');
@@ -785,7 +784,7 @@
                 historyList.prepend(item);
             }
 
-            // ========== ROCKET (ТОЛЬКО ЭМОДЗИ) ==========
+            // ========== ROCKET (ЭМОДЗИ) ==========
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -842,7 +841,7 @@
                     // Рисуем эмодзи 🚀 носом вверх
                     ctx.save();
                     ctx.translate(190, 210 - (mult - 1) * 20);
-                    ctx.rotate(-Math.PI / 2); // поворот на 90° против часовой
+                    ctx.rotate(-Math.PI / 2);
                     ctx.font = '70px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji"';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
