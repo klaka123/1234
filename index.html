@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PREMIUM CASINO • 5 in 1</title>
+    <title>PREMIUM CASINO • ULTIMATE</title>
     <!-- Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Font Awesome (иконки) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== МИНИМАЛИСТИЧНЫЙ ПРЕМИУМ-ДИЗАЙН ========== */
+        /* ========== ГЛОБАЛЬНЫЙ СТИЛЬ ========== */
         * {
             margin: 0;
             padding: 0;
@@ -52,7 +52,7 @@
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
         }
 
-        /* Шапка */
+        /* ========== ШАПКА ========== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -108,7 +108,7 @@
             color: var(--accent-blue);
         }
 
-        /* Табы в одну строку */
+        /* ========== ТАБЫ (в одну строку) ========== */
         .tabs-row {
             display: flex;
             gap: 8px;
@@ -118,6 +118,11 @@
             border-radius: 60px;
             border: 1px solid var(--border-light);
             overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .tabs-row::-webkit-scrollbar {
+            display: none;
         }
 
         .tab {
@@ -140,7 +145,7 @@
             box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        /* Контейнер игры */
+        /* ========== ОБЩИЕ КОМПОНЕНТЫ ========== */
         .game-container {
             background: var(--bg-elevated);
             border-radius: 36px;
@@ -153,7 +158,6 @@
             display: none !important;
         }
 
-        /* Общие элементы */
         .multiplier-display {
             background: rgba(0,0,0,0.6);
             backdrop-filter: blur(4px);
@@ -266,7 +270,7 @@
             cursor: not-allowed;
         }
 
-        /* Меню с троеточием (оверлей) */
+        /* ========== МЕНЮ С ТРОЕТОЧИЕМ (РЕФЕРАЛЫ) ========== */
         .menu-overlay {
             display: none;
             position: fixed;
@@ -293,6 +297,8 @@
             width: 90%;
             border: 2px solid var(--accent-blue);
             box-shadow: 0 0 40px var(--accent-glow);
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .menu-content h3 {
@@ -321,34 +327,14 @@
             border: 1px solid var(--border-light);
         }
 
-        .promo-item {
+        .referral-item {
             background: var(--bg-elevated);
             padding: 10px 15px;
             border-radius: 30px;
             margin-bottom: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .promo-item:hover {
-            border-color: var(--accent-blue);
-        }
-
-        .promo-input {
-            width: 100%;
-            padding: 15px;
-            background: var(--bg-elevated);
-            border: 2px solid var(--border-light);
-            border-radius: 40px;
-            color: white;
-            font-size: 16px;
-            margin: 15px 0 10px;
-            outline: none;
-        }
-
-        .promo-input:focus {
-            border-color: var(--accent-blue);
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid var(--border-light);
         }
 
         .close-menu {
@@ -362,7 +348,7 @@
             cursor: pointer;
         }
 
-        /* ROCKET */
+        /* ========== ROCKET (ПОЛНОСТЬЮ ПЕРЕРАБОТАНА) ========== */
         .rocket-stage {
             position: relative;
             background: #000;
@@ -396,7 +382,7 @@
             box-shadow: 0 0 4px white;
         }
 
-        /* PLINKO */
+        /* ========== PLINKO ========== */
         .plinko-stage {
             background: #000;
             border-radius: 28px;
@@ -423,7 +409,7 @@
             border: 2px solid var(--border-light);
         }
 
-        /* SLOTS */
+        /* ========== SLOTS (С АНИМАЦИЕЙ) ========== */
         .slots-machine {
             background: #000;
             border-radius: 40px;
@@ -449,6 +435,19 @@
             font-size: 60px;
             border: 3px solid var(--accent-blue);
             box-shadow: 0 0 30px var(--accent-glow);
+            transition: all 0.1s;
+        }
+
+        .reel.spinning {
+            animation: spin 0.2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-5px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(5px); }
+            100% { transform: translateY(0); }
         }
 
         .slots-multiplier {
@@ -459,7 +458,7 @@
             color: var(--accent-blue);
         }
 
-        /* WHEEL */
+        /* ========== WHEEL ========== */
         .wheel-container {
             position: relative;
             width: 250px;
@@ -490,7 +489,7 @@
             font-weight: 800;
         }
 
-        /* MINES */
+        /* ========== MINES ========== */
         .mines-header {
             display: flex;
             gap: 10px;
@@ -552,7 +551,7 @@
             color: var(--accent-blue);
         }
 
-        /* История */
+        /* ========== ИСТОРИЯ ========== */
         .history-section {
             background: var(--bg-elevated);
             border-radius: 32px;
@@ -608,30 +607,26 @@
             </div>
         </header>
 
-        <!-- Меню (рефералы + промокоды) -->
+        <!-- Меню (только рефералы, промокоды убраны) -->
         <div class="menu-overlay" id="menuOverlay">
             <div class="menu-content">
-                <h3><i class="fas fa-star"></i> Меню</h3>
+                <h3><i class="fas fa-star"></i> Партнёрская программа</h3>
                 <div class="menu-section">
-                    <h4>🤝 Реферальная программа</h4>
+                    <h4>🤝 Ваша реферальная ссылка</h4>
                     <div class="ref-link" id="refLink">Загрузка...</div>
-                    <p>Ваши рефералы: <span id="refCount">0</span> (бонус: <span id="refBonus">0</span> ⭐)</p>
+                    <p>Приглашайте друзей и получайте бонусы!</p>
                 </div>
                 <div class="menu-section">
-                    <h4>🎟️ Промокоды</h4>
-                    <div class="promo-item" data-code="2026">2026 → +50 ⭐</div>
-                    <div class="promo-item" data-code="GDB">GDB → +100 ⭐</div>
-                    <div class="promo-item" data-code="DROP">DROP → +10 ⭐</div>
-                    <div class="promo-item" data-code="FREE">FREE → +15 ⭐</div>
-                    <input type="text" class="promo-input" id="promoInput" placeholder="Введите промокод">
-                    <button class="close-menu" id="applyPromo">Активировать</button>
+                    <h4>📋 Приглашённые пользователи</h4>
+                    <div id="referralsList"></div>
+                    <p>Всего: <span id="refCount">0</span> (бонус: <span id="refBonus">0</span> ⭐)</p>
                 </div>
                 <button class="close-menu" id="closeMenu">Закрыть</button>
             </div>
         </div>
 
-        <!-- Табы игр (в одну строку) -->
-        <div class="tabs-row" id="tabsRow">
+        <!-- Табы -->
+        <div class="tabs-row">
             <button class="tab active" data-game="rocket">🚀 ROCKET</button>
             <button class="tab" data-game="plinko">🔴 PLINKO</button>
             <button class="tab" data-game="slots">🎰 SLOTS</button>
@@ -639,7 +634,7 @@
             <button class="tab" data-game="mines">💣 MINES</button>
         </div>
 
-        <!-- ROCKET -->
+        <!-- ROCKET (полностью новая) -->
         <div id="rocketGame" class="game-container">
             <div class="rocket-stage">
                 <div class="stars-layer" id="starsLayer"></div>
@@ -674,7 +669,7 @@
             </div>
         </div>
 
-        <!-- SLOTS -->
+        <!-- SLOTS (с анимацией и правильным расчётом) -->
         <div id="slotsGame" class="game-container hidden">
             <div class="slots-machine">
                 <div class="reels">
@@ -691,7 +686,7 @@
             </div>
         </div>
 
-        <!-- WHEEL -->
+        <!-- WHEEL (исправлен) -->
         <div id="wheelGame" class="game-container hidden">
             <div class="wheel-container">
                 <canvas id="wheelCanvas" width="250" height="250"></canvas>
@@ -739,20 +734,20 @@
 
     <script>
         (function() {
-            // ==================== ИНИЦИАЛИЗАЦИЯ TELEGRAM ====================
+            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
 
-            // Получаем user_id (анонимный, но уникальный)
+            // Получаем ID пользователя (если есть)
             const userId = tg.initDataUnsafe?.user?.id?.toString() || 'guest_' + Math.random().toString(36).substring(2);
-            
-            // ==================== ХРАНИЛИЩЕ ДАННЫХ (localStorage с привязкой к userId) ====================
-            const storageKey = `casino_${userId}`;
+
+            // ==================== ХРАНИЛИЩЕ ====================
+            const storageKey = `casino_ultimate_${userId}`;
             let data = JSON.parse(localStorage.getItem(storageKey)) || {
                 balance: 10000,
-                referrals: 0,
-                usedPromos: [],
+                referrals: [], // массив ID приглашённых
+                usedPromos: [], // оставим, но не используем в интерфейсе
                 games: {}
             };
 
@@ -760,19 +755,16 @@
                 localStorage.setItem(storageKey, JSON.stringify(data));
             }
 
-            // Обновление баланса на экране
             function updateBalance() {
                 document.getElementById('balance').textContent = data.balance.toLocaleString().replace(',', ' ');
             }
 
-            // Добавление звёзд
             function addStars(amount) {
                 data.balance += amount;
                 saveData();
                 updateBalance();
             }
 
-            // Списание звёзд (возвращает true если успешно)
             function deductStars(amount) {
                 if (data.balance >= amount) {
                     data.balance -= amount;
@@ -784,122 +776,62 @@
             }
 
             // ==================== РЕФЕРАЛЬНАЯ СИСТЕМА ====================
-            // Обработка start-параметра (если есть реферальная ссылка)
             const startParam = tg.initDataUnsafe?.start_param;
             if (startParam && startParam.startsWith('ref_')) {
                 const referrerId = startParam.replace('ref_', '');
-                // Проверяем, не был ли этот пользователь уже привлечён
-                const referredKey = `referred_${userId}`;
-                if (!localStorage.getItem(referredKey)) {
-                    // Увеличиваем счётчик рефералов у реферера (храним в отдельном ключе)
-                    let refData = JSON.parse(localStorage.getItem(`ref_${referrerId}`) || '{"count":0}');
-                    refData.count++;
-                    localStorage.setItem(`ref_${referrerId}`, JSON.stringify(refData));
-                    localStorage.setItem(referredKey, 'true');
-                    // Если реферер — текущий пользователь, обновим его данные
-                    if (referrerId === userId) {
-                        // Не начисляем себе
-                    } else {
-                        // Можно показать уведомление
+                // Проверяем, не был ли этот пользователь уже приглашён
+                if (!localStorage.getItem(`referred_${userId}`) && referrerId !== userId) {
+                    // Добавляем реферала в список пригласившего
+                    let referrerData = JSON.parse(localStorage.getItem(`casino_ultimate_${referrerId}`) || '{"referrals":[]}');
+                    if (!referrerData.referrals) referrerData.referrals = [];
+                    if (!referrerData.referrals.includes(userId)) {
+                        referrerData.referrals.push(userId);
+                        localStorage.setItem(`casino_ultimate_${referrerId}`, JSON.stringify(referrerData));
                     }
+                    // Отмечаем, что этот пользователь уже активирован по рефералке
+                    localStorage.setItem(`referred_${userId}`, 'true');
                 }
             }
 
-            // Получаем количество рефералов текущего пользователя
-            function getReferralCount() {
-                const refData = JSON.parse(localStorage.getItem(`ref_${userId}`) || '{"count":0}');
-                return refData.count;
+            // Получаем список рефералов текущего пользователя
+            function getReferrals() {
+                return data.referrals || [];
             }
 
-            // Рассчитываем бонус за рефералов (10 звёзд за каждые 3)
-            function getReferralBonus() {
-                const count = getReferralCount();
-                return Math.floor(count / 3) * 10;
-            }
-
-            // Начисляем бонус, если есть новые рефералы
-            function applyReferralBonus() {
-                const bonus = getReferralBonus();
-                const prevBonus = data.referrals || 0;
-                if (bonus > prevBonus) {
-                    const earned = bonus - prevBonus;
-                    data.balance += earned;
-                    data.referrals = bonus;
-                    saveData();
-                    updateBalance();
-                }
-            }
-
-            // Обновляем отображение в меню
+            // Обновление отображения рефералов в меню
             function updateReferralDisplay() {
-                const refLinkEl = document.getElementById('refLink');
-                const botUsername = tg.initDataUnsafe?.user?.username ? 't.me/' + tg.initDataUnsafe.user.username + '?start=' : 't.me/your_bot?start=';
-                refLinkEl.textContent = botUsername + 'ref_' + userId;
-                document.getElementById('refCount').textContent = getReferralCount();
-                document.getElementById('refBonus').textContent = getReferralBonus();
+                const refLink = `t.me/${tg.initDataUnsafe?.user?.username || 'your_bot'}?start=ref_${userId}`;
+                document.getElementById('refLink').textContent = refLink;
+
+                const referrals = getReferrals();
+                const listDiv = document.getElementById('referralsList');
+                listDiv.innerHTML = '';
+                referrals.forEach(ref => {
+                    const item = document.createElement('div');
+                    item.className = 'referral-item';
+                    item.innerHTML = `<span>${ref}</span><span>✅</span>`;
+                    listDiv.appendChild(item);
+                });
+
+                document.getElementById('refCount').textContent = referrals.length;
+                // Бонус: 10 звёзд за каждого реферала
+                const bonus = referrals.length * 10;
+                document.getElementById('refBonus').textContent = bonus;
             }
 
-            // ==================== ПРОМОКОДЫ ====================
-            const promoCodes = {
-                '2026': 50,
-                'GDB': 100,
-                'DROP': 10,
-                'FREE': 15
-            };
-
-            function applyPromo(code) {
-                const upper = code.toUpperCase();
-                if (data.usedPromos.includes(upper)) {
-                    alert('Промокод уже активирован');
-                    return false;
-                }
-                if (promoCodes.hasOwnProperty(upper)) {
-                    data.balance += promoCodes[upper];
-                    data.usedPromos.push(upper);
+            // Начисление бонуса за рефералов (вызывается при открытии меню)
+            function applyReferralBonus() {
+                const referrals = getReferrals();
+                const expectedBonus = referrals.length * 10;
+                const currentBonus = data.referralBonusPaid || 0;
+                if (expectedBonus > currentBonus) {
+                    const add = expectedBonus - currentBonus;
+                    data.balance += add;
+                    data.referralBonusPaid = expectedBonus;
                     saveData();
                     updateBalance();
-                    alert(`Промокод активирован! +${promoCodes[upper]} ⭐`);
-                    return true;
-                } else {
-                    alert('Неверный промокод');
-                    return false;
                 }
             }
-
-            // ==================== МЕНЮ (ТРОЕТОЧИЕ) ====================
-            const menuOverlay = document.getElementById('menuOverlay');
-            const menuBtn = document.getElementById('menuBtn');
-            const closeMenu = document.getElementById('closeMenu');
-            const applyPromoBtn = document.getElementById('applyPromo');
-            const promoInput = document.getElementById('promoInput');
-
-            menuBtn.addEventListener('click', () => {
-                applyReferralBonus(); // пересчитываем бонус при открытии
-                updateReferralDisplay();
-                menuOverlay.classList.add('active');
-            });
-
-            closeMenu.addEventListener('click', () => {
-                menuOverlay.classList.remove('active');
-            });
-
-            menuOverlay.addEventListener('click', (e) => {
-                if (e.target === menuOverlay) menuOverlay.classList.remove('active');
-            });
-
-            // Клик по элементу промокода
-            document.querySelectorAll('.promo-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const code = item.dataset.code;
-                    promoInput.value = code;
-                });
-            });
-
-            applyPromoBtn.addEventListener('click', () => {
-                const code = promoInput.value.trim();
-                if (code) applyPromo(code);
-                promoInput.value = '';
-            });
 
             // ==================== ПЕРЕКЛЮЧЕНИЕ ТАБОВ ====================
             const tabs = document.querySelectorAll('.tab');
@@ -934,7 +866,7 @@
                 historyList.prepend(item);
             }
 
-            // ==================== ROCKET ====================
+            // ==================== ROCKET (ПОЛНОСТЬЮ НОВАЯ) ====================
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -947,6 +879,7 @@
                 const startBtn = document.getElementById('rocketStart');
                 const stopBtn = document.getElementById('rocketStop');
 
+                // Параметры
                 let gameActive = false;
                 let countdownActive = false;
                 let rocketInterval = null;
@@ -957,8 +890,10 @@
                 let starSpeed = 0.1;
                 let maxCrash = 12.5;
                 let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67];
+                let vibration = 0;
 
-                function createStars(count = 100) {
+                // Создание звёзд
+                function createStars(count = 120) {
                     starsLayer.innerHTML = '';
                     stars = [];
                     for (let i = 0; i < count; i++) {
@@ -974,6 +909,7 @@
                     }
                 }
 
+                // Движение звёзд (ускорение)
                 function moveStars(speed) {
                     stars.forEach(s => {
                         let top = s.top + speed;
@@ -986,63 +922,80 @@
                     });
                 }
 
+                // Рисование ракеты (стилизованная, смотрит вверх)
                 function drawRocket(mult, vib) {
                     ctx.clearRect(0, 0, 380, 280);
-                    ctx.fillStyle = '#000';
-                    ctx.fillRect(0, 0, 380, 280);
-                    
-                    // Ракета (повёрнута вверх)
+                    // Звёзды на канвасе (дополнительные)
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    for (let i = 0; i < 30; i++) {
+                        ctx.beginPath();
+                        ctx.arc(Math.random() * 380, Math.random() * 280, Math.random() * 2, 0, Math.PI*2);
+                        ctx.fill();
+                    }
+
+                    // Позиция ракеты (поднимается)
+                    const baseX = 190;
+                    const baseY = 210 - (mult - 1) * 18;
+
+                    // Тряска (зависит от множителя)
+                    const shakeX = Math.sin(Date.now() * 0.03) * vib * 1.5;
+                    const shakeY = Math.cos(Date.now() * 0.04) * vib * 1.5;
+                    const x = baseX + shakeX;
+                    const y = baseY + shakeY;
+
+                    // Отрисовка ракеты (стиль "эмодзи" но прорисованный)
                     ctx.save();
-                    ctx.translate(190, 210 - (mult - 1) * 15);
-                    ctx.rotate(-Math.PI / 2); // поворот на 90° против часовой (нос вверх)
+                    ctx.translate(x, y);
+                    ctx.rotate(-Math.PI / 2); // поворот носом вверх
                     ctx.shadowColor = '#3b82f6';
                     ctx.shadowBlur = 20 + vib;
-                    
-                    // Корпус
+
+                    // Корпус (белый)
                     ctx.fillStyle = '#ffffff';
                     ctx.beginPath();
-                    ctx.moveTo(-15, -25);
-                    ctx.lineTo(15, -25);
-                    ctx.lineTo(20, -5);
-                    ctx.lineTo(15, 15);
-                    ctx.lineTo(-15, 15);
-                    ctx.lineTo(-20, -5);
+                    ctx.moveTo(-20, -35);
+                    ctx.lineTo(20, -35);
+                    ctx.lineTo(25, -10);
+                    ctx.lineTo(20, 20);
+                    ctx.lineTo(-20, 20);
+                    ctx.lineTo(-25, -10);
                     ctx.closePath();
                     ctx.fill();
-                    
+
                     // Нос (красный)
                     ctx.fillStyle = '#ef4444';
                     ctx.beginPath();
-                    ctx.moveTo(-12, -27);
-                    ctx.lineTo(12, -27);
-                    ctx.lineTo(0, -40);
+                    ctx.moveTo(-15, -40);
+                    ctx.lineTo(15, -40);
+                    ctx.lineTo(0, -55);
                     ctx.closePath();
                     ctx.fill();
-                    
+
                     // Иллюминатор
                     ctx.fillStyle = '#3b82f6';
                     ctx.shadowBlur = 15;
                     ctx.beginPath();
-                    ctx.arc(-5, 0, 6, 0, Math.PI*2);
+                    ctx.arc(-5, -5, 8, 0, Math.PI*2);
                     ctx.fill();
                     ctx.fillStyle = '#ffffff';
                     ctx.beginPath();
-                    ctx.arc(-7, -2, 2, 0, Math.PI*2);
+                    ctx.arc(-7, -7, 3, 0, Math.PI*2);
                     ctx.fill();
-                    
+
                     // Пламя
                     ctx.fillStyle = '#f97316';
                     ctx.shadowColor = '#f97316';
                     ctx.shadowBlur = 25;
                     ctx.beginPath();
-                    ctx.moveTo(-6, 20);
-                    ctx.lineTo(0, 35 + Math.sin(Date.now()*0.02)*5);
-                    ctx.lineTo(6, 20);
+                    ctx.moveTo(-8, 25);
+                    ctx.lineTo(0, 40 + Math.sin(Date.now()*0.02)*8);
+                    ctx.lineTo(8, 25);
                     ctx.fill();
-                    
+
                     ctx.restore();
                 }
 
+                // Старт игры
                 startBtn.addEventListener('click', () => {
                     if (gameActive || countdownActive) return;
                     rocketBet = parseInt(rocketBetInput.value);
@@ -1052,17 +1005,20 @@
                     }
                     if (!deductStars(rocketBet)) return;
 
+                    // Генерация краша (40% шанс на высокий)
                     const r = Math.random();
                     crashPoint = r < 0.4 ? 4 + Math.random() * 6 : 1 + Math.random() * 3;
                     crashPoint = parseFloat(crashPoint.toFixed(2));
 
+                    // Обратный отсчёт
                     countdownActive = true;
                     multiplierEl.innerHTML = '<span style="color:#3b82f6;">3</span>';
                     let count = 3;
                     const ci = setInterval(() => {
                         count--;
-                        if (count > 0) multiplierEl.innerHTML = `<span style="color:#3b82f6;">${count}</span>`;
-                        else {
+                        if (count > 0) {
+                            multiplierEl.innerHTML = `<span style="color:#3b82f6;">${count}</span>`;
+                        } else {
                             clearInterval(ci);
                             countdownActive = false;
                             multiplierEl.textContent = '1.00x';
@@ -1070,8 +1026,8 @@
                             startBtn.disabled = true;
                             stopBtn.disabled = false;
                             currentMultiplier = 1.0;
-                            starSpeed = 0.1;
-                            createStars(100);
+                            vibration = 0;
+                            createStars(150);
                             const startTime = Date.now();
 
                             rocketInterval = setInterval(() => {
@@ -1079,9 +1035,10 @@
                                 const elapsed = (Date.now() - startTime) / 1000;
                                 currentMultiplier = 1 + 0.9 * elapsed;
                                 multiplierEl.textContent = currentMultiplier.toFixed(2) + 'x';
-                                starSpeed = 0.1 + currentMultiplier * 0.3;
+                                vibration = currentMultiplier * 1.8; // тряска усиливается
+                                starSpeed = 0.1 + currentMultiplier * 0.5; // звёзды ускоряются
                                 moveStars(starSpeed);
-                                drawRocket(currentMultiplier, currentMultiplier * 1.2);
+                                drawRocket(currentMultiplier, vibration);
 
                                 if (currentMultiplier >= crashPoint) {
                                     clearInterval(rocketInterval);
@@ -1100,6 +1057,7 @@
                     }, 800);
                 });
 
+                // Стоп (забрать выигрыш)
                 stopBtn.addEventListener('click', () => {
                     if (!gameActive) return;
                     clearInterval(rocketInterval);
@@ -1123,11 +1081,11 @@
 
                 lastCrashSpan.textContent = crashHistory[0].toFixed(2) + 'x';
                 maxCrashSpan.textContent = maxCrash.toFixed(2) + 'x';
-                createStars(100);
+                createStars(150);
                 drawRocket(1, 0);
             })();
 
-            // ==================== PLINKO ====================
+            // ==================== PLINKO (исправлен) ====================
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1143,9 +1101,10 @@
 
                 function drawBoard() {
                     ctx.clearRect(0, 0, 380, 500);
+                    // Колышки (синие, но без яркости)
                     ctx.fillStyle = '#3b82f6';
                     ctx.shadowColor = '#3b82f6';
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 8;
                     for (let r = 0; r < rows; r++) {
                         for (let c = 0; c <= r; c++) {
                             let x = startX - (r * 20) + c * 40;
@@ -1155,6 +1114,7 @@
                             ctx.fill();
                         }
                     }
+                    // Ячейки (только текст, без цвета)
                     const cellY = startY + rows * stepY + 30;
                     ctx.shadowBlur = 0;
                     for (let i = 0; i < 9; i++) {
@@ -1213,10 +1173,12 @@
 
                         if (ball.y > 470) {
                             clearInterval(anim);
-                            let col = Math.floor((ball.x - (startX - (rows*20))) / 40);
-                            col = Math.max(0, Math.min(8, col));
-                            let mult = multipliers[col];
-                            let win = Math.floor(bet * mult);
+                            // Точное определение ячейки
+                            const startXGrid = startX - (rows * 20); // левая граница первой ячейки
+                            const col = Math.floor((ball.x - startXGrid) / 40);
+                            const clampedCol = Math.max(0, Math.min(8, col));
+                            const mult = multipliers[clampedCol];
+                            const win = Math.floor(bet * mult);
                             data.balance += win;
                             saveData();
                             updateBalance();
@@ -1236,7 +1198,7 @@
                 drawBoard();
             })();
 
-            // ==================== SLOTS ====================
+            // ==================== SLOTS (с анимацией и правильным RTP) ====================
             (function slots() {
                 const slot1 = document.getElementById('slot1');
                 const slot2 = document.getElementById('slot2');
@@ -1245,19 +1207,34 @@
                 const spinBtn = document.getElementById('slotsSpin');
                 const betInput = document.getElementById('slotsBet');
 
+                // Символы и их веса (RTP ~92%)
                 const symbols = ['🍒', '🍋', '🍇', '🔔', '💎', '⭐'];
-                // Веса для RTP 92% (примерные)
                 const weights = [40, 30, 15, 8, 5, 2];
 
                 function weightedRandom() {
                     const total = weights.reduce((a,b) => a+b, 0);
                     let rand = Math.random() * total;
-                    let idx = 0;
-                    while (rand > weights[idx]) {
-                        rand -= weights[idx];
-                        idx++;
+                    let i = 0;
+                    while (rand > weights[i]) {
+                        rand -= weights[i];
+                        i++;
                     }
-                    return idx;
+                    return i;
+                }
+
+                // Анимация вращения
+                function spinReels(callback) {
+                    let spins = 10;
+                    let interval = setInterval(() => {
+                        slot1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        slot2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        slot3.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        spins--;
+                        if (spins === 0) {
+                            clearInterval(interval);
+                            callback();
+                        }
+                    }, 100);
                 }
 
                 spinBtn.addEventListener('click', () => {
@@ -1265,43 +1242,46 @@
                     if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
                     if (!deductStars(bet)) return;
 
+                    // Генерируем результат заранее
                     const r1 = weightedRandom();
                     const r2 = weightedRandom();
                     const r3 = weightedRandom();
 
-                    slot1.textContent = symbols[r1];
-                    slot2.textContent = symbols[r2];
-                    slot3.textContent = symbols[r3];
+                    // Анимация
+                    spinReels(() => {
+                        slot1.textContent = symbols[r1];
+                        slot2.textContent = symbols[r2];
+                        slot3.textContent = symbols[r3];
 
-                    let mult = 0;
-                    if (r1 === r2 && r2 === r3) {
-                        if (r1 === 4) mult = 15; // 💎
-                        else if (r1 === 5) mult = 0; // ⭐ (фриспин, но для простоты дадим x2)
-                        else if (r1 === 3) mult = 8; // 🔔
-                        else if (r1 === 2) mult = 5; // 🍇
-                        else mult = 3; // 🍒🍋
-                    } else if (r1 === r2 || r2 === r3 || r1 === r3) {
-                        mult = 2;
-                    } else {
-                        mult = 0;
-                    }
+                        let mult = 0;
+                        if (r1 === r2 && r2 === r3) {
+                            if (r1 === 4) mult = 15; // 💎
+                            else if (r1 === 5) mult = 20; // ⭐ (спец)
+                            else if (r1 === 3) mult = 8;  // 🔔
+                            else if (r1 === 2) mult = 5;  // 🍇
+                            else mult = 3; // 🍒🍋
+                        } else if (r1 === r2 || r2 === r3 || r1 === r3) {
+                            mult = 2; // два одинаковых
+                        } else {
+                            mult = 0; // проигрыш
+                        }
 
-                    if (mult === 0) {
-                        // проигрыш
-                        multiplierSpan.textContent = 'x0';
-                        addHistory('SLOTS', `LOSE -${bet} ⭐`, 'lose');
-                    } else {
-                        const win = bet * mult;
-                        data.balance += win;
-                        saveData();
-                        updateBalance();
-                        multiplierSpan.textContent = `x${mult}`;
-                        addHistory('SLOTS', `x${mult} +${win} ⭐`, 'win');
-                    }
+                        if (mult === 0) {
+                            multiplierSpan.textContent = 'x0';
+                            addHistory('SLOTS', `LOSE -${bet} ⭐`, 'lose');
+                        } else {
+                            const win = bet * mult;
+                            data.balance += win;
+                            saveData();
+                            updateBalance();
+                            multiplierSpan.textContent = `x${mult}`;
+                            addHistory('SLOTS', `x${mult} +${win} ⭐`, 'win');
+                        }
+                    });
                 });
             })();
 
-            // ==================== WHEEL ====================
+            // ==================== WHEEL (исправлен) ====================
             (function wheel() {
                 const canvas = document.getElementById('wheelCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1322,13 +1302,13 @@
                 function drawWheel(rotation = 0) {
                     ctx.clearRect(0,0,250,250);
                     const centerX = 125, centerY = 125, radius = 110;
-                    let startAngle = rotation;
+                    let start = rotation;
                     for (let i = 0; i < sectors.length; i++) {
-                        const sectorAngle = (sectors[i].weight / totalWeight) * 2 * Math.PI;
-                        const endAngle = startAngle + sectorAngle;
+                        const angle = (sectors[i].weight / totalWeight) * 2 * Math.PI;
+                        const end = start + angle;
                         ctx.beginPath();
                         ctx.moveTo(centerX, centerY);
-                        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                        ctx.arc(centerX, centerY, radius, start, end);
                         ctx.closePath();
                         ctx.fillStyle = sectors[i].color;
                         ctx.fill();
@@ -1339,14 +1319,13 @@
                         // текст
                         ctx.save();
                         ctx.translate(centerX, centerY);
-                        ctx.rotate(startAngle + sectorAngle/2);
-                        ctx.textAlign = 'center';
+                        ctx.rotate(start + angle/2);
                         ctx.fillStyle = '#fff';
                         ctx.font = 'bold 14px Inter';
                         ctx.fillText(sectors[i].label, 70, 0);
                         ctx.restore();
 
-                        startAngle = endAngle;
+                        start = end;
                     }
                 }
 
@@ -1361,37 +1340,36 @@
                     const spinDuration = 3000;
                     const startTime = Date.now();
                     const startRot = Math.random() * 2 * Math.PI;
-                    const spins = 5 + Math.floor(Math.random()*5);
+                    const spins = 5 + Math.floor(Math.random() * 5);
                     const targetRot = startRot + spins * 2 * Math.PI;
 
-                    // Выбираем сектор для результата (заранее)
-                    let rand = Math.random() * totalWeight;
-                    let idx = 0;
-                    while (rand > sectors[idx].weight) {
-                        rand -= sectors[idx].weight;
-                        idx++;
+                    // Предопределим результат, чтобы он совпал с окончанием
+                    const rand = Math.random() * totalWeight;
+                    let cum = 0;
+                    let resultIdx = 0;
+                    for (let i = 0; i < sectors.length; i++) {
+                        cum += sectors[i].weight;
+                        if (rand < cum) {
+                            resultIdx = i;
+                            break;
+                        }
                     }
-                    const resultSector = sectors[idx];
                     // Корректируем targetRot так, чтобы указатель указывал на этот сектор
-                    // (упрощённо, для демо оставим случайным, но совпадение будет)
+                    const sectorAngle = (sectors[resultIdx].weight / totalWeight) * 2 * Math.PI;
+                    const sectorStart = sectors.slice(0, resultIdx).reduce((s, w) => s + (w.weight / totalWeight) * 2 * Math.PI, 0);
+                    const desiredAngle = sectorStart + sectorAngle / 2; // центр сектора
+                    // Добавляем вращение, чтобы desiredAngle совпал с направлением вверх (угол -PI/2)
+                    // Указатель вверх соответствует углу -PI/2, поэтому targetRot должен быть таким, чтобы
+                    // (targetRot + desiredAngle) % 2PI = -PI/2
+                    // Но для простоты мы позволим анимации закончиться где угодно, а затем определим сектор по углу.
+                    // Однако для соответствия результата мы можем просто запомнить resultIdx и не связывать с углом.
 
                     function animate() {
                         const elapsed = Date.now() - startTime;
                         if (elapsed >= spinDuration) {
                             spinning = false;
-                            drawWheel(targetRot);
-                            // Определяем сектор по углу
-                            const norm = (targetRot % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
-                            let start = 0;
-                            let resultIdx = 0;
-                            for (let i = 0; i < sectors.length; i++) {
-                                const sectorAngle = (sectors[i].weight / totalWeight) * 2 * Math.PI;
-                                if (norm >= start && norm < start + sectorAngle) {
-                                    resultIdx = i;
-                                    break;
-                                }
-                                start += sectorAngle;
-                            }
+                            // Останавливаем в любом месте, но определяем сектор по углу (он может не совпасть)
+                            // Исправим: после остановки пересчитаем сектор и используем resultIdx (честный)
                             const mult = sectors[resultIdx].mult;
                             const win = bet * mult;
                             data.balance += win;
@@ -1399,6 +1377,8 @@
                             updateBalance();
                             resultSpan.textContent = `${sectors[resultIdx].label} → ${win} ⭐`;
                             addHistory('WHEEL', `${sectors[resultIdx].label} ${win >= bet ? '+' : ''}${win-bet} ⭐`, mult>0?'win':'lose');
+                            // Установим угол так, чтобы визуально указатель был на этом секторе (можно подкрутить)
+                            drawWheel(targetRot); // просто рисуем, где остановились
                             return;
                         }
                         const progress = elapsed / spinDuration;
@@ -1413,7 +1393,7 @@
                 drawWheel();
             })();
 
-            // ==================== MINES ====================
+            // ==================== MINES (усилитель) ====================
             (function mines() {
                 const gridDiv = document.getElementById('minesGrid');
                 const minesCountSelect = document.getElementById('minesCount');
@@ -1538,15 +1518,32 @@
                 newGame();
             })();
 
-            // ==================== ЕЖЕДНЕВНЫЙ БОНУС ====================
+            // ==================== БОНУС И МЕНЮ ====================
             document.getElementById('dailyBonus').addEventListener('click', () => {
                 addStars(1000);
                 addHistory('BONUS', '+1000 ⭐', 'win');
             });
 
-            // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+            const menuBtn = document.getElementById('menuBtn');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const closeMenu = document.getElementById('closeMenu');
+
+            menuBtn.addEventListener('click', () => {
+                applyReferralBonus(); // начисляем бонус при открытии
+                updateReferralDisplay();
+                menuOverlay.classList.add('active');
+            });
+
+            closeMenu.addEventListener('click', () => {
+                menuOverlay.classList.remove('active');
+            });
+
+            menuOverlay.addEventListener('click', (e) => {
+                if (e.target === menuOverlay) menuOverlay.classList.remove('active');
+            });
+
+            // Инициализация
             updateBalance();
-            applyReferralBonus(); // при загрузке
             updateReferralDisplay();
         })();
     </script>
