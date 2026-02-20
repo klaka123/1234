@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✦ IMPERIAL CASINO ✦</title>
+    <title>✦ LEGENDARY CASINO ✦</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ========== БАЗОВЫЙ СТИЛЬ ========== */
         * {
             margin: 0;
             padding: 0;
@@ -19,7 +20,7 @@
             --bg-elevated: #1e2632;
             --accent: #3b82f6;
             --accent-hover: #2563eb;
-            --accent-glow: rgba(59, 130, 246, 0.5);
+            --accent-glow: rgba(59, 130, 246, 0.6);
             --text-primary: #ffffff;
             --text-secondary: #94a3b8;
             --border: #2a313e;
@@ -40,46 +41,43 @@
             overflow-x: hidden;
         }
 
-        /* Анимированный фон */
-        body::before {
-            content: '';
+        /* Анимированный фон с частицами */
+        #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 40%, rgba(59,130,246,0.15) 0%, transparent 40%),
-                        radial-gradient(circle at 70% 60%, rgba(139,92,246,0.15) 0%, transparent 40%);
+            z-index: 0;
             pointer-events: none;
-            z-index: -1;
         }
 
         .app {
             max-width: 420px;
             width: 100%;
-            background: rgba(18,22,31,0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 48px;
+            background: rgba(18, 22, 31, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 56px;
             padding: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(59,130,246,0.2) inset;
             position: relative;
             z-index: 1;
         }
 
-        /* Шапка */
+        /* ========== ШАПКА ========== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
-            background: rgba(30,38,50,0.5);
+            background: rgba(30, 38, 50, 0.6);
             backdrop-filter: blur(10px);
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            animation: slideDown 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5);
+            animation: slideDown 0.6s ease-out;
         }
 
         @keyframes slideDown {
@@ -90,19 +88,19 @@
         .balance {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .balance i {
             color: var(--accent);
             font-size: 24px;
-            filter: drop-shadow(0 0 10px var(--accent));
-            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 15px var(--accent));
+            animation: floatBalance 3s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+        @keyframes floatBalance {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
 
         .balance span {
@@ -115,24 +113,24 @@
 
         .header-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
 
         .icon-btn {
-            width: 52px;
-            height: 52px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
-            background: rgba(42,49,62,0.8);
+            background: rgba(42, 49, 62, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
             position: relative;
             overflow: hidden;
         }
@@ -145,34 +143,34 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(59,130,246,0.3);
+            background: rgba(59, 130, 246, 0.4);
             transform: translate(-50%, -50%);
             transition: width 0.4s, height 0.4s;
         }
 
         .icon-btn:hover::before {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
         }
 
         .icon-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.05);
             box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* Навигация */
+        /* ========== НАВИГАЦИЯ ========== */
         .nav {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             margin-bottom: 28px;
             padding: 6px;
-            background: rgba(30,38,50,0.5);
+            background: rgba(30, 38, 50, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.05);
-            animation: fadeIn 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.8s ease;
         }
 
         @keyframes fadeIn {
@@ -204,36 +202,36 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
+            transition: width 0.5s, height 0.5s;
         }
 
         .nav-item:hover::before {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
         }
 
         .nav-item.active {
             background: linear-gradient(135deg, var(--accent), var(--accent-hover));
             color: white;
-            box-shadow: 0 0 30px var(--accent-glow);
-            animation: glow 2s infinite;
+            box-shadow: 0 0 35px var(--accent-glow);
+            animation: navGlow 2s infinite;
         }
 
-        @keyframes glow {
+        @keyframes navGlow {
             0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
-            50% { box-shadow: 0 0 40px var(--accent-glow); }
+            50% { box-shadow: 0 0 45px var(--accent-glow); }
         }
 
-        /* Игровые контейнеры */
+        /* ========== ОБЩИЕ ЭЛЕМЕНТЫ ========== */
         .game {
             display: none;
-            animation: slideUp 0.4s ease;
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -241,16 +239,173 @@
             display: block;
         }
 
-        /* ROCKET */
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(30, 38, 50, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 22px 26px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 24px 0;
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5);
+            animation: slideUp 0.6s ease;
+        }
+
+        .info-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .info-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 35px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .info-value {
+            font-weight: 800;
+            color: var(--accent);
+            font-size: 26px;
+            text-shadow: 0 0 20px var(--accent);
+        }
+
+        .bet-panel {
+            background: rgba(30, 38, 50, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5);
+            animation: slideUp 0.7s ease;
+        }
+
+        .bet-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .bet-input {
+            width: 100%;
+            padding: 20px;
+            background: rgba(10, 12, 18, 0.8);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 60px;
+            color: white;
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 26px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 15px rgba(0,0,0,0.5);
+        }
+
+        .bet-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow), inset 0 2px 15px rgba(0,0,0,0.5);
+            transform: scale(1.02);
+        }
+
+        .actions {
+            display: flex;
+            gap: 18px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .btn:hover::before {
+            width: 250px;
+            height: 250px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px var(--accent-glow);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn:disabled::before {
+            display: none;
+        }
+
+        /* ========== ROCKET ========== */
         .rocket-stage {
             background: linear-gradient(180deg, #0b0e14, #000);
-            border-radius: 36px;
+            border-radius: 48px;
             height: 300px;
             position: relative;
-            border: 2px solid rgba(59,130,246,0.3);
+            border: 2px solid rgba(59, 130, 246, 0.3);
             margin-bottom: 24px;
             overflow: hidden;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 15px 30px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 20px 40px -15px black;
         }
 
         #rocketCanvas {
@@ -273,12 +428,13 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            animation: twinkle 3s infinite alternate;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+            animation: twinkle 4s infinite alternate;
         }
 
         @keyframes twinkle {
             0% { opacity: 0.2; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 1; transform: scale(1.4); }
         }
 
         .multiplier {
@@ -287,20 +443,20 @@
             right: 20px;
             background: rgba(0,0,0,0.8);
             backdrop-filter: blur(8px);
-            padding: 12px 28px;
+            padding: 12px 30px;
             border-radius: 60px;
             border: 2px solid var(--accent);
             color: var(--accent);
-            font-size: 42px;
+            font-size: 46px;
             font-weight: 900;
             z-index: 20;
-            box-shadow: 0 0 30px var(--accent-glow);
-            animation: pulseText 2s infinite;
+            box-shadow: 0 0 40px var(--accent-glow);
+            animation: textPulse 2s infinite;
         }
 
-        @keyframes pulseText {
+        @keyframes textPulse {
             0%, 100% { text-shadow: 0 0 20px var(--accent); }
-            50% { text-shadow: 0 0 40px var(--accent); }
+            50% { text-shadow: 0 0 50px var(--accent); }
         }
 
         .countdown {
@@ -308,193 +464,30 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 80px;
+            font-size: 100px;
             font-weight: 900;
             color: var(--accent);
-            text-shadow: 0 0 50px var(--accent);
+            text-shadow: 0 0 70px var(--accent);
             z-index: 30;
-            animation: countdown 1s infinite;
-        }
-
-        @keyframes countdown {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
-        }
-
-        /* Инфо-панель */
-        .info-panel {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(30,38,50,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 60px;
-            padding: 20px 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin: 24px 0;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            animation: slideUp 0.5s ease;
-        }
-
-        .info-item {
-            text-align: center;
-            flex: 1;
-            position: relative;
-        }
-
-        .info-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1px;
-            height: 30px;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .info-label {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .info-value {
-            font-weight: 800;
-            color: var(--accent);
-            font-size: 24px;
-            text-shadow: 0 0 15px var(--accent);
-            animation: valuePulse 2s infinite;
-        }
-
-        @keyframes valuePulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-
-        /* Панель ставок */
-        .bet-panel {
-            background: rgba(30,38,50,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 60px;
-            padding: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            animation: slideUp 0.6s ease;
-        }
-
-        .bet-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            color: var(--text-secondary);
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .bet-input {
-            width: 100%;
-            padding: 18px;
-            background: rgba(10,12,18,0.8);
-            border: 2px solid rgba(59,130,246,0.3);
-            border-radius: 60px;
-            color: white;
-            font-size: 28px;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 24px;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .bet-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow), inset 0 2px 10px rgba(0,0,0,0.5);
-            transform: scale(1.02);
-        }
-
-        .actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 18px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-        }
-
-        .btn:hover::before {
-            width: 200px;
-            height: 200px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-            color: white;
-            box-shadow: 0 5px 20px var(--accent-glow);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px var(--accent-glow);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-            box-shadow: 0 5px 20px rgba(16,185,129,0.3);
-        }
-
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn:disabled::before {
             display: none;
+            animation: countdownAnim 1s infinite;
         }
 
-        /* PLINKO */
+        @keyframes countdownAnim {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
+        }
+
+        /* ========== PLINKO ========== */
         .plinko-stage {
             background: linear-gradient(180deg, #0b0e14, #000);
-            border-radius: 36px;
+            border-radius: 48px;
             height: 520px;
             position: relative;
-            border: 2px solid rgba(59,130,246,0.3);
+            border: 2px solid rgba(59, 130, 246, 0.3);
             margin-bottom: 24px;
             overflow: hidden;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 15px 30px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 20px 40px -15px black;
         }
 
         #plinkoCanvas {
@@ -505,165 +498,182 @@
 
         .result {
             margin-top: 24px;
-            padding: 24px;
-            background: rgba(30,38,50,0.5);
+            padding: 26px;
+            background: rgba(30, 38, 50, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 60px;
             text-align: center;
             font-weight: 800;
-            font-size: 32px;
+            font-size: 36px;
             color: var(--accent);
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5);
             animation: resultGlow 2s infinite;
         }
 
         @keyframes resultGlow {
-            0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
-            50% { box-shadow: 0 0 40px var(--accent-glow); }
+            0%, 100% { box-shadow: 0 0 25px var(--accent-glow); }
+            50% { box-shadow: 0 0 50px var(--accent-glow); }
         }
 
-        /* SLOTS */
+        /* ========== SLOTS ========== */
         .slots-machine {
             background: linear-gradient(180deg, #0b0e14, #000);
             border-radius: 60px;
-            padding: 40px 20px;
+            padding: 45px 20px;
             margin-bottom: 24px;
-            border: 2px solid rgba(59,130,246,0.3);
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 15px 30px rgba(0,0,0,0.5);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.9), 0 20px 40px -15px black;
         }
 
         .reels {
             display: flex;
             justify-content: space-around;
-            gap: 15px;
+            gap: 20px;
         }
 
         .reel {
-            width: 90px;
-            height: 90px;
+            width: 95px;
+            height: 95px;
             background: linear-gradient(145deg, #1e2632, #0f131a);
-            border-radius: 30px;
+            border-radius: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 70px;
+            font-size: 75px;
             border: 3px solid var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow), inset 0 0 20px rgba(0,0,0,0.5);
-            transition: all 0.1s ease;
-            animation: reelGlow 2s infinite;
-        }
-
-        @keyframes reelGlow {
-            0%, 100% { box-shadow: 0 0 20px var(--accent-glow), inset 0 0 20px rgba(0,0,0,0.5); }
-            50% { box-shadow: 0 0 40px var(--accent-glow), inset 0 0 20px rgba(0,0,0,0.5); }
+            box-shadow: 0 0 40px var(--accent-glow), inset 0 0 25px rgba(0,0,0,0.7);
+            transition: transform 0.05s;
         }
 
         .reel.spinning {
-            animation: spinReel 0.1s infinite;
+            animation: reelSpin 0.1s infinite;
         }
 
-        @keyframes spinReel {
+        @keyframes reelSpin {
             0% { transform: translateY(0); }
-            25% { transform: translateY(-8px); }
+            25% { transform: translateY(-10px); }
             50% { transform: translateY(0); }
-            75% { transform: translateY(8px); }
+            75% { transform: translateY(10px); }
             100% { transform: translateY(0); }
         }
 
-        /* WHEEL */
+        .slots-multiplier {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 30px;
+            font-weight: 800;
+            color: var(--accent);
+            text-shadow: 0 0 25px var(--accent);
+        }
+
+        /* ========== WHEEL ========== */
         .wheel-container {
             position: relative;
-            width: 280px;
-            height: 280px;
+            width: 300px;
+            height: 300px;
             margin: 20px auto;
-            animation: wheelFloat 3s infinite;
+            animation: wheelFloat 4s infinite;
         }
 
         @keyframes wheelFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-7px); }
         }
 
         #wheelCanvas {
             width: 100%;
             height: 100%;
             display: block;
-            filter: drop-shadow(0 0 30px var(--accent-glow));
-            transition: transform 0.1s;
+            filter: drop-shadow(0 0 40px var(--accent-glow));
+            transition: transform 0.05s;
         }
 
         .pointer {
             position: absolute;
-            top: -25px;
+            top: -30px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 60px;
+            font-size: 70px;
             color: var(--accent);
-            filter: drop-shadow(0 0 20px var(--accent));
+            filter: drop-shadow(0 0 25px var(--accent));
             z-index: 10;
-            animation: pointerBounce 1s infinite;
+            animation: pointerBounce 1.2s infinite;
         }
 
         @keyframes pointerBounce {
             0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-5px); }
+            50% { transform: translateX(-50%) translateY(-7px); }
         }
 
-        /* MINES */
+        .wheel-result {
+            margin-top: 24px;
+            padding: 26px;
+            background: rgba(30, 38, 50, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5);
+        }
+
+        /* ========== MINES ========== */
         .mines-header {
             display: flex;
             gap: 15px;
-            margin-bottom: 24px;
+            margin-bottom: 26px;
         }
 
         .mines-select {
             flex: 1;
-            background: rgba(30,38,50,0.5);
+            background: rgba(30, 38, 50, 0.6);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(59,130,246,0.3);
+            border: 2px solid rgba(59, 130, 246, 0.3);
             border-radius: 60px;
-            padding: 16px;
+            padding: 18px;
             color: white;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
         .mines-select:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow);
+            box-shadow: 0 0 35px var(--accent-glow);
             transform: translateY(-2px);
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 24px 0;
-            animation: gridAppear 0.5s ease;
+            gap: 12px;
+            margin: 26px 0;
+            animation: gridAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes gridAppear {
-            from { opacity: 0; transform: scale(0.8); }
+            from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
         }
 
         .cell {
             aspect-ratio: 1;
             background: linear-gradient(145deg, #1e2632, #0f131a);
-            border: 2px solid rgba(59,130,246,0.3);
-            border-radius: 20px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: cellAppear 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+            animation: cellAppear 0.4s ease;
         }
 
         @keyframes cellAppear {
@@ -673,8 +683,8 @@
 
         .cell:hover {
             border-color: var(--accent);
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 0 30px var(--accent-glow);
+            transform: scale(1.07) translateY(-3px);
+            box-shadow: 0 0 35px var(--accent-glow);
         }
 
         .cell:active {
@@ -685,98 +695,98 @@
             background: linear-gradient(145deg, #166534, #0f3a1f);
             border-color: var(--success);
             color: var(--success);
-            box-shadow: 0 0 30px rgba(16,185,129,0.5);
-            animation: starPulse 1s infinite;
+            box-shadow: 0 0 35px rgba(16, 185, 129, 0.6);
+            animation: starPulse 1.5s infinite;
         }
 
         @keyframes starPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(16,185,129,0.5); }
-            50% { box-shadow: 0 0 40px rgba(16,185,129,0.8); }
+            0%, 100% { box-shadow: 0 0 25px rgba(16,185,129,0.6); }
+            50% { box-shadow: 0 0 50px rgba(16,185,129,1); }
         }
 
         .cell.mine {
             background: linear-gradient(145deg, #991b1b, #5f1111);
             border-color: var(--danger);
             color: var(--danger);
-            box-shadow: 0 0 30px rgba(239,68,68,0.5);
-            animation: minePulse 1s infinite;
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.6);
+            animation: minePulse 1.5s infinite;
         }
 
         @keyframes minePulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.5); }
-            50% { box-shadow: 0 0 40px rgba(239,68,68,0.8); }
+            0%, 100% { box-shadow: 0 0 25px rgba(239,68,68,0.6); }
+            50% { box-shadow: 0 0 50px rgba(239,68,68,1); }
         }
 
         .mines-info {
             display: flex;
             justify-content: space-between;
-            margin: 24px 0;
-            font-size: 22px;
+            margin: 26px 0;
+            font-size: 24px;
             font-weight: 700;
-            padding: 20px;
-            background: rgba(30,38,50,0.5);
+            padding: 22px;
+            background: rgba(30, 38, 50, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.05);
-            animation: slideUp 0.5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: slideUp 0.7s ease;
         }
 
-        /* История */
+        /* ========== ИСТОРИЯ ========== */
         .history {
-            background: rgba(30,38,50,0.5);
+            background: rgba(30, 38, 50, 0.6);
             backdrop-filter: blur(10px);
-            border-radius: 40px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-top: 28px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            animation: slideUp 0.7s ease;
+            border-radius: 50px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 30px;
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.5);
+            animation: slideUp 0.8s ease;
         }
 
         .history-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             color: var(--text-secondary);
-            font-size: 16px;
-            margin-bottom: 20px;
+            font-size: 18px;
+            margin-bottom: 22px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .history-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .history-item {
             display: flex;
             justify-content: space-between;
-            padding: 16px 20px;
-            background: rgba(10,12,18,0.8);
-            border-radius: 40px;
-            font-size: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            padding: 18px 22px;
+            background: rgba(10, 12, 18, 0.8);
+            border-radius: 50px;
+            font-size: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
-            animation: historyAppear 0.3s ease;
+            animation: historyAppear 0.4s ease;
         }
 
         @keyframes historyAppear {
-            from { opacity: 0; transform: translateX(-10px); }
+            from { opacity: 0; transform: translateX(-15px); }
             to { opacity: 1; transform: translateX(0); }
         }
 
         .history-item:hover {
-            transform: translateX(5px);
+            transform: translateX(8px);
             border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         .win { color: var(--accent); font-weight: 700; }
         .lose { color: var(--danger); font-weight: 700; }
 
-        /* Меню */
+        /* ========== МОДАЛЬНОЕ ОКНО ========== */
         .modal {
             display: none;
             position: fixed;
@@ -785,7 +795,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -793,7 +803,7 @@
 
         .modal.active {
             display: flex;
-            animation: modalAppear 0.3s ease;
+            animation: modalAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes modalAppear {
@@ -803,118 +813,118 @@
 
         .modal-content {
             background: linear-gradient(145deg, #12161f, #0a0c12);
-            border-radius: 60px;
-            padding: 40px;
-            max-width: 380px;
+            border-radius: 70px;
+            padding: 45px;
+            max-width: 400px;
             width: 90%;
             border: 2px solid var(--accent);
-            box-shadow: 0 0 60px var(--accent-glow);
+            box-shadow: 0 0 80px var(--accent-glow);
             max-height: 80vh;
             overflow-y: auto;
         }
 
         .modal-content h3 {
             color: var(--accent);
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             text-align: center;
-            font-size: 28px;
+            font-size: 32px;
             animation: titleGlow 2s infinite;
         }
 
         @keyframes titleGlow {
-            0%, 100% { text-shadow: 0 0 20px var(--accent); }
-            50% { text-shadow: 0 0 40px var(--accent); }
+            0%, 100% { text-shadow: 0 0 25px var(--accent); }
+            50% { text-shadow: 0 0 50px var(--accent); }
         }
 
         .section {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .section h4 {
             color: var(--accent);
-            margin-bottom: 20px;
-            font-size: 20px;
+            margin-bottom: 22px;
+            font-size: 22px;
         }
 
         .ref-link {
-            background: rgba(10,12,18,0.8);
-            padding: 18px;
-            border-radius: 40px;
+            background: rgba(10, 12, 18, 0.8);
+            padding: 20px;
+            border-radius: 50px;
             font-family: monospace;
             word-break: break-all;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 18px;
             transition: all 0.3s ease;
         }
 
         .ref-link:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         .promo-item {
-            background: rgba(10,12,18,0.8);
-            padding: 18px 22px;
-            border-radius: 50px;
-            margin-bottom: 12px;
+            background: rgba(10, 12, 18, 0.8);
+            padding: 20px 25px;
+            border-radius: 60px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .promo-item:hover {
             border-color: var(--accent);
-            transform: translateX(8px);
-            box-shadow: 0 0 30px var(--accent-glow);
+            transform: translateX(10px);
+            box-shadow: 0 0 40px var(--accent-glow);
         }
 
         .promo-code {
             color: var(--accent);
             font-weight: 800;
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .promo-value {
             background: linear-gradient(135deg, var(--accent), var(--accent-hover));
             color: white;
-            padding: 8px 20px;
-            border-radius: 40px;
+            padding: 10px 25px;
+            border-radius: 60px;
             font-weight: 700;
-            box-shadow: 0 0 20px var(--accent-glow);
+            box-shadow: 0 0 25px var(--accent-glow);
         }
 
         .promo-input {
             width: 100%;
-            padding: 18px;
-            background: rgba(10,12,18,0.8);
-            border: 2px solid rgba(59,130,246,0.3);
-            border-radius: 50px;
+            padding: 20px;
+            background: rgba(10, 12, 18, 0.8);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 60px;
             color: white;
-            font-size: 18px;
-            margin: 20px 0;
+            font-size: 20px;
+            margin: 22px 0;
             outline: none;
             transition: all 0.3s ease;
         }
 
         .promo-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 30px var(--accent-glow);
+            box-shadow: 0 0 40px var(--accent-glow);
             transform: scale(1.02);
         }
 
         .modal .btn {
             width: 100%;
-            margin-top: 10px;
-            padding: 18px;
+            margin-top: 12px;
+            padding: 20px;
         }
 
-        /* Конфетти */
+        /* ========== КОНФЕТТИ ========== */
         .confetti {
             position: fixed;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             background: var(--accent);
             border-radius: 50%;
             pointer-events: none;
@@ -928,20 +938,22 @@
             }
         }
 
-        /* Анимации */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .float {
-            animation: float 3s infinite;
+        /* ========== ЧАСТИЦЫ ========== */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
     </style>
 </head>
 <body>
+    <canvas id="particle-canvas"></canvas>
     <div class="app">
-        <!-- Шапка -->
+        <!-- ШАПКА -->
         <div class="header">
             <div class="balance">
                 <i class="fas fa-star"></i>
@@ -953,7 +965,7 @@
             </div>
         </div>
 
-        <!-- Навигация -->
+        <!-- НАВИГАЦИЯ -->
         <div class="nav" id="nav">
             <button class="nav-item active" data-game="rocket">🚀</button>
             <button class="nav-item" data-game="plinko">🔴</button>
@@ -968,7 +980,7 @@
                 <div class="stars-layer" id="starsLayer"></div>
                 <canvas id="rocketCanvas" width="380" height="300"></canvas>
                 <div class="multiplier" id="rocketMultiplier">1.00x</div>
-                <div class="countdown" id="countdown" style="display: none;">3</div>
+                <div class="countdown" id="countdown">3</div>
             </div>
             <div class="info-panel">
                 <div class="info-item">
@@ -1023,7 +1035,7 @@
                     <div class="reel" id="slot2">🍒</div>
                     <div class="reel" id="slot3">🍒</div>
                 </div>
-                <div style="text-align: center; margin-top: 25px; font-size: 28px; color: #3b82f6; font-weight: 800;" id="slotsMultiplier">x1</div>
+                <div class="slots-multiplier" id="slotsMultiplier">x1</div>
             </div>
             <div class="bet-panel">
                 <div class="bet-header">
@@ -1040,10 +1052,10 @@
         <!-- WHEEL -->
         <div id="wheel" class="game">
             <div class="wheel-container">
-                <canvas id="wheelCanvas" width="280" height="280"></canvas>
+                <canvas id="wheelCanvas" width="300" height="300"></canvas>
                 <div class="pointer">▼</div>
             </div>
-            <div class="result" id="wheelResult">—</div>
+            <div class="wheel-result" id="wheelResult">—</div>
             <div class="bet-panel">
                 <div class="bet-header">
                     <span>СТАВКА</span>
@@ -1084,14 +1096,14 @@
             </div>
         </div>
 
-        <!-- История -->
+        <!-- ИСТОРИЯ -->
         <div class="history">
             <div class="history-header"><i class="fas fa-history"></i> ПОСЛЕДНИЕ ИГРЫ</div>
             <div class="history-list" id="historyList"></div>
         </div>
     </div>
 
-    <!-- Меню -->
+    <!-- МОДАЛЬНОЕ МЕНЮ -->
     <div class="modal" id="menuModal">
         <div class="modal-content">
             <h3>МЕНЮ</h3>
@@ -1115,13 +1127,14 @@
 
     <script>
         (function() {
-            // ==================== TELEGRAM ====================
+            // ==================== TELEGRAM INIT ====================
             const tg = Telegram.WebApp;
             tg.expand();
             tg.ready();
 
+            // ==================== ГЛОБАЛЬНЫЕ ДАННЫЕ ====================
             const userId = tg.initDataUnsafe?.user?.id?.toString() || 'guest_' + Math.random().toString(36).substring(2);
-            const storageKey = `casino_premium_${userId}`;
+            const storageKey = `casino_legend_${userId}`;
 
             let data = JSON.parse(localStorage.getItem(storageKey)) || {
                 balance: 10000,
@@ -1144,7 +1157,7 @@
                 saveData();
                 updateBalance();
                 addHistory('БОНУС', `+${amount} ⭐`, 'win');
-                createConfetti(30);
+                createConfetti(50);
             }
 
             function deductStars(amount) {
@@ -1171,8 +1184,57 @@
                 ).join('');
             }
 
+            // ==================== ЧАСТИЦЫ НА ФОНЕ ====================
+            (function particles() {
+                const canvas = document.getElementById('particle-canvas');
+                const ctx = canvas.getContext('2d');
+                let width, height;
+                let particles = [];
+
+                function resize() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    canvas.width = width;
+                    canvas.height = height;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                function createParticles(count = 80) {
+                    for (let i = 0; i < count; i++) {
+                        particles.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            vx: (Math.random() - 0.5) * 0.2,
+                            vy: (Math.random() - 0.5) * 0.1,
+                            size: Math.random() * 3 + 1,
+                            color: `rgba(59, 130, 246, ${Math.random() * 0.3})`
+                        });
+                    }
+                }
+                createParticles();
+
+                function animate() {
+                    ctx.clearRect(0, 0, width, height);
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        if (p.x < 0) p.x = width;
+                        if (p.x > width) p.x = 0;
+                        if (p.y < 0) p.y = height;
+                        if (p.y > height) p.y = 0;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = p.color;
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(animate);
+                }
+                animate();
+            })();
+
             // ==================== КОНФЕТТИ ====================
-            function createConfetti(count = 20) {
+            function createConfetti(count = 30) {
                 for (let i = 0; i < count; i++) {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
@@ -1210,11 +1272,11 @@
             if (startParam && startParam.startsWith('ref_')) {
                 const referrerId = startParam.replace('ref_', '');
                 if (!localStorage.getItem(`referred_${userId}`) && referrerId !== userId) {
-                    let referrerData = JSON.parse(localStorage.getItem(`casino_premium_${referrerId}`) || '{"referrals":[]}');
+                    let referrerData = JSON.parse(localStorage.getItem(`casino_legend_${referrerId}`) || '{"referrals":[]}');
                     if (!referrerData.referrals) referrerData.referrals = [];
                     if (!referrerData.referrals.includes(userId)) {
                         referrerData.referrals.push(userId);
-                        localStorage.setItem(`casino_premium_${referrerId}`, JSON.stringify(referrerData));
+                        localStorage.setItem(`casino_legend_${referrerId}`, JSON.stringify(referrerData));
                     }
                     localStorage.setItem(`referred_${userId}`, 'true');
                 }
@@ -1265,7 +1327,7 @@
                     updateBalance();
                     alert(`Промокод активирован! +${promoCodes[upper]} ⭐`);
                     addHistory('ПРОМОКОД', `+${promoCodes[upper]} ⭐`, 'win');
-                    createConfetti(30);
+                    createConfetti(40);
                     return true;
                 }
                 alert('Неверный промокод');
@@ -1292,11 +1354,11 @@
                 let currentMult = 1.0;
                 let bet = 10;
                 let stars = [];
-                let speed = 0.1;
+                let speed = 0.05; // начальная скорость звезд
                 let max = 12.5;
                 let crashHistory = [4.56, 2.89, 7.23, 3.45, 5.67];
 
-                function createStars(count = 200) {
+                function createStars(count = 250) {
                     starsLayer.innerHTML = '';
                     stars = [];
                     for (let i = 0; i < count; i++) {
@@ -1307,15 +1369,17 @@
                         star.style.height = size + 'px';
                         star.style.left = Math.random() * 100 + '%';
                         star.style.top = Math.random() * 100 + '%';
-                        star.style.animationDelay = Math.random() * 3 + 's';
+                        star.style.animationDelay = Math.random() * 4 + 's';
                         starsLayer.appendChild(star);
                         stars.push({ el: star, top: parseFloat(star.style.top) });
                     }
                 }
 
-                function moveStars(speed) {
+                function moveStars(speedFactor) {
+                    const baseSpeed = 0.03;
+                    const currentSpeed = baseSpeed * speedFactor;
                     stars.forEach(s => {
-                        let top = s.top + speed;
+                        let top = s.top + currentSpeed;
                         if (top > 100) {
                             top = -5;
                             s.el.style.left = Math.random() * 100 + '%';
@@ -1325,37 +1389,37 @@
                     });
                 }
 
-                function drawRocket(mult, shake = 0) {
+                function drawRocket(mult, shakeIntensity) {
                     ctx.clearRect(0, 0, 380, 300);
                     
-                    // Звезды
-                    for (let i = 0; i < 30; i++) {
-                        ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.3})`;
+                    // Звезды на canvas (дополнительно)
+                    for (let i = 0; i < 40; i++) {
+                        ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.4})`;
                         ctx.beginPath();
                         ctx.arc(Math.random()*380, Math.random()*300, Math.random()*2, 0, 2*Math.PI);
                         ctx.fill();
                     }
 
-                    const y = 150 - (mult - 1) * 20;
-                    const shakeX = Math.sin(Date.now() * 0.02) * shake;
-                    const shakeY = Math.cos(Date.now() * 0.03) * shake;
+                    const baseY = 160 - (mult - 1) * 18; // медленный подъем
+                    const shakeX = Math.sin(Date.now() * 0.015) * shakeIntensity * 0.8;
+                    const shakeY = Math.cos(Date.now() * 0.018) * shakeIntensity * 0.8;
                     
                     // Пламя
                     ctx.shadowColor = '#f97316';
-                    ctx.shadowBlur = 30 + shake;
+                    ctx.shadowBlur = 30 + shakeIntensity * 2;
                     ctx.fillStyle = '#f97316';
                     ctx.beginPath();
-                    ctx.arc(190 + shakeX, y + 45 + shakeY, 15 + Math.sin(Date.now()*0.02)*5, 0, 2*Math.PI);
+                    ctx.arc(190 + shakeX, baseY + 50 + shakeY, 18 + Math.sin(Date.now()*0.02)*4, 0, 2*Math.PI);
                     ctx.fill();
                     
                     // Ракета
                     ctx.shadowColor = '#3b82f6';
-                    ctx.shadowBlur = 40 + shake;
-                    ctx.font = '80px "Segoe UI Emoji", "Apple Color Emoji"';
+                    ctx.shadowBlur = 45 + shakeIntensity * 3;
+                    ctx.font = '85px "Segoe UI Emoji", "Apple Color Emoji"';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillText('🚀', 190 + shakeX, y + shakeY);
+                    ctx.fillText('🚀', 190 + shakeX, baseY + shakeY);
                     ctx.shadowBlur = 0;
                 }
 
@@ -1388,18 +1452,20 @@
                             stopBtn.disabled = false;
                             currentMult = 1.0;
                             multiplierEl.textContent = '1.00x';
-                            createStars(200);
+                            createStars(250);
                             
                             const startTime = Date.now();
 
                             interval = setInterval(() => {
                                 if (!gameActive) return;
                                 const elapsed = (Date.now() - startTime) / 1000;
-                                currentMult = 1 + 0.9 * elapsed;
+                                // Медленное увеличение множителя
+                                currentMult = 1 + 0.5 * elapsed;
                                 multiplierEl.textContent = currentMult.toFixed(2) + 'x';
-                                speed = 0.1 + currentMult * 0.5;
-                                moveStars(speed);
-                                drawRocket(currentMult, currentMult * 3);
+                                
+                                // Скорость звезд и тряска растут плавно
+                                moveStars(currentMult * 1.2);
+                                drawRocket(currentMult, currentMult * 1.8);
 
                                 if (currentMult >= crashPoint) {
                                     clearInterval(interval);
@@ -1432,7 +1498,7 @@
                     lastCrash.textContent = currentMult.toFixed(2) + 'x';
                     maxCrash.textContent = max.toFixed(2) + 'x';
                     addHistory('ROCKET', `x${currentMult.toFixed(2)} +${win} ⭐`, 'win');
-                    createConfetti(30);
+                    createConfetti(35);
                 });
 
                 betInput.addEventListener('input', () => {
@@ -1441,8 +1507,8 @@
 
                 lastCrash.textContent = crashHistory[0].toFixed(2) + 'x';
                 maxCrash.textContent = max.toFixed(2) + 'x';
-                createStars(200);
-                drawRocket(1);
+                createStars(250);
+                drawRocket(1, 0);
             })();
 
             // ==================== PLINKO ====================
@@ -1450,50 +1516,146 @@
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
                 const dropBtn = document.getElementById('plinkoDrop');
-                const result = document.getElementById('plinkoResult');
+                const resultDiv = document.getElementById('plinkoResult');
                 const betInput = document.getElementById('plinkoBet');
 
+                const rows = 8;
+                const startY = 45;
+                const stepY = 52;
+                const startX = 190;
                 const multipliers = [0.5, 0.7, 1.0, 1.5, 2.0, 3.0, 5.0, 8.0, 10.0];
+                let animInterval = null;
 
                 function drawBoard() {
                     ctx.clearRect(0, 0, 380, 520);
                     
-                    // Колышки
-                    for (let r = 0; r < 8; r++) {
+                    // Колышки с неоновым эффектом
+                    for (let r = 0; r < rows; r++) {
                         for (let c = 0; c <= r; c++) {
-                            let x = 190 - r * 20 + c * 40;
-                            let y = 50 + r * 48;
+                            let x = startX - (r * 20) + c * 40;
+                            let y = startY + r * stepY;
                             
-                            const gradient = ctx.createRadialGradient(x-3, y-3, 2, x, y, 10);
+                            const gradient = ctx.createRadialGradient(x-3, y-3, 2, x, y, 12);
                             gradient.addColorStop(0, '#3b82f6');
                             gradient.addColorStop(1, '#1e3a8a');
                             ctx.fillStyle = gradient;
                             ctx.shadowColor = '#3b82f6';
-                            ctx.shadowBlur = 15;
+                            ctx.shadowBlur = 20;
                             ctx.beginPath();
-                            ctx.arc(x, y, 7, 0, 2*Math.PI);
+                            ctx.arc(x, y, 8, 0, 2*Math.PI);
                             ctx.fill();
                         }
                     }
 
                     // Ячейки
-                    const cellY = 50 + 8*48 + 20;
+                    const cellY = startY + rows * stepY + 20;
                     ctx.shadowBlur = 0;
                     for (let i = 0; i < 9; i++) {
-                        let x = 190 - 8*20 + i * 40;
+                        let x = startX - (rows * 20) + i * 40;
                         
                         ctx.fillStyle = 'rgba(30,38,50,0.8)';
-                        ctx.fillRect(x-20, cellY-12, 40, 35);
+                        ctx.fillRect(x-22, cellY-12, 44, 40);
                         
                         ctx.strokeStyle = multipliers[i] >= 1 ? '#10b981' : '#ef4444';
-                        ctx.lineWidth = 3;
-                        ctx.strokeRect(x-20, cellY-12, 40, 35);
+                        ctx.lineWidth = 4;
+                        ctx.shadowColor = multipliers[i] >= 1 ? '#10b981' : '#ef4444';
+                        ctx.shadowBlur = 15;
+                        ctx.strokeRect(x-22, cellY-12, 44, 40);
                         
+                        ctx.shadowBlur = 0;
                         ctx.fillStyle = multipliers[i] >= 1 ? '#10b981' : '#ef4444';
-                        ctx.font = 'bold 14px Inter';
-                        ctx.fillText(multipliers[i].toFixed(1)+'x', x-10, cellY+12);
+                        ctx.font = 'bold 16px Inter';
+                        ctx.fillText(multipliers[i].toFixed(1)+'x', x-12, cellY+15);
                     }
-                    ctx.shadowBlur = 0;
+                }
+
+                function dropBall(bet) {
+                    if (animInterval) clearInterval(animInterval);
+                    
+                    // Физика шарика
+                    let ball = {
+                        x: 190,
+                        y: 30,
+                        vx: 0,
+                        vy: 1,
+                        row: 0,
+                        col: 4
+                    };
+                    let lastCollision = 0;
+                    const gravity = 0.45;
+                    const bounce = 0.7;
+
+                    animInterval = setInterval(() => {
+                        // Гравитация
+                        ball.vy += gravity;
+                        ball.y += ball.vy;
+                        ball.x += ball.vx;
+
+                        // Затухание горизонтальной скорости
+                        ball.vx *= 0.99;
+
+                        // Проверка столкновений с колышками
+                        for (let r = 0; r < rows; r++) {
+                            for (let c = 0; c <= r; c++) {
+                                let pegX = startX - (r * 20) + c * 40;
+                                let pegY = startY + r * stepY;
+                                let dx = ball.x - pegX;
+                                let dy = ball.y - pegY;
+                                let dist = Math.sqrt(dx*dx + dy*dy);
+                                if (dist < 15 && Date.now() - lastCollision > 200) {
+                                    // Отскок
+                                    let angle = Math.atan2(dy, dx);
+                                    ball.vx = Math.cos(angle) * 5;
+                                    ball.vy = -Math.abs(Math.sin(angle) * 4);
+                                    // Случайное отклонение
+                                    ball.vx += (Math.random() - 0.5) * 2;
+                                    lastCollision = Date.now();
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Границы
+                        if (ball.x < 25) { ball.x = 25; ball.vx *= -bounce; }
+                        if (ball.x > 355) { ball.x = 355; ball.vx *= -bounce; }
+
+                        // Отрисовка
+                        drawBoard();
+
+                        // Шар (жемчужный)
+                        ctx.shadowColor = '#3b82f6';
+                        ctx.shadowBlur = 35;
+                        const gradient = ctx.createRadialGradient(ball.x-5, ball.y-5, 5, ball.x, ball.y, 20);
+                        gradient.addColorStop(0, '#ffffff');
+                        gradient.addColorStop(0.8, '#cbd5e1');
+                        ctx.fillStyle = gradient;
+                        ctx.beginPath();
+                        ctx.arc(ball.x, ball.y, 14, 0, 2*Math.PI);
+                        ctx.fill();
+
+                        // Блик
+                        ctx.shadowBlur = 15;
+                        ctx.fillStyle = '#ffffff';
+                        ctx.beginPath();
+                        ctx.arc(ball.x-4, ball.y-4, 4, 0, 2*Math.PI);
+                        ctx.fill();
+
+                        // Проверка достижения ячеек
+                        if (ball.y > 470) {
+                            clearInterval(animInterval);
+                            const startXGrid = startX - (rows * 20);
+                            const col = Math.floor((ball.x - startXGrid) / 40);
+                            const clamped = Math.max(0, Math.min(8, col));
+                            const mult = multipliers[clamped];
+                            const win = Math.floor(bet * mult);
+                            data.balance += win;
+                            saveData();
+                            updateBalance();
+                            resultDiv.textContent = mult >= 1 ? `🏆 WIN ${win} ⭐` : `💥 LOSE ${win} ⭐`;
+                            addHistory('PLINKO', `x${mult.toFixed(1)} ${win >= bet ? '+' : ''}${win-bet} ⭐`, mult>=1?'win':'lose');
+                            if (mult >= 3) createConfetti(25);
+                        }
+                    }, 25);
                 }
 
                 dropBtn.addEventListener('click', () => {
@@ -1503,17 +1665,7 @@
                         return;
                     }
                     if (!deductStars(bet)) return;
-
-                    const col = Math.floor(Math.random() * 9);
-                    const mult = multipliers[col];
-                    const win = Math.floor(bet * mult);
-                    data.balance += win;
-                    saveData();
-                    updateBalance();
-                    result.textContent = mult >= 1 ? `🏆 WIN ${win} ⭐` : `💥 LOSE ${win} ⭐`;
-                    addHistory('PLINKO', `x${mult.toFixed(1)} ${win >= bet ? '+' : ''}${win-bet} ⭐`, mult>=1?'win':'lose');
-                    
-                    if (mult >= 3) createConfetti(20);
+                    dropBall(bet);
                 });
 
                 drawBoard();
@@ -1547,7 +1699,7 @@
                     slot2.classList.add('spinning');
                     slot3.classList.add('spinning');
                     
-                    let spins = 15;
+                    let spins = 20;
                     let interval = setInterval(() => {
                         slot1.textContent = symbols[Math.floor(Math.random() * symbols.length)];
                         slot2.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -1560,7 +1712,7 @@
                             slot3.classList.remove('spinning');
                             callback();
                         }
-                    }, 80);
+                    }, 70);
                 }
 
                 spinBtn.addEventListener('click', () => {
@@ -1582,11 +1734,11 @@
 
                         let mult = 0;
                         if (r1 === r2 && r2 === r3) {
-                            if (r1 === 4) mult = 15;
-                            else if (r1 === 5) mult = 20;
-                            else if (r1 === 3) mult = 8;
-                            else if (r1 === 2) mult = 5;
-                            else mult = 3;
+                            if (r1 === 4) mult = 15;      // 💎
+                            else if (r1 === 5) mult = 20;  // ⭐
+                            else if (r1 === 3) mult = 8;   // 🔔
+                            else if (r1 === 2) mult = 5;   // 🍇
+                            else mult = 3;                  // 🍒🍋
                         } else if (r1 === r2 || r2 === r3 || r1 === r3) {
                             mult = 2;
                         }
@@ -1601,7 +1753,7 @@
                             updateBalance();
                             multiplierSpan.textContent = `x${mult}`;
                             addHistory('SLOTS', `x${mult} +${win} ⭐`, 'win');
-                            if (mult >= 8) createConfetti(30);
+                            if (mult >= 5) createConfetti(40);
                         }
                     });
                 });
@@ -1626,8 +1778,8 @@
                 const totalWeight = sectors.reduce((s, w) => s + w.weight, 0);
 
                 function drawWheel(rotation = 0) {
-                    ctx.clearRect(0,0,280,280);
-                    const cx = 140, cy = 140, r = 120;
+                    ctx.clearRect(0,0,300,300);
+                    const cx = 150, cy = 150, r = 130;
                     let start = rotation;
                     
                     for (let i = 0; i < sectors.length; i++) {
@@ -1639,28 +1791,32 @@
                         ctx.arc(cx, cy, r, start, end);
                         ctx.closePath();
                         
-                        const gradient = ctx.createRadialGradient(cx-20, cy-20, 20, cx, cy, r);
+                        const gradient = ctx.createRadialGradient(cx-25, cy-25, 20, cx, cy, r);
                         gradient.addColorStop(0, sectors[i].color);
                         gradient.addColorStop(1, '#1e293b');
                         ctx.fillStyle = gradient;
                         ctx.fill();
                         
                         ctx.strokeStyle = '#fff';
-                        ctx.lineWidth = 2;
+                        ctx.lineWidth = 3;
+                        ctx.shadowColor = '#fff';
+                        ctx.shadowBlur = 10;
                         ctx.stroke();
 
+                        // Текст
                         ctx.save();
                         ctx.translate(cx, cy);
                         ctx.rotate(start + angle/2);
                         ctx.fillStyle = '#fff';
-                        ctx.font = 'bold 16px Inter';
-                        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                        ctx.shadowBlur = 10;
-                        ctx.fillText(sectors[i].label, 80, 0);
+                        ctx.font = 'bold 20px Inter';
+                        ctx.shadowColor = 'rgba(0,0,0,0.7)';
+                        ctx.shadowBlur = 12;
+                        ctx.fillText(sectors[i].label, 90, 0);
                         ctx.restore();
 
                         start = end;
                     }
+                    ctx.shadowBlur = 0;
                 }
 
                 let spinning = false;
@@ -1675,6 +1831,7 @@
 
                     spinning = true;
                     
+                    // Выбираем результат заранее
                     const rand = Math.random() * totalWeight;
                     let cum = 0;
                     let resultIdx = 0;
@@ -1684,9 +1841,9 @@
                     }
 
                     const startTime = Date.now();
-                    const spinDuration = 3000;
+                    const spinDuration = 3500;
                     const startRot = Math.random() * 2 * Math.PI;
-                    const spins = 5 + Math.floor(Math.random() * 5);
+                    const spins = 6 + Math.floor(Math.random() * 5);
                     const targetRot = startRot + spins * 2 * Math.PI;
 
                     function animate() {
@@ -1701,7 +1858,7 @@
                             resultSpan.textContent = `${sectors[resultIdx].label} → ${win} ⭐`;
                             addHistory('WHEEL', `${sectors[resultIdx].label} ${win >= bet ? '+' : ''}${win-bet} ⭐`, mult>0?'win':'lose');
                             drawWheel(targetRot);
-                            if (mult >= 10) createConfetti(30);
+                            if (mult >= 10) createConfetti(50);
                             return;
                         }
                         const progress = elapsed / spinDuration;
@@ -1824,17 +1981,18 @@
                     active = false;
                     cashoutBtn.disabled = true;
                     render();
-                    if (mult >= 5) createConfetti(30);
+                    if (mult >= 5) createConfetti(40);
                 };
 
                 reset();
             })();
 
-            // ==================== УПРАВЛЕНИЕ ====================
+            // ==================== БОНУС ====================
             document.getElementById('bonusBtn').addEventListener('click', () => {
                 addStars(1000);
             });
 
+            // ==================== МЕНЮ ====================
             const menuBtn = document.getElementById('menuBtn');
             const menuModal = document.getElementById('menuModal');
             const closeMenu = document.getElementById('closeMenu');
