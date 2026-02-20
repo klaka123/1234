@@ -260,6 +260,8 @@
             font-size: 60px;
             border: 3px solid #3b82f6;
         }
+        /* Чёрно-белое колесо */
+        .wheel-black, .wheel-white { transition: 0.3s; }
     </style>
 </head>
 <body>
@@ -296,14 +298,17 @@
             <div class="bet-panel"><input type="number" id="slotsBet" class="bet-input" value="10"><button class="btn primary" id="slotsSpin">🎰 КРУТИТЬ</button></div>
         </div>
 
-        <!-- WHEEL -->
+        <!-- WHEEL (чёрно-белое) -->
         <div id="wheel" class="game">
-            <div style="width:280px;height:280px;margin:20px auto;position:relative"><canvas id="wheelCanvas" width="280" height="280"></canvas><div style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:40px;color:#3b82f6">▼</div></div>
+            <div style="width:280px;height:280px;margin:20px auto;position:relative">
+                <canvas id="wheelCanvas" width="280" height="280"></canvas>
+                <div style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:40px;color:#3b82f6">▼</div>
+            </div>
             <div class="result" id="wheelResult">—</div>
             <div class="bet-panel"><input type="number" id="wheelBet" class="bet-input" value="10"><button class="btn primary" id="wheelSpin">🎡 КРУТИТЬ</button></div>
         </div>
 
-        <!-- MINES -->
+        <!-- MINES (исправлен баг с кнопкой "Забрать") -->
         <div id="mines" class="game">
             <div style="display:flex;gap:10px;margin-bottom:20px"><select id="minesCount" class="bet-input" style="margin:0"><option value="3">3 💣</option><option value="5">5 💣</option><option value="10">10 💣</option></select><button class="btn success" id="minesNewGame">🔄 НОВАЯ</button></div>
             <div class="grid" id="minesGrid"></div>
@@ -317,7 +322,7 @@
     <div class="modal" id="menuModal">
         <div class="modal-content">
             <h3>МЕНЮ</h3>
-            <div class="section"><h4>🤝 РЕФЕРАЛЫ</h4><div class="ref-link" id="refLink">Загрузка...</div><div>Приглашено: <span id="refCount">0</span> (бонус: <span id="refBonus">0</span> ⭐)</div></div>
+            <div class="section"><h4>🤝 РЕФЕРАЛЫ</h4><div class="ref-link" id="refLink">Загрузка...</div><div>Приглашено: <span id="refCount">0</span> (бонус: <span id="refBonus">0</span> ⭐)</div><button class="btn primary" id="addTestReferral" style="margin-top:10px;">➕ ТЕСТ (добавить реферала)</button></div>
             <div class="section"><h4>🎟️ ПРОМОКОДЫ</h4><div class="promo-item" data-code="2026"><span class="promo-code">2026</span><span class="promo-value">+50</span></div><div class="promo-item" data-code="GDB"><span class="promo-code">GDB</span><span class="promo-value">+100</span></div><div class="promo-item" data-code="DROP"><span class="promo-code">DROP</span><span class="promo-value">+10</span></div><div class="promo-item" data-code="FREE"><span class="promo-code">FREE</span><span class="promo-value">+15</span></div><input type="text" id="promoInput" class="promo-input" placeholder="Введите промокод"><button class="close-btn" id="applyPromo">АКТИВИРОВАТЬ</button></div>
             <button class="close-btn" id="closeMenu">ЗАКРЫТЬ</button>
         </div>
@@ -334,9 +339,8 @@
 
             let data = JSON.parse(localStorage.getItem(storageKey)) || {
                 balance: 10000,
-                referrals: [],
+                referrals: 0,               // количество рефералов (для теста)
                 usedPromos: [],
-                referralBonusPaid: 0,
                 history: []
             };
 
@@ -355,26 +359,19 @@
                 list.innerHTML = data.history.map(item => `<div class="history-item"><span>${item.game}</span><span class="${item.type}">${item.text}</span></div>`).join('');
             }
 
-            // Рефералы
-            const startParam = tg.initDataUnsafe?.start_param;
-            if (startParam && startParam.startsWith('ref_')) {
-                const referrerId = startParam.replace('ref_', '');
-                if (!localStorage.getItem(`referred_${userId}`) && referrerId !== userId) {
-                    let refData = JSON.parse(localStorage.getItem(`casino_${referrerId}`) || '{"referrals":[]}');
-                    if (!refData.referrals) refData.referrals = [];
-                    if (!refData.referrals.includes(userId)) { refData.referrals.push(userId); localStorage.setItem(`casino_${referrerId}`, JSON.stringify(refData)); }
-                    localStorage.setItem(`referred_${userId}`, 'true');
-                }
-            }
-            function getReferrals() { return data.referrals || []; }
+            // Рефералы (упрощённо: тестовая кнопка)
             function updateReferralDisplay() {
                 document.getElementById('refLink').textContent = `t.me/your_bot?start=ref_${userId}`;
-                const refs = getReferrals(); document.getElementById('refCount').textContent = refs.length; document.getElementById('refBonus').textContent = refs.length * 10;
+                document.getElementById('refCount').textContent = data.referrals;
+                document.getElementById('refBonus').textContent = data.referrals * 10;
             }
-            function applyReferralBonus() {
-                const refs = getReferrals(); const expected = refs.length * 10; const current = data.referralBonusPaid || 0;
-                if (expected > current) { data.balance += expected - current; data.referralBonusPaid = expected; saveData(); updateBalance(); }
-            }
+            document.getElementById('addTestReferral').addEventListener('click', () => {
+                data.referrals++;
+                saveData();
+                updateReferralDisplay();
+                addStars(10); // за каждого реферала сразу начисляем 10 звёзд
+                alert('Тестовый реферал добавлен! +10⭐');
+            });
 
             // Промокоды
             const promoCodes = { '2026': 50, 'GDB': 100, 'DROP': 10, 'FREE': 15 };
@@ -395,7 +392,7 @@
                 games[btn.dataset.game].classList.add('active');
             }));
 
-            // ROCKET
+            // ROCKET (звёздный фон)
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -408,13 +405,26 @@
                 const stopBtn = document.getElementById('rocketStop');
 
                 let gameActive = false, interval = null, crashPoint = 2, current = 1, bet = 10, max = 12.5, hist = [4.56, 2.89, 7.23, 3.45, 5.67];
+                let stars = [];
+
+                function initStars(count=50) {
+                    for (let i=0; i<count; i++) stars.push({ x: Math.random()*380, y: Math.random()*280, size: Math.random()*2+1 });
+                }
+                initStars();
 
                 function draw(mult) {
                     ctx.clearRect(0,0,380,280);
-                    for (let i=0;i<30;i++) { ctx.fillStyle='rgba(255,255,255,0.1)'; ctx.beginPath(); ctx.arc(Math.random()*380,Math.random()*280,Math.random()*2,0,2*Math.PI); ctx.fill(); }
-                    ctx.font='70px "Segoe UI Emoji"'; ctx.textAlign='center'; ctx.fillStyle='#3b82f6'; ctx.shadowColor='#3b82f6'; ctx.shadowBlur=20;
+                    // звёзды
+                    ctx.fillStyle = '#fff';
+                    stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, 2*Math.PI); ctx.fill(); });
+                    // ракета
+                    ctx.font = '70px "Segoe UI Emoji"';
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = '#3b82f6';
+                    ctx.shadowBlur = 20;
+                    ctx.fillStyle = '#fff';
                     ctx.fillText('🚀', 190, 150-(mult-1)*15);
-                    ctx.shadowBlur=0;
+                    ctx.shadowBlur = 0;
                 }
 
                 startBtn.addEventListener('click', () => {
@@ -454,7 +464,7 @@
                 draw(1);
             })();
 
-            // PLINKO
+            // PLINKO (без изменений, работает)
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -552,83 +562,174 @@
                 });
             })();
 
-            // WHEEL
+            // WHEEL (чёрно-белое, с вращением)
             (function wheel() {
                 const canvas=document.getElementById('wheelCanvas'), ctx=canvas.getContext('2d');
                 const spinBtn=document.getElementById('wheelSpin'), betInput=document.getElementById('wheelBet'), result=document.getElementById('wheelResult');
-                const sectors=['x0','x1','x2','x5','x10','x50'], colors=['#ef4444','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899'], mults=[0,1,2,5,10,50];
-                function drawWheel(rot=0) {
-                    ctx.clearRect(0,0,280,280); let angle=(2*Math.PI)/6;
+                const sectors = ['x0','x1','x2','x5','x10','x50'];
+                const mults = [0,1,2,5,10,50];
+                const colors = ['#000000','#ffffff','#000000','#ffffff','#000000','#ffffff']; // чередуем чёрный и белый
+                let rotation = 0;
+                let spinning = false;
+                let animFrame = null;
+
+                function drawWheel(rot) {
+                    ctx.clearRect(0,0,280,280);
+                    let angle = (2*Math.PI)/6;
                     for (let i=0;i<6;i++) {
-                        ctx.beginPath(); ctx.moveTo(140,140); ctx.arc(140,140,120, i*angle+rot, (i+1)*angle+rot); ctx.closePath();
-                        ctx.fillStyle=colors[i]; ctx.fill(); ctx.strokeStyle='#fff'; ctx.stroke();
+                        ctx.beginPath();
+                        ctx.moveTo(140,140);
+                        ctx.arc(140,140,120, i*angle+rot, (i+1)*angle+rot);
+                        ctx.closePath();
+                        ctx.fillStyle = colors[i];
+                        ctx.fill();
+                        ctx.strokeStyle = '#2a313e';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                        // подписи
+                        ctx.save();
+                        ctx.translate(140,140);
+                        ctx.rotate(i*angle + angle/2 + rot);
+                        ctx.fillStyle = colors[i] === '#000000' ? '#ffffff' : '#000000';
+                        ctx.font = 'bold 16px Inter';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(sectors[i], 80, 0);
+                        ctx.restore();
                     }
                 }
+
                 spinBtn.addEventListener('click', () => {
-                    let bet=parseInt(betInput.value);
+                    if (spinning) return;
+                    let bet = parseInt(betInput.value);
                     if (bet<1||bet>data.balance) return alert('Неверная ставка');
                     if (!deductStars(bet)) return;
-                    let idx=Math.floor(Math.random()*6), mult=mults[idx], win=bet*mult;
-                    data.balance+=win; saveData(); updateBalance();
-                    result.textContent=`${sectors[idx]} → ${win}⭐`;
-                    addHistory('Wheel', `${sectors[idx]} ${win>=bet?'+':''}${win-bet}⭐`, mult>0?'win':'lose');
-                    let spins=20, interval=setInterval(() => { drawWheel(Date.now()*0.01); spins--; if (spins===0) clearInterval(interval); },30);
+
+                    spinning = true;
+                    spinBtn.disabled = true;
+
+                    const spinDuration = 3000;
+                    const startTime = Date.now();
+                    const startRot = rotation;
+                    const spins = 5 + Math.floor(Math.random()*5);
+                    const targetRot = startRot + spins * 2 * Math.PI;
+
+                    // Предопределим результат
+                    const idx = Math.floor(Math.random()*6);
+                    const mult = mults[idx];
+                    const win = bet * mult;
+
+                    function animate() {
+                        const elapsed = Date.now() - startTime;
+                        if (elapsed >= spinDuration) {
+                            spinning = false;
+                            spinBtn.disabled = false;
+                            rotation = targetRot % (2*Math.PI);
+                            drawWheel(rotation);
+                            data.balance += win;
+                            saveData(); updateBalance();
+                            result.textContent = `${sectors[idx]} → ${win}⭐`;
+                            addHistory('Wheel', `${sectors[idx]} ${win>=bet?'+':''}${win-bet}⭐`, mult>0?'win':'lose');
+                            return;
+                        }
+                        const progress = elapsed / spinDuration;
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        rotation = startRot + (targetRot - startRot) * eased;
+                        drawWheel(rotation);
+                        animFrame = requestAnimationFrame(animate);
+                    }
+                    animate();
                 });
-                drawWheel();
+
+                drawWheel(0);
             })();
 
-            // MINES
+            // MINES (исправлен баг с кнопкой "Забрать")
             (function mines() {
                 const grid=document.getElementById('minesGrid'), countSel=document.getElementById('minesCount'), newGame=document.getElementById('minesNewGame');
                 const startBtn=document.getElementById('minesStart'), cashout=document.getElementById('minesCashout'), betInput=document.getElementById('minesBet');
                 const multSpan=document.getElementById('minesMultiplier'), winSpan=document.getElementById('minesWin');
 
-                let board=[], revealed=[], active=false, bet=0, mines=3, stars=0;
+                let board=[], revealed=[], gameActive=false, bet=0, mines=3, starsRevealed=0;
+
+                function getMultiplier(stars) {
+                    return 1 + stars * 0.3; // простой линейный рост
+                }
+
                 function render() {
                     grid.innerHTML='';
                     for (let i=0;i<25;i++) {
                         let cell=document.createElement('div'); cell.className='cell';
-                        if (revealed[i]) { cell.classList.add(board[i]?'mine':'star'); cell.textContent=board[i]?'💣':'⭐'; } else cell.textContent='?';
+                        if (revealed[i]) {
+                            cell.classList.add(board[i]?'mine':'star');
+                            cell.textContent=board[i]?'💣':'⭐';
+                        } else cell.textContent='?';
                         cell.onclick=() => {
-                            if (!active||revealed[i]) return;
+                            if (!gameActive || revealed[i]) return;
                             if (board[i]) {
-                                revealed[i]=true; render(); active=false; cashout.disabled=true;
-                                addHistory('Mines', `MINE -${bet}⭐`, 'lose'); alert('💥 Проигрыш!');
+                                revealed[i]=true; render();
+                                gameActive=false; cashout.disabled=true;
+                                addHistory('Mines', `MINE -${bet}⭐`, 'lose');
+                                alert('💥 Проигрыш!');
                             } else {
-                                revealed[i]=true; stars++;
-                                let mult=1+stars*0.3;
-                                multSpan.textContent=mult.toFixed(2)+'x'; winSpan.textContent=Math.floor(bet*mult);
+                                revealed[i]=true; starsRevealed++;
+                                let mult = getMultiplier(starsRevealed);
+                                multSpan.textContent=mult.toFixed(2)+'x';
+                                winSpan.textContent=Math.floor(bet*mult);
                                 render();
                             }
                         };
                         grid.appendChild(cell);
                     }
                 }
-                function reset() { active=false; cashout.disabled=true; stars=0; multSpan.textContent='1.00x'; winSpan.textContent='0'; render(); }
-                newGame.onclick=reset;
-                startBtn.onclick=() => {
-                    let b=parseInt(betInput.value);
+
+                function reset() {
+                    gameActive=false; cashout.disabled=true;
+                    starsRevealed=0; multSpan.textContent='1.00x'; winSpan.textContent='0';
+                    board=[]; revealed=[];
+                    render();
+                }
+
+                newGame.onclick = reset;
+
+                startBtn.onclick = () => {
+                    let b = parseInt(betInput.value);
                     if (b<1||b>data.balance) return alert('Неверная ставка');
                     if (!deductStars(b)) return;
-                    bet=b; mines=parseInt(countSel.value);
-                    board=new Array(25).fill(false);
-                    for (let i=0;i<mines;i++) { let pos; do { pos=Math.floor(Math.random()*25); } while(board[pos]); board[pos]=true; }
-                    revealed=new Array(25).fill(false); stars=0; multSpan.textContent='1.00x'; winSpan.textContent='0';
-                    active=true; cashout.disabled=false; render();
+                    bet = b;
+                    mines = parseInt(countSel.value);
+                    board = new Array(25).fill(false);
+                    for (let i=0;i<mines;i++) {
+                        let pos;
+                        do { pos = Math.floor(Math.random()*25); } while(board[pos]);
+                        board[pos] = true;
+                    }
+                    revealed = new Array(25).fill(false);
+                    starsRevealed = 0;
+                    multSpan.textContent='1.00x'; winSpan.textContent='0';
+                    gameActive = true;
+                    cashout.disabled = false;
+                    render();
                 };
-                cashout.onclick=() => {
-                    if (!active) return;
-                    let mult=1+stars*0.3, win=Math.floor(bet*mult);
-                    data.balance+=win; saveData(); updateBalance();
+
+                cashout.onclick = () => {
+                    if (!gameActive) return;
+                    let mult = getMultiplier(starsRevealed);
+                    let win = Math.floor(bet * mult);
+                    data.balance += win;
+                    saveData(); updateBalance();
                     addHistory('Mines', `x${mult.toFixed(2)}+${win}⭐`, 'win');
-                    active=false; cashout.disabled=true; render();
+                    gameActive = false;
+                    cashout.disabled = true;
+                    render(); // перерисовываем, но клетки остаются открытыми (как обычно)
                 };
+
                 reset();
             })();
 
             // Меню
             const menuBtn=document.getElementById('menuBtn'), menuModal=document.getElementById('menuModal'), closeMenu=document.getElementById('closeMenu');
-            menuBtn.addEventListener('click',()=>{ applyReferralBonus(); updateReferralDisplay(); menuModal.classList.add('active'); });
+            menuBtn.addEventListener('click',()=>{ updateReferralDisplay(); menuModal.classList.add('active'); });
             closeMenu.addEventListener('click',()=>menuModal.classList.remove('active'));
             menuModal.addEventListener('click',e=>{ if(e.target===menuModal) menuModal.classList.remove('active'); });
 
