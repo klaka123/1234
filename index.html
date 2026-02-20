@@ -7,6 +7,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* (стили без изменений, такие же как в предыдущей версии) */
         * {
             margin: 0;
             padding: 0;
@@ -439,7 +440,6 @@
 
     <script>
         (function() {
-            // Telegram
             const tg = window.Telegram.WebApp;
             tg.expand();
 
@@ -473,7 +473,6 @@
                 return false;
             }
 
-            // История (исправлена)
             function addHistory(game, text, type) {
                 data.history.unshift({ game, text, type });
                 if (data.history.length > 5) data.history.pop();
@@ -493,16 +492,14 @@
                 });
             }
 
-            // Рефералы (боевые, без тестовой кнопки)
             function updateReferralDisplay() {
-                const botUsername = '@StarsCasinoXbot'; // конкретный бот
+                const botUsername = '@StarsCasinoXbot';
                 const refLink = `https://t.me/${botUsername.replace('@','')}?start=ref_${userId}`;
                 document.getElementById('refLink').textContent = refLink;
                 document.getElementById('refCount').textContent = data.referrals;
                 document.getElementById('refBonus').textContent = data.referrals * 10;
             }
 
-            // Копирование ссылки
             document.getElementById('copyRefBtn').addEventListener('click', () => {
                 const link = document.getElementById('refLink').textContent;
                 navigator.clipboard.writeText(link).then(() => {
@@ -510,7 +507,6 @@
                 }).catch(() => alert('Не удалось скопировать'));
             });
 
-            // Промокоды
             const promoCodes = { '2026': 50, 'GDB': 100, 'DROP': 10, 'FREE': 15 };
             function applyPromo(code) {
                 const upper = code.toUpperCase();
@@ -527,7 +523,6 @@
                 return false;
             }
 
-            // Навигация
             const navBtns = document.querySelectorAll('.nav-btn');
             const games = {
                 rocket: document.getElementById('rocket'),
@@ -543,7 +538,7 @@
                 games[btn.dataset.game].classList.add('active');
             }));
 
-            // ROCKET (с ускорением звёзд и тряски)
+            // ROCKET (без изменений, работает)
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -583,14 +578,12 @@
 
                 function draw(mult, shake) {
                     ctx.clearRect(0,0,380,280);
-                    // звёзды
                     ctx.fillStyle = '#fff';
                     stars.forEach(s => {
                         ctx.beginPath();
                         ctx.arc(s.x, s.y, s.size, 0, 2*Math.PI);
                         ctx.fill();
                     });
-                    // ракета с тряской
                     const y = 150 - (mult-1)*15;
                     const offsetX = Math.sin(Date.now()*0.02) * shake;
                     const offsetY = Math.cos(Date.now()*0.02) * shake;
@@ -618,7 +611,7 @@
                         multEl.textContent = current.toFixed(2)+'x';
                         const speedFactor = current * 1.5;
                         moveStars(speedFactor);
-                        draw(current, current * 2); // тряска усиливается
+                        draw(current, current * 2);
                         if (current >= crashPoint) {
                             clearInterval(interval);
                             gameActive = false; startBtn.disabled = false; stopBtn.disabled = true;
@@ -642,7 +635,7 @@
                 draw(1,0);
             })();
 
-            // PLINKO (с большой кнопкой)
+            // PLINKO (добавлена защита от повторного запуска)
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -651,6 +644,7 @@
                 const betInput = document.getElementById('plinkoBet');
                 const mults = [0.5,0.7,1,1.5,2,3,5,8,10];
                 let anim = null;
+                let isDropping = false;
 
                 function drawBoard() {
                     ctx.clearRect(0,0,380,500);
@@ -690,6 +684,8 @@
                         ctx.fillStyle='#fff'; ctx.fill();
                         if (ball.y>470) {
                             clearInterval(anim);
+                            isDropping = false;
+                            dropBtn.disabled = false;
                             let col=Math.floor((ball.x-(190-8*20))/40);
                             col=Math.max(0,Math.min(8,col));
                             let mult=mults[col], win=Math.floor(bet*mult);
@@ -701,26 +697,35 @@
                 }
 
                 dropBtn.addEventListener('click', () => {
+                    if (isDropping) return;
                     let bet=parseInt(betInput.value);
                     if (bet<1||bet>data.balance) return alert('Неверная ставка');
                     if (!deductStars(bet)) return;
+                    isDropping = true;
+                    dropBtn.disabled = true;
                     dropBall(bet);
                 });
                 drawBoard();
             })();
 
-            // SLOTS (плавная анимация)
+            // SLOTS (исправлен: добавлен флаг spinning, корректное отображение множителя)
             (function slots() {
                 const slot1=document.getElementById('slot1'), slot2=document.getElementById('slot2'), slot3=document.getElementById('slot3');
                 const multSpan=document.getElementById('slotsMultiplier');
                 const spinBtn=document.getElementById('slotsSpin'), betInput=document.getElementById('slotsBet');
                 const symbols=['🍒','🍋','🍇','🔔','💎','⭐'];
+                let isSpinning = false;
 
                 spinBtn.addEventListener('click', () => {
+                    if (isSpinning) return;
                     let bet=parseInt(betInput.value);
                     if (bet<1||bet>data.balance) return alert('Неверная ставка');
                     if (!deductStars(bet)) return;
-                    let spins = 20; // больше кадров для плавности
+
+                    isSpinning = true;
+                    spinBtn.disabled = true;
+
+                    let spins = 20;
                     let interval = setInterval(() => {
                         slot1.textContent = symbols[Math.floor(Math.random()*6)];
                         slot2.textContent = symbols[Math.floor(Math.random()*6)];
@@ -732,16 +737,30 @@
                             slot1.textContent=symbols[r1]; slot2.textContent=symbols[r2]; slot3.textContent=symbols[r3];
                             let mult=0;
                             if (r1===r2 && r2===r3) {
-                                if (r1===4) mult=15; else if (r1===5) mult=20; else if (r1===3) mult=8; else if (r1===2) mult=5; else mult=3;
+                                if (r1===4) mult=15;
+                                else if (r1===5) mult=20;
+                                else if (r1===3) mult=8;
+                                else if (r1===2) mult=5;
+                                else mult=3;
                             } else if (r1===r2 || r2===r3 || r1===r3) mult=2;
-                            if (mult===0) { multSpan.textContent='x0'; addHistory('Slots', `LOSE -${bet}⭐`, 'lose'); }
-                            else { let win=bet*mult; data.balance+=win; saveData(); updateBalance(); multSpan.textContent=`x${mult}`; addHistory('Slots', `x${mult} +${win}⭐`, 'win'); }
+
+                            if (mult===0) {
+                                multSpan.textContent='x0';
+                                addHistory('Slots', `LOSE -${bet}⭐`, 'lose');
+                            } else {
+                                let win=bet*mult;
+                                data.balance+=win; saveData(); updateBalance();
+                                multSpan.textContent=`x${mult}`;
+                                addHistory('Slots', `x${mult} +${win}⭐`, 'win');
+                            }
+                            isSpinning = false;
+                            spinBtn.disabled = false;
                         }
-                    }, 60); // чуть медленнее для плавности
+                    }, 60);
                 });
             })();
 
-            // WHEEL (чёрно-белое, правильный результат)
+            // WHEEL (исправлен: результат определяется по углу после остановки)
             (function wheel() {
                 const canvas=document.getElementById('wheelCanvas'), ctx=canvas.getContext('2d');
                 const spinBtn=document.getElementById('wheelSpin'), betInput=document.getElementById('wheelBet'), result=document.getElementById('wheelResult');
@@ -791,11 +810,6 @@
                     const spins = 5 + Math.floor(Math.random()*5);
                     const targetRot = startRot + spins * 2 * Math.PI;
 
-                    // Предопределим результат
-                    const idx = Math.floor(Math.random()*6);
-                    const mult = mults[idx];
-                    const win = bet * mult;
-
                     function animate() {
                         const elapsed = Date.now() - startTime;
                         if (elapsed >= spinDuration) {
@@ -803,6 +817,21 @@
                             spinBtn.disabled = false;
                             rotation = targetRot % (2*Math.PI);
                             drawWheel(rotation);
+
+                            // Определяем сектор по углу
+                            let angle = (2*Math.PI)/6;
+                            let norm = (rotation % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
+                            let idx = 0;
+                            for (let i=0; i<6; i++) {
+                                let start = i*angle;
+                                let end = (i+1)*angle;
+                                if (norm >= start && norm < end) {
+                                    idx = i;
+                                    break;
+                                }
+                            }
+                            let mult = mults[idx];
+                            let win = bet * mult;
                             data.balance += win;
                             saveData(); updateBalance();
                             result.textContent = `${sectors[idx]} → ${win}⭐`;
@@ -821,7 +850,7 @@
                 drawWheel(0);
             })();
 
-            // MINES (с фиксом кнопки "Забрать")
+            // MINES (без изменений, работает корректно)
             (function mines() {
                 const grid=document.getElementById('minesGrid'), countSel=document.getElementById('minesCount'), newGame=document.getElementById('minesNewGame');
                 const startBtn=document.getElementById('minesStart'), cashout=document.getElementById('minesCashout'), betInput=document.getElementById('minesBet');
@@ -904,13 +933,11 @@
                 reset();
             })();
 
-            // Кнопка подарка (ежедневный бонус)
             document.getElementById('giftBtn').addEventListener('click', () => {
                 addStars(1000);
                 tg.showPopup({ title: 'Бонус', message: 'Вы получили 1000 ⭐!', buttons: [{ type: 'ok' }] });
             });
 
-            // Меню
             const menuBtn=document.getElementById('menuBtn'), menuModal=document.getElementById('menuModal'), closeMenu=document.getElementById('closeMenu');
             menuBtn.addEventListener('click',()=>{ updateReferralDisplay(); menuModal.classList.add('active'); });
             closeMenu.addEventListener('click',()=>menuModal.classList.remove('active'));
