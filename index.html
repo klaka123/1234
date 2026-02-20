@@ -3,67 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✦ IMPERIAL CASINO ✦</title>
+    <title>✦ CASINO LITE ✦</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Стили (без изменений, такие же как в предыдущей версии) */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #0a0c12; color: white; display: flex; justify-content: center; padding: 16px; }
-        .app { max-width: 420px; width: 100%; background: #12161f; border-radius: 40px; padding: 20px; border: 1px solid #2a313e; }
-        .header { display: flex; justify-content: space-between; align-items: center; background: #1e2632; padding: 12px 20px; border-radius: 40px; margin-bottom: 20px; }
-        .balance { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: bold; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: #0a0c12;
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+        }
+        .app {
+            max-width: 420px;
+            width: 100%;
+            background: #12161f;
+            border-radius: 40px;
+            padding: 20px;
+            border: 1px solid #2a313e;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e2632;
+            padding: 12px 20px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+        }
+        .balance {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: bold;
+        }
         .balance i { color: #3b82f6; }
-        .header-actions { display: flex; gap: 10px; }
-        .icon-btn { width: 48px; height: 48px; border-radius: 50%; background: #2a313e; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .icon-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #2a313e;
+            border: none;
+            color: #94a3b8;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .icon-btn:hover { color: #3b82f6; }
-        .nav { display: flex; gap: 5px; background: #1e2632; padding: 5px; border-radius: 40px; margin-bottom: 20px; }
-        .nav-btn { flex: 1; padding: 12px 0; border: none; border-radius: 35px; background: transparent; color: #94a3b8; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .nav-btn.active { background: #3b82f6; color: white; }
+        .nav {
+            display: flex;
+            gap: 5px;
+            background: #1e2632;
+            padding: 5px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 12px 0;
+            border: none;
+            border-radius: 35px;
+            background: transparent;
+            color: #94a3b8;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .nav-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
         .game { display: none; }
         .game.active { display: block; }
-        .stage { background: #000; border-radius: 30px; border: 2px solid #2a313e; overflow: hidden; margin-bottom: 16px; position: relative; }
+        .stage {
+            background: #000;
+            border-radius: 30px;
+            border: 2px solid #2a313e;
+            overflow: hidden;
+            margin-bottom: 16px;
+            position: relative;
+        }
         canvas { display: block; width: 100%; height: auto; }
-        .info-panel { display: flex; justify-content: space-between; background: #1e2632; border-radius: 30px; padding: 16px; margin: 16px 0; }
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            background: #1e2632;
+            border-radius: 30px;
+            padding: 16px;
+            margin: 16px 0;
+        }
         .info-item { text-align: center; }
         .info-label { color: #94a3b8; font-size: 12px; }
         .info-value { font-weight: bold; color: #3b82f6; font-size: 18px; }
-        .bet-panel { background: #1e2632; border-radius: 30px; padding: 20px; }
-        .bet-input { width: 100%; padding: 16px; background: #2a313e; border: none; border-radius: 30px; color: white; font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 16px; outline: none; }
+        .bet-panel {
+            background: #1e2632;
+            border-radius: 30px;
+            padding: 20px;
+        }
+        .bet-input {
+            width: 100%;
+            padding: 16px;
+            background: #2a313e;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 16px;
+            outline: none;
+        }
         .actions { display: flex; gap: 10px; }
-        .btn { flex: 1; padding: 16px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
         .btn.primary { background: #3b82f6; color: white; }
         .btn.success { background: #10b981; color: white; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .multiplier { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.7); padding: 8px 20px; border-radius: 40px; border: 2px solid #3b82f6; color: #3b82f6; font-size: 32px; font-weight: bold; }
-        .result { margin-top: 16px; padding: 20px; background: #1e2632; border-radius: 30px; text-align: center; font-size: 24px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
-        .cell { aspect-ratio: 1; background: #2a313e; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; transition: 0.2s; }
+        .multiplier {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .result {
+            margin-top: 16px;
+            padding: 20px;
+            background: #1e2632;
+            border-radius: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 20px 0;
+        }
+        .cell {
+            aspect-ratio: 1;
+            background: #2a313e;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
         .cell:hover { border: 2px solid #3b82f6; }
         .cell.star { background: #166534; color: #10b981; }
         .cell.mine { background: #991b1b; color: #ef4444; }
-        .history { background: #1e2632; border-radius: 30px; padding: 16px; margin-top: 20px; }
-        .history-header { margin-bottom: 12px; color: #94a3b8; font-size: 14px; display: flex; align-items: center; gap: 8px; }
-        .history-list { display: flex; flex-direction: column; gap: 8px; }
-        .history-item { display: flex; justify-content: space-between; padding: 12px; background: #2a313e; border-radius: 30px; font-size: 14px; }
+        .history {
+            background: #1e2632;
+            border-radius: 30px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .history-header {
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: #2a313e;
+            border-radius: 30px;
+            font-size: 14px;
+        }
         .win { color: #3b82f6; }
         .lose { color: #ef4444; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); align-items: center; justify-content: center; z-index: 1000; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+            align-items: center; justify-content: center;
+            z-index: 1000;
+        }
         .modal.active { display: flex; }
-        .modal-content { background: #1e2632; border-radius: 40px; padding: 30px; max-width: 360px; width: 90%; border: 2px solid #3b82f6; }
+        .modal-content {
+            background: #1e2632;
+            border-radius: 40px;
+            padding: 30px;
+            max-width: 360px;
+            width: 90%;
+            border: 2px solid #3b82f6;
+        }
         .modal-content h3 { margin-bottom: 20px; text-align: center; }
         .section { margin-bottom: 24px; }
         .section h4 { margin-bottom: 12px; color: #3b82f6; }
-        .ref-link { background: #2a313e; padding: 12px; border-radius: 30px; word-break: break-all; margin-bottom: 10px; font-family: monospace; }
-        .copy-btn { background: #3b82f6; color: white; border: none; border-radius: 30px; padding: 8px 16px; margin-left: 8px; cursor: pointer; }
-        .promo-item { background: #2a313e; padding: 12px 16px; border-radius: 30px; margin-bottom: 8px; display: flex; justify-content: space-between; cursor: pointer; transition: 0.2s; }
+        .ref-link {
+            background: #2a313e;
+            padding: 12px;
+            border-radius: 30px;
+            word-break: break-all;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 16px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        .promo-item {
+            background: #2a313e;
+            padding: 12px 16px;
+            border-radius: 30px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: 0.2s;
+        }
         .promo-item:hover { border: 1px solid #3b82f6; }
         .promo-code { color: #3b82f6; font-weight: bold; }
-        .promo-value { background: #3b82f6; color: white; padding: 4px 12px; border-radius: 30px; }
-        .promo-input { width: 100%; padding: 14px; background: #2a313e; border: none; border-radius: 30px; color: white; margin: 12px 0; outline: none; }
-        .close-btn { width: 100%; padding: 16px; background: #3b82f6; border: none; border-radius: 30px; color: white; font-weight: bold; cursor: pointer; }
-        .reel { width: 80px; height: 80px; background: #1e2632; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 60px; border: 3px solid #3b82f6; }
-        .plinko-btn { font-size: 20px; padding: 20px; }
+        .promo-value {
+            background: #3b82f6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+        .promo-input {
+            width: 100%;
+            padding: 14px;
+            background: #2a313e;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            margin: 12px 0;
+            outline: none;
+        }
+        .close-btn {
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .reel {
+            width: 80px; height: 80px;
+            background: #1e2632;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            border: 3px solid #3b82f6;
+        }
+        .plinko-btn {
+            font-size: 20px;
+            padding: 20px;
+        }
+        .wheel-spin {
+            width: 280px; height: 280px; margin: 20px auto; position: relative;
+        }
+        .wheel-pointer {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            font-size: 40px; color: #3b82f6;
+        }
     </style>
 </head>
 <body>
@@ -104,7 +347,7 @@
             </div>
         </div>
 
-        <!-- PLINKO -->
+        <!-- PLINKO (упрощённый, без физики) -->
         <div id="plinko" class="game">
             <div class="stage" style="height:500px">
                 <canvas id="plinkoCanvas" width="380" height="500"></canvas>
@@ -134,9 +377,9 @@
 
         <!-- WHEEL (чёрно-белое) -->
         <div id="wheel" class="game">
-            <div style="width:280px;height:280px;margin:20px auto;position:relative">
+            <div class="wheel-spin">
                 <canvas id="wheelCanvas" width="280" height="280"></canvas>
-                <div style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:40px;color:#3b82f6">▼</div>
+                <div class="wheel-pointer">▼</div>
             </div>
             <div class="result" id="wheelResult">—</div>
             <div class="bet-panel">
@@ -301,7 +544,7 @@
                 games[btn.dataset.game].classList.add('active');
             }));
 
-            // ROCKET (с продолжением полёта после Stop)
+            // ==================== ROCKET ====================
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -320,10 +563,9 @@
                 let bet = 10;
                 let max = 12.5;
                 let history = [4.56, 2.89, 7.23, 3.45, 5.67];
-                let visualMult = 1.0;
                 let stars = [];
 
-                function initStars(count = 80) {
+                function initStars(count = 50) {
                     stars = [];
                     for (let i=0; i<count; i++) {
                         stars.push({
@@ -371,11 +613,16 @@
                     bet = parseInt(betInput.value);
                     if (bet<1||bet>data.balance) return alert('Неверная ставка');
                     if (!deductStars(bet)) return;
+
                     crashPoint = +(1+Math.random()*9).toFixed(2);
-                    gameActive = true; startBtn.disabled = true; stopBtn.disabled = false;
-                    currentMult = 1.0; visualMult = 1.0;
-                    multEl.textContent='1.00x'; draw(1,0);
+                    gameActive = true;
+                    startBtn.disabled = true;
+                    stopBtn.disabled = false;
+                    currentMult = 1.0;
+                    multEl.textContent='1.00x';
+                    draw(1,0);
                     const startTime = Date.now();
+
                     interval = setInterval(() => {
                         const elapsed = (Date.now()-startTime)/1000;
                         currentMult = 1 + 0.5 * elapsed;
@@ -385,9 +632,13 @@
                         draw(currentMult, currentMult * 2);
                         if (currentMult >= crashPoint) {
                             clearInterval(interval);
-                            gameActive = false; startBtn.disabled = false; stopBtn.disabled = true;
-                            history.unshift(crashPoint); if (crashPoint>max) max=crashPoint;
-                            lastCrash.textContent = crashPoint.toFixed(2)+'x'; maxCrash.textContent = max.toFixed(2)+'x';
+                            gameActive = false;
+                            startBtn.disabled = false;
+                            stopBtn.disabled = true;
+                            history.unshift(crashPoint);
+                            if (crashPoint>max) max=crashPoint;
+                            lastCrash.textContent = crashPoint.toFixed(2)+'x';
+                            maxCrash.textContent = max.toFixed(2)+'x';
                             addHistory('Rocket', `CRASH -${bet}⭐`, 'lose');
                         }
                     }, 30);
@@ -398,18 +649,20 @@
                     clearInterval(interval);
                     const winMult = currentMult;
                     const win = Math.floor(bet * winMult);
-                    data.balance += win; saveData(); updateBalance();
+                    data.balance += win;
+                    saveData();
+                    updateBalance();
 
-                    // Визуальное продолжение полёта до crashPoint
+                    // Визуальное продолжение до краша
                     const visualStart = currentMult;
                     const visualTarget = crashPoint;
-                    const visualDuration = 2000; // 2 секунды
+                    const visualDuration = 1500;
                     const visualStartTime = Date.now();
 
                     const visualInterval = setInterval(() => {
                         const elapsed = Date.now() - visualStartTime;
                         const progress = Math.min(elapsed / visualDuration, 1);
-                        visualMult = visualStart + (visualTarget - visualStart) * progress;
+                        const visualMult = visualStart + (visualTarget - visualStart) * progress;
                         multEl.textContent = visualMult.toFixed(2)+'x';
                         draw(visualMult, visualMult * 2);
                         if (progress >= 1) {
@@ -428,11 +681,12 @@
                 });
 
                 betInput.addEventListener('input', () => betValue.textContent = betInput.value);
-                lastCrash.textContent = history[0].toFixed(2)+'x'; maxCrash.textContent = max.toFixed(2)+'x';
+                lastCrash.textContent = history[0].toFixed(2)+'x';
+                maxCrash.textContent = max.toFixed(2)+'x';
                 draw(1,0);
             })();
 
-            // PLINKO (с защитой от двойного броска)
+            // ==================== PLINKO (упрощённый, с анимацией) ====================
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -447,50 +701,50 @@
                     ctx.clearRect(0,0,380,500);
                     for (let r=0;r<8;r++) for (let c=0;c<=r;c++) {
                         let x=190-r*20+c*40, y=40+r*52;
-                        ctx.fillStyle='#3b82f6'; ctx.beginPath(); ctx.arc(x,y,6,0,2*Math.PI); ctx.fill();
+                        ctx.fillStyle='#3b82f6';
+                        ctx.beginPath();
+                        ctx.arc(x,y,6,0,2*Math.PI);
+                        ctx.fill();
                     }
                     const cellY=40+8*52+20;
                     for (let i=0;i<9;i++) {
                         let x=190-8*20+i*40;
-                        ctx.strokeStyle='#2a313e'; ctx.strokeRect(x-18,cellY-10,36,30);
-                        ctx.fillStyle='#94a3b8'; ctx.font='bold 14px Inter';
+                        ctx.strokeStyle='#2a313e';
+                        ctx.strokeRect(x-18,cellY-10,36,30);
+                        ctx.fillStyle='#94a3b8';
+                        ctx.font='bold 14px Inter';
                         ctx.fillText(mults[i].toFixed(1)+'x', x-12, cellY+12);
                     }
                 }
 
                 function dropBall(bet) {
                     if (anim) clearInterval(anim);
-                    let ball={x:190,y:20,vx:0,vy:1}, lastColl=0;
+                    let ballY = 20;
+                    const targetCol = Math.floor(Math.random()*9);
+                    const targetX = 190 - 8*20 + targetCol*40;
+                    const step = 5;
                     anim = setInterval(() => {
-                        ball.vy+=0.4; ball.y+=ball.vy; ball.x+=ball.vx; ball.vx*=0.98;
-                        for (let r=0;r<8;r++) for (let c=0;c<=r;c++) {
-                            let px=190-r*20+c*40, py=40+r*52;
-                            let dx=ball.x-px, dy=ball.y-py;
-                            if (Math.hypot(dx,dy)<12 && Date.now()-lastColl>200) {
-                                let angle=Math.atan2(dy,dx);
-                                ball.vx=Math.cos(angle)*4; ball.vy=-Math.abs(Math.sin(angle)*3);
-                                ball.vx+=(Math.random()-0.5)*2;
-                                lastColl=Date.now(); break;
-                            }
-                        }
-                        if (ball.x<30) { ball.x=30; ball.vx*=-0.5; }
-                        if (ball.x>350) { ball.x=350; ball.vx*=-0.5; }
+                        ballY += step;
                         drawBoard();
-                        ctx.shadowColor='#3b82f6'; ctx.shadowBlur=20;
-                        ctx.beginPath(); ctx.arc(ball.x,ball.y,12,0,2*Math.PI);
-                        ctx.fillStyle='#fff'; ctx.fill();
-                        if (ball.y>470) {
+                        ctx.shadowColor='#3b82f6';
+                        ctx.shadowBlur=20;
+                        ctx.beginPath();
+                        ctx.arc(targetX, ballY, 12, 0, 2*Math.PI);
+                        ctx.fillStyle='#fff';
+                        ctx.fill();
+                        if (ballY >= 460) {
                             clearInterval(anim);
                             isDropping = false;
                             dropBtn.disabled = false;
-                            let col=Math.floor((ball.x-(190-8*20))/40);
-                            col=Math.max(0,Math.min(8,col));
-                            let mult=mults[col], win=Math.floor(bet*mult);
-                            data.balance+=win; saveData(); updateBalance();
+                            const mult = mults[targetCol];
+                            const win = Math.floor(bet * mult);
+                            data.balance += win;
+                            saveData();
+                            updateBalance();
                             result.textContent = mult>=1 ? `WIN ${win}⭐` : `LOSE ${win}⭐`;
                             addHistory('Plinko', `x${mult.toFixed(1)} ${win>=bet?'+':''}${win-bet}⭐`, mult>=1?'win':'lose');
                         }
-                    },25);
+                    }, 25);
                 }
 
                 dropBtn.addEventListener('click', () => {
@@ -505,7 +759,7 @@
                 drawBoard();
             })();
 
-            // SLOTS (исправлен множитель)
+            // ==================== SLOTS ====================
             (function slots() {
                 const slot1=document.getElementById('slot1'), slot2=document.getElementById('slot2'), slot3=document.getElementById('slot3');
                 const multSpan=document.getElementById('slotsMultiplier');
@@ -531,7 +785,9 @@
                         if (spins === 0) {
                             clearInterval(interval);
                             let r1=Math.floor(Math.random()*6), r2=Math.floor(Math.random()*6), r3=Math.floor(Math.random()*6);
-                            slot1.textContent=symbols[r1]; slot2.textContent=symbols[r2]; slot3.textContent=symbols[r3];
+                            slot1.textContent=symbols[r1];
+                            slot2.textContent=symbols[r2];
+                            slot3.textContent=symbols[r3];
                             let mult=0;
                             if (r1===r2 && r2===r3) {
                                 if (r1===4) mult=15;
@@ -540,13 +796,14 @@
                                 else if (r1===2) mult=5;
                                 else mult=3;
                             } else if (r1===r2 || r2===r3 || r1===r3) mult=2;
-
                             if (mult===0) {
                                 multSpan.textContent='x0';
                                 addHistory('Slots', `LOSE -${bet}⭐`, 'lose');
                             } else {
                                 let win=bet*mult;
-                                data.balance+=win; saveData(); updateBalance();
+                                data.balance+=win;
+                                saveData();
+                                updateBalance();
                                 multSpan.textContent=`x${mult}`;
                                 addHistory('Slots', `x${mult} +${win}⭐`, 'win');
                             }
@@ -557,7 +814,7 @@
                 });
             })();
 
-            // WHEEL (исправлен: результат по предопределённому сектору)
+            // ==================== WHEEL ====================
             (function wheel() {
                 const canvas=document.getElementById('wheelCanvas'), ctx=canvas.getContext('2d');
                 const spinBtn=document.getElementById('wheelSpin'), betInput=document.getElementById('wheelBet'), result=document.getElementById('wheelResult');
@@ -601,7 +858,6 @@
                     spinning = true;
                     spinBtn.disabled = true;
 
-                    // Предопределим результат
                     const resultIdx = Math.floor(Math.random() * 6);
                     const mult = mults[resultIdx];
                     const win = bet * mult;
@@ -620,7 +876,8 @@
                             rotation = targetRot % (2*Math.PI);
                             drawWheel(rotation);
                             data.balance += win;
-                            saveData(); updateBalance();
+                            saveData();
+                            updateBalance();
                             result.textContent = `${sectors[resultIdx]} → ${win}⭐`;
                             addHistory('Wheel', `${sectors[resultIdx]} ${win>=bet?'+':''}${win-bet}⭐`, mult>0?'win':'lose');
                             return;
@@ -637,7 +894,7 @@
                 drawWheel(0);
             })();
 
-            // MINES (исправлен баг с кнопкой "Забрать")
+            // ==================== MINES ====================
             (function mines() {
                 const grid=document.getElementById('minesGrid'), countSel=document.getElementById('minesCount'), newGame=document.getElementById('minesNewGame');
                 const startBtn=document.getElementById('minesStart'), cashout=document.getElementById('minesCashout'), betInput=document.getElementById('minesBet');
