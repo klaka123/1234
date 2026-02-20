@@ -1,1 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 НейроГенератор | Telegram Mini App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 НейроГенератор</h1>
+            <p>Создавай шедевры с помощью ИИ прямо в Telegram</p>
+        </div>
 
+        <div class="generator-box">
+            <div class="prompt-section">
+                <textarea 
+                    id="prompt" 
+                    placeholder="Опиши картинку... Например: 'киберпанк кот, неоновые огни, дождь, фотореализм'"
+                    rows="3"
+                >киберпанк кот, неоновые огни, дождь, фотореализм</textarea>
+                
+                <div class="negative-prompt">
+                    <label>Чего НЕ должно быть:</label>
+                    <input type="text" id="negative" placeholder="размыто, уродливо, деформировано" value="размыто, уродливо">
+                </div>
+
+                <div class="settings">
+                    <div class="setting-item">
+                        <label>Стиль:</label>
+                        <select id="style">
+                            <option value="фотореализм">📸 Фотореализм</option>
+                            <option value="аниме">🌸 Аниме</option>
+                            <option value="масло">🎨 Масляная живопись</option>
+                            <option value="киберпанк">🌃 Киберпанк</option>
+                            <option value="фэнтези">🧙 Фэнтези</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <label>Качество:</label>
+                        <select id="quality">
+                            <option value="512">⚡ Быстро (512px)</option>
+                            <option value="768" selected>⚖️ Средне (768px)</option>
+                            <option value="1024">🐢 Высокое (1024px)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button id="generateBtn" onclick="generateImage()">
+                        <span>✨ Генерировать</span>
+                    </button>
+                    <button id="sendBtn" onclick="sendToTelegram()" disabled>
+                        📤 Отправить в чат
+                    </button>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Нейросеть колдует... <span id="progress">0%</span></p>
+                    <p class="hint">Это может занять 20-30 секунд ⏳</p>
+                </div>
+                
+                <div id="imageContainer" class="image-container hidden">
+                    <img id="generatedImage" alt="Сгенерированное изображение">
+                </div>
+                
+                <div id="placeholder" class="placeholder">
+                    <div class="placeholder-icon">🎨</div>
+                    <p>Здесь появится твой шедевр</p>
+                    <p class="small">Напиши промт и нажми "Генерировать"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>Примеры промтов:</h3>
+            <div class="example-tags">
+                <span onclick="useExample('портрет девушки, масляная живопись, Рембрандт')">🎨 Портрет</span>
+                <span onclick="useExample('космическая битва, звездолеты, взрывы, детализировано')">🚀 Космос</span>
+                <span onclick="useExample('киберпанк город, неон, дождь, зеркальные лужи')">🌃 Киберпанк</span>
+                <span onclick="useExample('кот в скафандре на Марсе, фотореализм')">🐱 Кот</span>
+                <span onclick="useExample('замок в горах, туман, фэнтези, магия')">🏰 Фэнтези</span>
+            </div>
+        </div>
+
+        <div class="status" id="status">
+            ⚡ Загрузка нейросети...
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
