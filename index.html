@@ -7,7 +7,6 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ========== МИНИМАЛИСТИЧНЫЙ ПРЕМИУМ-ДИЗАЙН ========== */
         * {
             margin: 0;
             padding: 0;
@@ -25,7 +24,6 @@
             --border-light: #2a313e;
             --success: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
         }
 
         body {
@@ -651,7 +649,7 @@
             </select>
         </div>
 
-        <!-- ROCKET (НОВЫЙ ДИЗАЙН) -->
+        <!-- ROCKET -->
         <div id="rocketGame" class="game-container active">
             <div class="rocket-stage">
                 <div class="stars-layer" id="starsLayer"></div>
@@ -756,8 +754,9 @@
             tg.expand();
             tg.ready();
 
+            // Уникальный ID пользователя
             const userId = tg.initDataUnsafe?.user?.id?.toString() || 'guest_' + Math.random().toString(36).substring(2);
-            const storageKey = `casino_final_${userId}`;
+            const storageKey = `casino_fixed_${userId}`;
 
             // ==================== ДАННЫЕ ====================
             let data = JSON.parse(localStorage.getItem(storageKey)) || {
@@ -809,11 +808,11 @@
             if (startParam && startParam.startsWith('ref_')) {
                 const referrerId = startParam.replace('ref_', '');
                 if (!localStorage.getItem(`referred_${userId}`) && referrerId !== userId) {
-                    let referrerData = JSON.parse(localStorage.getItem(`casino_final_${referrerId}`) || '{"referrals":[]}');
+                    let referrerData = JSON.parse(localStorage.getItem(`casino_fixed_${referrerId}`) || '{"referrals":[]}');
                     if (!referrerData.referrals) referrerData.referrals = [];
                     if (!referrerData.referrals.includes(userId)) {
                         referrerData.referrals.push(userId);
-                        localStorage.setItem(`casino_final_${referrerId}`, JSON.stringify(referrerData));
+                        localStorage.setItem(`casino_fixed_${referrerId}`, JSON.stringify(referrerData));
                     }
                     localStorage.setItem(`referred_${userId}`, 'true');
                 }
@@ -886,7 +885,7 @@
                 if (games[e.target.value]) games[e.target.value].classList.add('active');
             });
 
-            // ==================== ROCKET (ПОЛНОСТЬЮ НОВАЯ) ====================
+            // ==================== ROCKET (ИСПРАВЛЕНА) ====================
             (function rocket() {
                 const canvas = document.getElementById('rocketCanvas');
                 const ctx = canvas.getContext('2d');
@@ -938,58 +937,48 @@
                     });
                 }
 
-                // НОВАЯ РАКЕТА: стильный эмодзи с эффектами
                 function drawRocket(mult) {
                     ctx.clearRect(0, 0, 380, 280);
                     
-                    // Дополнительные звёзды на канвасе
+                    // Звёзды на канвасе
+                    ctx.fillStyle = 'rgba(255,255,255,0.2)';
                     for (let i = 0; i < 30; i++) {
-                        ctx.fillStyle = 'rgba(255,255,255,0.2)';
                         ctx.beginPath();
                         ctx.arc(Math.random()*380, Math.random()*280, Math.random()*2, 0, 2*Math.PI);
                         ctx.fill();
                     }
 
-                    // Позиция и тряска
-                    const baseX = 190;
-                    const baseY = 210 - (mult - 1) * 22;
-                    const shakeX = Math.sin(Date.now() * 0.03) * (mult * 2);
-                    const shakeY = Math.cos(Date.now() * 0.04) * (mult * 2);
-                    const x = baseX + shakeX;
+                    // Позиция с тряской
+                    const baseY = 210 - (mult - 1) * 20;
+                    const shakeX = Math.sin(Date.now() * 0.03) * (mult * 1.5);
+                    const shakeY = Math.cos(Date.now() * 0.04) * (mult * 1.5);
+                    const x = 190 + shakeX;
                     const y = baseY + shakeY;
 
-                    // Рисуем эмодзи 🚀 с поворотом
+                    // Эмодзи 🚀
                     ctx.save();
                     ctx.translate(x, y);
-                    ctx.rotate(-Math.PI / 2); // носом вверх
-                    ctx.font = '80px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji"';
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.font = '70px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji"';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    
-                    // Эффект свечения
                     ctx.shadowColor = '#3b82f6';
-                    ctx.shadowBlur = 30 + mult * 3;
+                    ctx.shadowBlur = 20 + mult * 2;
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText('🚀', 0, 0);
-                    
-                    // Дополнительное пламя (точка позади)
                     ctx.restore();
-
-                    // Пламя (для красоты)
-                    ctx.shadowColor = '#f97316';
-                    ctx.shadowBlur = 25;
-                    ctx.fillStyle = '#f97316';
-                    ctx.beginPath();
-                    ctx.arc(x - 25, y + 15, 8 + Math.sin(Date.now()*0.02)*3, 0, 2*Math.PI);
-                    ctx.fill();
                 }
 
                 startBtn.addEventListener('click', () => {
                     if (gameActive || countdownActive) return;
                     rocketBet = parseInt(rocketBetInput.value);
-                    if (rocketBet < 1 || rocketBet > data.balance) return alert('Неверная ставка');
+                    if (rocketBet < 1 || rocketBet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(rocketBet)) return;
 
+                    // Генерация точки краша
                     const r = Math.random();
                     crashPoint = 0.99 / (1 - r);
                     crashPoint = Math.min(10, Math.max(1, parseFloat(crashPoint.toFixed(2))));
@@ -1017,7 +1006,7 @@
                                 const elapsed = (Date.now() - startTime) / 1000;
                                 currentMultiplier = 1 + 0.9 * elapsed;
                                 multiplierEl.textContent = currentMultiplier.toFixed(2) + 'x';
-                                starSpeed = 0.1 + currentMultiplier * 0.6;
+                                starSpeed = 0.1 + currentMultiplier * 0.5;
                                 moveStars(starSpeed);
                                 drawRocket(currentMultiplier);
 
@@ -1065,7 +1054,7 @@
                 drawRocket(1);
             })();
 
-            // ==================== PLINKO ====================
+            // ==================== PLINKO (ИСПРАВЛЕН) ====================
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1162,7 +1151,10 @@
 
                 dropBtn.addEventListener('click', () => {
                     let bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
                     dropBall(bet);
                 });
@@ -1170,7 +1162,7 @@
                 drawBoard();
             })();
 
-            // ==================== SLOTS ====================
+            // ==================== SLOTS (ИСПРАВЛЕН) ====================
             (function slots() {
                 const slot1 = document.getElementById('slot1');
                 const slot2 = document.getElementById('slot2');
@@ -1209,7 +1201,10 @@
 
                 spinBtn.addEventListener('click', () => {
                     let bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
 
                     const r1 = weightedRandom();
@@ -1247,7 +1242,7 @@
                 });
             })();
 
-            // ==================== WHEEL ====================
+            // ==================== WHEEL (ИСПРАВЛЕН) ====================
             (function wheel() {
                 const canvas = document.getElementById('wheelCanvas');
                 const ctx = canvas.getContext('2d');
@@ -1299,7 +1294,10 @@
                 spinBtn.addEventListener('click', () => {
                     if (spinning) return;
                     let bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
 
                     spinning = true;
@@ -1334,7 +1332,7 @@
                 drawWheel();
             })();
 
-            // ==================== MINES ====================
+            // ==================== MINES (ИСПРАВЛЕНЫ) ====================
             (function mines() {
                 const gridDiv = document.getElementById('minesGrid');
                 const minesCountSelect = document.getElementById('minesCount');
@@ -1409,7 +1407,10 @@
                 startBtn.onclick = () => {
                     if (gameActive) return;
                     const bet = parseInt(betInput.value);
-                    if (bet < 1 || bet > data.balance) return alert('Неверная ставка');
+                    if (bet < 1 || bet > data.balance) {
+                        alert('Неверная ставка');
+                        return;
+                    }
                     if (!deductStars(bet)) return;
                     currentBet = bet;
                     minesCount = parseInt(minesCountSelect.value);
