@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✦ CASINO LITE ✦</title>
+    <title>✦ IMPERIAL CASINO ✦</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         body {
             background: #0a0c12;
@@ -300,13 +300,6 @@
             font-size: 20px;
             padding: 20px;
         }
-        .wheel-spin {
-            width: 280px; height: 280px; margin: 20px auto; position: relative;
-        }
-        .wheel-pointer {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            font-size: 40px; color: #3b82f6;
-        }
     </style>
 </head>
 <body>
@@ -347,7 +340,7 @@
             </div>
         </div>
 
-        <!-- PLINKO (упрощённый, без физики) -->
+        <!-- PLINKO (с реалистичной физикой) -->
         <div id="plinko" class="game">
             <div class="stage" style="height:500px">
                 <canvas id="plinkoCanvas" width="380" height="500"></canvas>
@@ -377,9 +370,9 @@
 
         <!-- WHEEL (чёрно-белое) -->
         <div id="wheel" class="game">
-            <div class="wheel-spin">
+            <div style="width:280px;height:280px;margin:20px auto;position:relative">
                 <canvas id="wheelCanvas" width="280" height="280"></canvas>
-                <div class="wheel-pointer">▼</div>
+                <div style="position:absolute;top:-15px;left:50%;transform:translateX(-50%);font-size:40px;color:#3b82f6">▼</div>
             </div>
             <div class="result" id="wheelResult">—</div>
             <div class="bet-panel">
@@ -565,7 +558,7 @@
                 let history = [4.56, 2.89, 7.23, 3.45, 5.67];
                 let stars = [];
 
-                function initStars(count = 50) {
+                function initStars(count = 80) {
                     stars = [];
                     for (let i=0; i<count; i++) {
                         stars.push({
@@ -686,7 +679,7 @@
                 draw(1,0);
             })();
 
-            // ==================== PLINKO (упрощённый, с анимацией) ====================
+            // ==================== PLINKO (реалистичная физика) ====================
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -702,11 +695,14 @@
                     for (let r=0;r<8;r++) for (let c=0;c<=r;c++) {
                         let x=190-r*20+c*40, y=40+r*52;
                         ctx.fillStyle='#3b82f6';
+                        ctx.shadowColor = '#3b82f6';
+                        ctx.shadowBlur = 10;
                         ctx.beginPath();
                         ctx.arc(x,y,6,0,2*Math.PI);
                         ctx.fill();
                     }
                     const cellY=40+8*52+20;
+                    ctx.shadowBlur = 0;
                     for (let i=0;i<9;i++) {
                         let x=190-8*20+i*40;
                         ctx.strokeStyle='#2a313e';
@@ -719,29 +715,58 @@
 
                 function dropBall(bet) {
                     if (anim) clearInterval(anim);
-                    let ballY = 20;
-                    const targetCol = Math.floor(Math.random()*9);
-                    const targetX = 190 - 8*20 + targetCol*40;
-                    const step = 5;
+                    let ball = { x:190, y:20, vx:0, vy:1 };
+                    let lastCollision = 0;
+
                     anim = setInterval(() => {
-                        ballY += step;
+                        ball.vy += 0.4;
+                        ball.y += ball.vy;
+                        ball.x += ball.vx;
+                        ball.vx *= 0.98;
+
+                        for (let r=0;r<8;r++) {
+                            for (let c=0;c<=r;c++) {
+                                let px = 190 - r*20 + c*40;
+                                let py = 40 + r*52;
+                                let dx = ball.x - px;
+                                let dy = ball.y - py;
+                                let dist = Math.sqrt(dx*dx + dy*dy);
+                                if (dist < 12 && Date.now() - lastCollision > 200) {
+                                    let angle = Math.atan2(dy, dx);
+                                    ball.vx = Math.cos(angle) * 4;
+                                    ball.vy = -Math.abs(Math.sin(angle) * 3);
+                                    ball.vx += (Math.random() - 0.5) * 2;
+                                    lastCollision = Date.now();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (ball.x < 30) { ball.x = 30; ball.vx *= -0.5; }
+                        if (ball.x > 350) { ball.x = 350; ball.vx *= -0.5; }
+
                         drawBoard();
-                        ctx.shadowColor='#3b82f6';
-                        ctx.shadowBlur=20;
+
+                        ctx.shadowColor = '#3b82f6';
+                        ctx.shadowBlur = 20;
                         ctx.beginPath();
-                        ctx.arc(targetX, ballY, 12, 0, 2*Math.PI);
-                        ctx.fillStyle='#fff';
+                        ctx.arc(ball.x, ball.y, 12, 0, 2*Math.PI);
+                        ctx.fillStyle = '#fff';
                         ctx.fill();
-                        if (ballY >= 460) {
+
+                        if (ball.y > 470) {
                             clearInterval(anim);
                             isDropping = false;
                             dropBtn.disabled = false;
-                            const mult = mults[targetCol];
-                            const win = Math.floor(bet * mult);
+
+                            let col = Math.floor((ball.x - (190 - 8*20)) / 40);
+                            col = Math.max(0, Math.min(8, col));
+                            let mult = mults[col];
+                            let win = Math.floor(bet * mult);
                             data.balance += win;
                             saveData();
                             updateBalance();
-                            result.textContent = mult>=1 ? `WIN ${win}⭐` : `LOSE ${win}⭐`;
+                            result.textContent = mult >= 1 ? `WIN ${win}⭐` : `LOSE ${win}⭐`;
                             addHistory('Plinko', `x${mult.toFixed(1)} ${win>=bet?'+':''}${win-bet}⭐`, mult>=1?'win':'lose');
                         }
                     }, 25);
@@ -814,7 +839,7 @@
                 });
             })();
 
-            // ==================== WHEEL ====================
+            // ==================== WHEEL (исправлен) ====================
             (function wheel() {
                 const canvas=document.getElementById('wheelCanvas'), ctx=canvas.getContext('2d');
                 const spinBtn=document.getElementById('wheelSpin'), betInput=document.getElementById('wheelBet'), result=document.getElementById('wheelResult');
@@ -858,6 +883,7 @@
                     spinning = true;
                     spinBtn.disabled = true;
 
+                    // Предопределим результат
                     const resultIdx = Math.floor(Math.random() * 6);
                     const mult = mults[resultIdx];
                     const win = bet * mult;
