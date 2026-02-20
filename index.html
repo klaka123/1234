@@ -5,342 +5,262 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>✦ CASINO ✦</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
         }
-
         body {
-            background: #0b0e14;
-            color: #fff;
+            background: #0a0c12;
+            color: white;
             display: flex;
             justify-content: center;
             padding: 16px;
         }
-
         .app {
             max-width: 420px;
             width: 100%;
             background: #12161f;
-            border-radius: 32px;
+            border-radius: 30px;
             padding: 20px;
-            border: 1px solid #2a313e;
         }
-
-        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #1a212b;
+            background: #1e2632;
             padding: 12px 20px;
             border-radius: 40px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
-
         .balance {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 22px;
-            font-weight: 600;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: bold;
         }
-
         .balance i {
             color: #3b82f6;
         }
-
         .header-actions {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
-
         .icon-btn {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: #232b36;
+            background: #2a313e;
             border: none;
-            color: #8e9fb1;
-            font-size: 18px;
+            color: #94a3b8;
+            font-size: 20px;
             cursor: pointer;
         }
-
-        .icon-btn:hover {
-            color: #3b82f6;
-        }
-
-        /* Навигация */
         .nav {
             display: flex;
-            gap: 4px;
-            background: #1a212b;
-            padding: 4px;
+            gap: 5px;
+            background: #1e2632;
+            padding: 5px;
             border-radius: 40px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
-
         .nav-btn {
             flex: 1;
             padding: 12px 0;
             border: none;
-            border-radius: 36px;
+            border-radius: 35px;
             background: transparent;
-            color: #8e9fb1;
+            color: #94a3b8;
             font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
         }
-
         .nav-btn.active {
             background: #3b82f6;
             color: white;
         }
-
-        /* Игры */
         .game {
             display: none;
         }
-
         .game.active {
             display: block;
         }
-
         .stage {
-            background: #0f131a;
-            border-radius: 28px;
-            border: 1px solid #2a313e;
+            background: #000;
+            border-radius: 24px;
+            border: 2px solid #2a313e;
             overflow: hidden;
             margin-bottom: 16px;
             position: relative;
         }
-
         canvas {
             display: block;
             width: 100%;
             height: auto;
         }
-
         .info-panel {
             display: flex;
             justify-content: space-between;
-            background: #1a212b;
-            border-radius: 28px;
-            padding: 16px 20px;
+            background: #1e2632;
+            border-radius: 30px;
+            padding: 16px;
             margin: 16px 0;
         }
-
         .info-item {
             text-align: center;
         }
-
         .info-label {
-            color: #8e9fb1;
+            color: #94a3b8;
             font-size: 12px;
         }
-
         .info-value {
-            font-weight: 600;
+            font-weight: bold;
             color: #3b82f6;
             font-size: 18px;
         }
-
         .bet-panel {
-            background: #1a212b;
-            border-radius: 28px;
+            background: #1e2632;
+            border-radius: 30px;
             padding: 20px;
         }
-
-        .bet-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            color: #8e9fb1;
-            font-size: 14px;
-        }
-
         .bet-input {
             width: 100%;
             padding: 16px;
-            background: #232b36;
+            background: #2a313e;
             border: none;
-            border-radius: 40px;
+            border-radius: 30px;
             color: white;
             font-size: 22px;
-            font-weight: 600;
+            font-weight: bold;
             text-align: center;
             margin-bottom: 16px;
-            outline: none;
         }
-
         .actions {
             display: flex;
             gap: 10px;
         }
-
         .btn {
             flex: 1;
             padding: 16px;
             border: none;
-            border-radius: 40px;
-            font-weight: 600;
+            border-radius: 30px;
+            font-weight: bold;
             cursor: pointer;
         }
-
         .btn.primary {
             background: #3b82f6;
             color: white;
         }
-
         .btn.success {
             background: #10b981;
             color: white;
         }
-
         .btn:disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             cursor: not-allowed;
         }
-
         .multiplier {
             position: absolute;
             top: 16px;
             right: 16px;
-            background: rgba(0,0,0,0.5);
-            padding: 6px 16px;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 20px;
             border-radius: 40px;
-            border: 1px solid #3b82f6;
+            border: 2px solid #3b82f6;
             color: #3b82f6;
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 32px;
+            font-weight: bold;
         }
-
         .result {
             margin-top: 16px;
-            padding: 16px;
-            background: #1a212b;
-            border-radius: 28px;
+            padding: 20px;
+            background: #1e2632;
+            border-radius: 30px;
             text-align: center;
-            font-size: 22px;
-            font-weight: 600;
-            color: #3b82f6;
+            font-size: 24px;
+            font-weight: bold;
         }
-
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 6px;
             margin: 16px 0;
         }
-
         .cell {
             aspect-ratio: 1;
-            background: #232b36;
-            border-radius: 14px;
+            background: #2a313e;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
             cursor: pointer;
         }
-
         .cell.star {
-            background: #0e4b2b;
+            background: #166534;
             color: #10b981;
         }
-
         .cell.mine {
-            background: #5f1f1f;
+            background: #991b1b;
             color: #ef4444;
         }
-
         .history {
-            background: #1a212b;
-            border-radius: 28px;
+            background: #1e2632;
+            border-radius: 30px;
             padding: 16px;
             margin-top: 20px;
         }
-
-        .history-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #8e9fb1;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
         .history-item {
             display: flex;
             justify-content: space-between;
             padding: 12px;
-            background: #232b36;
-            border-radius: 24px;
-            font-size: 14px;
+            background: #2a313e;
+            border-radius: 30px;
             margin-bottom: 8px;
         }
-
         .win { color: #3b82f6; }
         .lose { color: #ef4444; }
-
-        /* Колесо */
-        .wheel-container {
-            width: 260px;
-            height: 260px;
-            margin: 16px auto;
-            position: relative;
-        }
-
-        #wheelCanvas {
-            width: 100%;
-            height: 100%;
-        }
-
-        .wheel-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 32px;
-            color: #3b82f6;
-        }
-
-        /* Слоты */
-        .reels {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-
         .reel {
             width: 70px;
             height: 70px;
-            background: #232b36;
+            background: #2a313e;
             border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 44px;
+            font-size: 50px;
             border: 2px solid #3b82f6;
         }
-
         .reel.spinning {
             animation: spin 0.1s infinite;
         }
-
         @keyframes spin {
             0% { transform: translateY(0); }
-            25% { transform: translateY(-4px); }
+            25% { transform: translateY(-5px); }
             50% { transform: translateY(0); }
-            75% { transform: translateY(4px); }
+            75% { transform: translateY(5px); }
             100% { transform: translateY(0); }
         }
-
-        /* Модальное окно (меню) */
+        .wheel-container {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            position: relative;
+        }
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+        }
+        .pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #3b82f6;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -350,44 +270,28 @@
             align-items: center; justify-content: center;
             z-index: 1000;
         }
-
         .modal.active {
             display: flex;
         }
-
         .modal-content {
-            background: #1a212b;
+            background: #1e2632;
             border-radius: 40px;
-            padding: 24px;
-            max-width: 340px;
+            padding: 30px;
+            max-width: 360px;
             width: 90%;
             border: 2px solid #3b82f6;
         }
-
         .modal-content h3 {
             margin-bottom: 20px;
             text-align: center;
-            color: #3b82f6;
         }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .section h4 {
-            margin-bottom: 12px;
-            color: #8e9fb1;
-        }
-
         .ref-link {
-            background: #232b36;
+            background: #2a313e;
             padding: 12px;
             border-radius: 30px;
             word-break: break-all;
-            margin-bottom: 8px;
-            font-size: 13px;
+            margin-bottom: 10px;
         }
-
         .copy-btn {
             background: #3b82f6;
             color: white;
@@ -396,9 +300,8 @@
             padding: 8px 16px;
             cursor: pointer;
         }
-
         .promo-item {
-            background: #232b36;
+            background: #2a313e;
             padding: 12px 16px;
             border-radius: 30px;
             margin-bottom: 8px;
@@ -406,28 +309,24 @@
             justify-content: space-between;
             cursor: pointer;
         }
-
         .promo-code {
             color: #3b82f6;
         }
-
         .promo-value {
             background: #3b82f6;
             color: white;
             padding: 4px 12px;
             border-radius: 30px;
         }
-
         .promo-input {
             width: 100%;
             padding: 14px;
-            background: #232b36;
+            background: #2a313e;
             border: none;
             border-radius: 30px;
             color: white;
             margin: 12px 0;
         }
-
         .close-btn {
             width: 100%;
             padding: 16px;
@@ -435,23 +334,21 @@
             border: none;
             border-radius: 30px;
             color: white;
-            font-weight: 600;
+            font-weight: bold;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="app">
-        <!-- Шапка -->
         <div class="header">
-            <div class="balance"><i class="fas fa-star"></i> <span id="balance">10000</span></div>
+            <div class="balance"><span>⭐</span> <span id="balance">10000</span></div>
             <div class="header-actions">
-                <button class="icon-btn" id="giftBtn"><i class="fas fa-gift"></i></button>
-                <button class="icon-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+                <button class="icon-btn" id="giftBtn">🎁</button>
+                <button class="icon-btn" id="menuBtn">☰</button>
             </div>
         </div>
 
-        <!-- Навигация -->
         <div class="nav" id="nav">
             <button class="nav-btn active" data-game="rocket">🚀</button>
             <button class="nav-btn" data-game="plinko">🔴</button>
@@ -467,16 +364,15 @@
                 <div class="multiplier" id="rocketMultiplier">1.00x</div>
             </div>
             <div class="info-panel">
-                <div class="info-item"><div class="info-label">LAST</div><div class="info-value" id="lastCrash">2.45x</div></div>
-                <div class="info-item"><div class="info-label">MAX</div><div class="info-value" id="maxCrash">12.5x</div></div>
-                <div class="info-item"><div class="info-label">BET</div><div class="info-value" id="rocketBetValue">10</div></div>
+                <div><div class="info-label">LAST</div><div class="info-value" id="lastCrash">2.45x</div></div>
+                <div><div class="info-label">MAX</div><div class="info-value" id="maxCrash">12.5x</div></div>
+                <div><div class="info-label">BET</div><div class="info-value" id="rocketBetValue">10</div></div>
             </div>
             <div class="bet-panel">
-                <div class="bet-header"><span>СТАВКА</span><span>⭐</span></div>
                 <input type="number" id="rocketBet" class="bet-input" value="10">
                 <div class="actions">
-                    <button class="btn primary" id="rocketStart">🚀 СТАРТ</button>
-                    <button class="btn success" id="rocketStop" disabled>⏹️ СТОП</button>
+                    <button class="btn primary" id="rocketStart">СТАРТ</button>
+                    <button class="btn success" id="rocketStop" disabled>СТОП</button>
                 </div>
             </div>
         </div>
@@ -487,53 +383,50 @@
                 <canvas id="plinkoCanvas" width="380" height="500"></canvas>
             </div>
             <div class="bet-panel">
-                <div class="bet-header"><span>СТАВКА</span><span>⭐</span></div>
                 <input type="number" id="plinkoBet" class="bet-input" value="10">
-                <button class="btn primary" id="plinkoDrop">🔽 БРОСИТЬ</button>
+                <button class="btn primary" id="plinkoDrop">БРОСИТЬ</button>
                 <div class="result" id="plinkoResult">—</div>
             </div>
         </div>
 
         <!-- SLOTS -->
         <div id="slots" class="game">
-            <div class="stage" style="padding:24px">
-                <div class="reels">
+            <div class="stage" style="padding:20px">
+                <div style="display:flex;gap:10px;justify-content:center">
                     <div class="reel" id="slot1">🍒</div>
                     <div class="reel" id="slot2">🍒</div>
                     <div class="reel" id="slot3">🍒</div>
                 </div>
-                <div style="text-align:center; margin-top:16px; font-size:22px; color:#3b82f6" id="slotsMultiplier">x1</div>
+                <div style="text-align:center;margin-top:16px;font-size:22px;color:#3b82f6" id="slotsMultiplier">x1</div>
             </div>
             <div class="bet-panel">
-                <div class="bet-header"><span>СТАВКА</span><span>⭐</span></div>
                 <input type="number" id="slotsBet" class="bet-input" value="10">
-                <button class="btn primary" id="slotsSpin">🎰 КРУТИТЬ</button>
+                <button class="btn primary" id="slotsSpin">КРУТИТЬ</button>
             </div>
         </div>
 
         <!-- WHEEL -->
         <div id="wheel" class="game">
             <div class="wheel-container">
-                <canvas id="wheelCanvas" width="260" height="260"></canvas>
-                <div class="wheel-pointer">▼</div>
+                <canvas id="wheelCanvas" width="250" height="250"></canvas>
+                <div class="pointer">▼</div>
             </div>
             <div class="result" id="wheelResult">—</div>
             <div class="bet-panel">
-                <div class="bet-header"><span>СТАВКА</span><span>⭐</span></div>
                 <input type="number" id="wheelBet" class="bet-input" value="10">
-                <button class="btn primary" id="wheelSpin">🎡 КРУТИТЬ</button>
+                <button class="btn primary" id="wheelSpin">КРУТИТЬ</button>
             </div>
         </div>
 
         <!-- MINES -->
         <div id="mines" class="game">
-            <div style="display:flex; gap:10px; margin-bottom:16px">
+            <div style="display:flex;gap:10px;margin-bottom:16px">
                 <select id="minesCount" class="bet-input" style="margin:0">
                     <option value="3">3 💣</option>
                     <option value="5">5 💣</option>
                     <option value="10">10 💣</option>
                 </select>
-                <button class="btn success" id="minesNewGame">🔄 НОВАЯ</button>
+                <button class="btn success" id="minesNewGame">НОВАЯ</button>
             </div>
             <div class="grid" id="minesGrid"></div>
             <div class="info-panel">
@@ -541,29 +434,24 @@
                 <span>Выигрыш: <span id="minesWin">0</span></span>
             </div>
             <div class="bet-panel">
-                <div class="bet-header"><span>СТАВКА</span><span>⭐</span></div>
                 <input type="number" id="minesBet" class="bet-input" value="10">
                 <div class="actions">
-                    <button class="btn primary" id="minesStart">💣 СТАВКА</button>
-                    <button class="btn success" id="minesCashout" disabled>💰 ЗАБРАТЬ</button>
+                    <button class="btn primary" id="minesStart">СТАВКА</button>
+                    <button class="btn success" id="minesCashout" disabled>ЗАБРАТЬ</button>
                 </div>
             </div>
         </div>
 
-        <!-- История -->
-        <div class="history">
-            <div class="history-header"><i class="fas fa-history"></i> ПОСЛЕДНИЕ ИГРЫ</div>
-            <div class="history-list" id="historyList"></div>
-        </div>
+        <div class="history" id="historyList"></div>
     </div>
 
-    <!-- Меню (рефералы + промокоды) -->
+    <!-- Меню -->
     <div class="modal" id="menuModal">
         <div class="modal-content">
             <h3>МЕНЮ</h3>
             <div class="section">
                 <h4>🤝 РЕФЕРАЛЫ</h4>
-                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                     <div class="ref-link" id="refLink" style="flex:1;">Загрузка...</div>
                     <button class="copy-btn" id="copyRefBtn">📋</button>
                 </div>
@@ -597,7 +485,6 @@
                 history: []
             };
 
-            // Реферальная ссылка (имитация)
             const startParam = tg.initDataUnsafe?.start_param;
             if (startParam && startParam.startsWith('ref_')) {
                 if (!localStorage.getItem(`ref_${userId}`)) {
@@ -634,7 +521,7 @@
 
             function renderHistory() {
                 const list = document.getElementById('historyList');
-                list.innerHTML = '';
+                list.innerHTML = '<div style="margin-bottom:10px">📜 ИСТОРИЯ</div>';
                 data.history.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'history-item';
@@ -652,14 +539,12 @@
                 wheel: document.getElementById('wheel'),
                 mines: document.getElementById('mines')
             };
-            navBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    navBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    Object.values(games).forEach(g => g.classList.remove('active'));
-                    games[btn.dataset.game].classList.add('active');
-                });
-            });
+            navBtns.forEach(btn => btn.addEventListener('click', () => {
+                navBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                Object.values(games).forEach(g => g.classList.remove('active'));
+                games[btn.dataset.game].classList.add('active');
+            }));
 
             // Рефералы
             function updateReferralDisplay() {
@@ -715,7 +600,7 @@
 
                 function draw(mult) {
                     ctx.clearRect(0,0,380,280);
-                    for (let i=0; i<20; i++) {
+                    for (let i=0; i<30; i++) {
                         ctx.fillStyle = 'rgba(255,255,255,0.1)';
                         ctx.beginPath();
                         ctx.arc(Math.random()*380, Math.random()*280, Math.random()*2, 0, 2*Math.PI);
@@ -732,6 +617,7 @@
                     bet = parseInt(betInput.value);
                     if (bet<1||bet>data.balance) { alert('Неверная ставка'); return; }
                     if (!deductStars(bet)) return;
+
                     crashPoint = +(1+Math.random()*9).toFixed(2);
                     gameActive = true;
                     startBtn.disabled = true;
@@ -740,9 +626,10 @@
                     multEl.textContent = '1.00x';
                     draw(1);
                     const startTime = Date.now();
+
                     interval = setInterval(() => {
                         const elapsed = (Date.now()-startTime)/1000;
-                        currentMult = 1 + 0.7*elapsed;
+                        currentMult = 1 + 0.7 * elapsed;
                         multEl.textContent = currentMult.toFixed(2)+'x';
                         draw(currentMult);
                         if (currentMult >= crashPoint) {
@@ -781,7 +668,7 @@
                 draw(1);
             })();
 
-            // PLINKO (упрощённый)
+            // PLINKO (упрощённый, но работающий)
             (function plinko() {
                 const canvas = document.getElementById('plinkoCanvas');
                 const ctx = canvas.getContext('2d');
@@ -804,10 +691,10 @@
                     for (let i=0;i<9;i++) {
                         let x=190-8*20+i*40;
                         ctx.strokeStyle='#2a313e';
-                        ctx.strokeRect(x-16,cellY-8,32,26);
+                        ctx.strokeRect(x-16,cellY-10,32,28);
                         ctx.fillStyle='#94a3b8';
-                        ctx.font='bold 12px monospace';
-                        ctx.fillText(mults[i].toFixed(1)+'x', x-10, cellY+8);
+                        ctx.font='12px monospace';
+                        ctx.fillText(mults[i].toFixed(1)+'x', x-10, cellY+10);
                     }
                 }
 
@@ -894,7 +781,7 @@
                             isSpinning = false;
                             spinBtn.disabled = false;
                         }
-                    }, 90);
+                    }, 100);
                 });
             })();
 
@@ -904,16 +791,15 @@
                 const spinBtn=document.getElementById('wheelSpin'), betInput=document.getElementById('wheelBet'), result=document.getElementById('wheelResult');
                 const sectors = ['x0','x1','x2','x5','x10','x50'];
                 const mults = [0,1,2,5,10,50];
-                const colors = ['#000000','#ffffff','#000000','#ffffff','#000000','#ffffff'];
-                let rotation = 0;
+                const colors = ['#000','#fff','#000','#fff','#000','#fff'];
 
-                function drawWheel(rot) {
-                    ctx.clearRect(0,0,260,260);
+                function drawWheel(rot=0) {
+                    ctx.clearRect(0,0,250,250);
                     let angle = (2*Math.PI)/6;
                     for (let i=0;i<6;i++) {
                         ctx.beginPath();
-                        ctx.moveTo(130,130);
-                        ctx.arc(130,130,110, i*angle+rot, (i+1)*angle+rot);
+                        ctx.moveTo(125,125);
+                        ctx.arc(125,125,110, i*angle+rot, (i+1)*angle+rot);
                         ctx.closePath();
                         ctx.fillStyle = colors[i];
                         ctx.fill();
@@ -943,7 +829,7 @@
                     }, 50);
                 });
 
-                drawWheel(0);
+                drawWheel();
             })();
 
             // MINES
@@ -1030,7 +916,6 @@
                 reset();
             })();
 
-            // Бонус и меню
             document.getElementById('giftBtn').addEventListener('click', () => {
                 addStars(1000);
                 tg.showPopup({ title: 'Бонус', message: 'Вы получили 1000 ⭐!', buttons: [{ type: 'ok' }] });
